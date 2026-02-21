@@ -1,3 +1,5 @@
+'use client'
+
 import Header from '@/components/Header'
 import HeroSection from '@/components/HeroSection'
 import FeaturesSection from '@/components/FeaturesSection'
@@ -5,8 +7,6 @@ import ComingSoonSection from '@/components/ComingSoonSection'
 import AboutSection from '@/components/AboutSection'
 import SocialSection from '@/components/SocialSection'
 import Footer from '@/components/Footer'
-
-export const dynamic = 'force-dynamic'
 
 export default function Home() {
   return (

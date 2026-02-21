@@ -7,8 +7,6 @@ import { useTheme } from '@/components/ThemeProvider'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
-export const dynamic = 'force-dynamic'
-
 const termsContent = {
   ar: {
     title: 'شروط الخدمة',
