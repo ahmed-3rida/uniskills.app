@@ -266,8 +266,8 @@ img {
 }
 
 .logo-icon {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     object-fit: contain;
     border-radius: 5px;
     /* Added curve to the logo */
@@ -374,8 +374,8 @@ img {
 }
 
 .mobile-toggle svg {
-    width: 30px;
-    height: 30px;
+    width: 26px;
+    height: 26px;
     transition: transform var(--transition-normal);
 }
 
@@ -550,8 +550,8 @@ img {
 
 .float-icon {
     position: absolute;
-    width: 60px;
-    height: 60px;
+    width: 48px;
+    height: 48px;
     opacity: 0.15;
     color: var(--accent-primary);
     animation: floatIcon 20s ease-in-out infinite;
@@ -1206,8 +1206,8 @@ section {
 }
 
 .feature-icon {
-    width: 64px;
-    height: 64px;
+    width: 48px;
+    height: 48px;
     margin-bottom: var(--spacing-sm);
     color: var(--accent-primary);
     transition: transform var(--transition-normal);
@@ -1337,8 +1337,8 @@ section {
 }
 
 .visual-icon {
-    width: 80px;
-    height: 80px;
+    width: 56px;
+    height: 56px;
     margin-bottom: var(--spacing-md);
     color: var(--accent-primary);
 }
@@ -1413,8 +1413,8 @@ section {
 }
 
 .coming-icon {
-    width: 80px;
-    height: 80px;
+    width: 56px;
+    height: 56px;
     margin-bottom: var(--spacing-md);
     color: var(--accent-primary);
     transition: transform var(--transition-normal);
@@ -1553,8 +1553,8 @@ section {
 }
 
 .floating-mockup svg {
-    width: 80px;
-    height: 80px;
+    width: 56px;
+    height: 56px;
     color: white;
     opacity: 0.5;
 }
@@ -1655,8 +1655,8 @@ section {
 }
 
 .btn-download .btn-icon {
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
 }
 
 .btn-text {
@@ -1736,8 +1736,8 @@ section {
 }
 
 .social-link svg {
-    width: 32px;
-    height: 32px;
+    width: 24px;
+    height: 24px;
     transition: transform var(--transition-normal);
     position: relative;
     z-index: 1;
@@ -2216,8 +2216,8 @@ section {
     .feature-icon,
     .coming-icon,
     .visual-icon {
-        width: 48px;
-        height: 48px;
+        width: 40px;
+        height: 40px;
     }
 
     .badge-icon,
@@ -2293,8 +2293,8 @@ section {
 
     .feature-icon,
     .coming-icon {
-        width: 40px;
-        height: 40px;
+        width: 32px;
+        height: 32px;
     }
 
     .stat-number {
@@ -2593,8 +2593,8 @@ section {
 }
 
 .testimonial-avatar {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     background: var(--accent-gradient);
     display: flex;
@@ -2610,8 +2610,8 @@ section {
 }
 
 .testimonial-avatar svg {
-    width: 32px;
-    height: 32px;
+    width: 26px;
+    height: 26px;
     color: white;
 }
 
@@ -2666,8 +2666,8 @@ section {
 }
 
 .testimonial-quote svg {
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     color: var(--accent-primary);
 }
 
@@ -2711,14 +2711,14 @@ section {
 
 .exam-icon-wrapper {
     position: relative;
-    width: 120px;
-    height: 120px;
+    width: 80px;
+    height: 80px;
     margin: 0 auto var(--spacing-md);
 }
 
 .exam-icon {
-    width: 120px;
-    height: 120px;
+    width: 80px;
+    height: 80px;
     color: var(--accent-primary);
     position: relative;
     z-index: 2;
@@ -2829,8 +2829,8 @@ section {
 }
 
 .exam-feature svg {
-    width: 32px;
-    height: 32px;
+    width: 24px;
+    height: 24px;
     color: var(--accent-primary);
 }
 
@@ -3059,13 +3059,13 @@ section {
     }
 
     .exam-icon-wrapper {
-        width: 100px;
-        height: 100px;
+        width: 70px;
+        height: 70px;
     }
 
     .exam-icon {
-        width: 100px;
-        height: 100px;
+        width: 70px;
+        height: 70px;
     }
 
     .exam-title {
@@ -3134,13 +3134,13 @@ section {
     }
 
     .exam-icon-wrapper {
-        width: 80px;
-        height: 80px;
+        width: 60px;
+        height: 60px;
     }
 
     .exam-icon {
-        width: 80px;
-        height: 80px;
+        width: 60px;
+        height: 60px;
     }
 
     .exam-title {
