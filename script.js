@@ -1,26 +1,37 @@
+// ==================== Page Loader ====================
+window.addEventListener('load', () => {
+    const loader = document.querySelector('.page-loader');
+    if (loader) {
+        setTimeout(() => {
+            loader.classList.add('hidden');
+        }, 500);
+    }
+});
+
 // ==================== Translations ====================
 const translations = {
     ar: {
-        'hero.badge': '✨ منصة التعلم الحديثة',
         'hero.title': 'تعلم بذكاء مع UniSkills',
         'hero.description': 'منصة تعليمية حديثة مصممة لمساعدة الطلاب على التعلم بذكاء وسهولة. استمتع بتجربة تعليمية سلسة ومنظمة مع واجهة مستخدم عصرية وأداء فائق السرعة.',
         'hero.download': 'حمل التطبيق الآن',
         'hero.exams': 'ميزة الامتحانات قريباً',
         'hero.ios': 'نسخة iOS قريباً',
+        'screenshots.title': 'لقطات من التطبيق',
+        'screenshots.subtitle': 'استكشف واجهة التطبيق وتصميمه العصري',
         'features.title': 'مميزات المنصة',
         'features.subtitle': 'تجربة تعليمية متكاملة بأحدث التقنيات',
-        'features.organized.title': 'دورات منظمة',
-        'features.organized.desc': 'محتوى تعليمي منظم بشكل احترافي لتسهيل عملية التعلم',
-        'features.smart.title': 'تعلم ذكي',
-        'features.smart.desc': 'تجربة تعليمية ذكية تتكيف مع احتياجاتك',
-        'features.fast.title': 'أداء سريع',
-        'features.fast.desc': 'تطبيق سريع وسلس يوفر تجربة استخدام ممتازة',
-        'features.modern.title': 'واجهة عصرية',
-        'features.modern.desc': 'تصميم حديث وجذاب يجعل التعلم أكثر متعة',
+        'features.ai.title': 'ذكاء اصطناعي',
+        'features.ai.desc': 'مساعد ذكي مخصص لك',
+        'features.content.title': 'محتوى متميز',
+        'features.content.desc': 'كورسات تعليمية بجودة عالية',
+        'features.certificates.title': 'شهادات',
+        'features.certificates.desc': 'شهادات موثقة لمسارك',
+        'features.fast.title': 'تطور سريع',
+        'features.fast.desc': 'تطوير مهاراتك بتسارع',
         'features.progress.title': 'تتبع التقدم',
         'features.progress.desc': 'راقب تقدمك وإنجازاتك بشكل مستمر',
-        'features.more.title': 'المزيد قريباً',
-        'features.more.desc': 'نعمل على إضافة المزيد من المميزات الرائعة',
+        'features.articles.title': 'مقالات تعليمية',
+        'features.articles.desc': 'محتوى تعليمي غني ومتنوع',
         'about.title': 'عن UniSkills',
         'about.desc1': 'UniSkills هي منصة تعليمية حديثة تهدف إلى تحويل تجربة التعلم للطلاب في العالم العربي. نؤمن بأن التعليم يجب أن يكون متاحاً وسهلاً وممتعاً للجميع.',
         'about.desc2': 'نسعى لتوفير بيئة تعليمية متكاملة تجمع بين المحتوى عالي الجودة والتكنولوجيا الحديثة، مما يساعد الطلاب على تحقيق أهدافهم الأكاديمية بكفاءة وفعالية.',
@@ -99,26 +110,27 @@ const translations = {
         'terms.back': 'العودة للرئيسية'
     },
     en: {
-        'hero.badge': '✨ Modern Learning Platform',
         'hero.title': 'Learn Smarter with UniSkills',
         'hero.description': 'A modern learning platform designed to help students learn smarter and easier. Enjoy a seamless and organized learning experience with a modern user interface and superior performance.',
         'hero.download': 'Download Now',
         'hero.exams': 'Exams feature coming soon',
         'hero.ios': 'iOS version coming soon',
+        'screenshots.title': 'App Screenshots',
+        'screenshots.subtitle': 'Explore the app interface and modern design',
         'features.title': 'Platform Features',
         'features.subtitle': 'Complete learning experience with the latest technologies',
-        'features.organized.title': 'Organized Courses',
-        'features.organized.desc': 'Professionally organized educational content to facilitate learning',
-        'features.smart.title': 'Smart Learning',
-        'features.smart.desc': 'Smart learning experience that adapts to your needs',
-        'features.fast.title': 'Fast Performance',
-        'features.fast.desc': 'Fast and smooth app providing excellent user experience',
-        'features.modern.title': 'Modern Interface',
-        'features.modern.desc': 'Modern and attractive design makes learning more enjoyable',
+        'features.ai.title': 'AI Powered',
+        'features.ai.desc': 'Smart personal assistant',
+        'features.content.title': 'Pro Content',
+        'features.content.desc': 'High quality courses',
+        'features.certificates.title': 'Certificates',
+        'features.certificates.desc': 'Verified certificates',
+        'features.fast.title': 'Fast Growth',
+        'features.fast.desc': 'Accelerate your skills',
         'features.progress.title': 'Progress Tracking',
         'features.progress.desc': 'Monitor your progress and achievements continuously',
-        'features.more.title': 'More Coming Soon',
-        'features.more.desc': 'We are working on adding more amazing features',
+        'features.articles.title': 'Educational Articles',
+        'features.articles.desc': 'Rich and diverse educational content',
         'about.title': 'About UniSkills',
         'about.desc1': 'UniSkills is a modern learning platform aimed at transforming the learning experience for students in the Arab world. We believe that education should be accessible, easy, and enjoyable for everyone.',
         'about.desc2': 'We strive to provide a comprehensive learning environment that combines high-quality content with modern technology, helping students achieve their academic goals efficiently and effectively.',
@@ -240,6 +252,11 @@ langToggle.addEventListener('click', () => {
     setLanguage(currentLang);
     localStorage.setItem('lang', currentLang);
     
+    // Reset slider position on language change
+    if (window.sliderReset) {
+        window.sliderReset();
+    }
+    
     // Add animation to button
     langToggle.style.transform = 'scale(0.9)';
     setTimeout(() => {
@@ -251,17 +268,31 @@ function setLanguage(lang) {
     html.setAttribute('lang', lang);
     html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
     
-    // Update language toggle button with flags
+    // Update language toggle button
     const langText = langToggle.querySelector('.lang-text');
-    langText.innerHTML = lang === 'ar' 
-        ? '<span class="flag">🇬🇧</span> EN' 
-        : '<span class="flag">🇸🇦</span> AR';
+    langText.textContent = lang === 'ar' ? 'EN' : 'AR';
     
     // Update all translatable elements
     document.querySelectorAll('[data-translate]').forEach(element => {
         const key = element.getAttribute('data-translate');
         if (translations[lang] && translations[lang][key]) {
-            element.textContent = translations[lang][key];
+            // Check if element has children (like badge with icon)
+            const hasIcon = element.querySelector('svg, .badge-icon');
+            if (hasIcon) {
+                // Find the text node or span and update it
+                const textNode = Array.from(element.childNodes).find(node => 
+                    node.nodeType === Node.TEXT_NODE || (node.tagName === 'SPAN' && !node.classList.contains('badge-icon'))
+                );
+                if (textNode) {
+                    if (textNode.nodeType === Node.TEXT_NODE) {
+                        textNode.textContent = translations[lang][key];
+                    } else {
+                        textNode.textContent = translations[lang][key];
+                    }
+                }
+            } else {
+                element.textContent = translations[lang][key];
+            }
         }
     });
     
@@ -310,17 +341,51 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
+// Scroll indicator click
+const scrollIndicator = document.querySelector('.scroll-indicator');
+if (scrollIndicator) {
+    scrollIndicator.addEventListener('click', () => {
+        const featuresSection = document.getElementById('features');
+        if (featuresSection) {
+            featuresSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+    
+    // Hide scroll indicator after scrolling
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            scrollIndicator.style.opacity = '0';
+            scrollIndicator.style.pointerEvents = 'none';
+        } else {
+            scrollIndicator.style.opacity = '1';
+            scrollIndicator.style.pointerEvents = 'auto';
+        }
+    });
+}
+
 // ==================== Navbar Scroll Effect ====================
 let lastScroll = 0;
 const navbar = document.querySelector('.navbar');
+const scrollProgress = document.querySelector('.scroll-progress');
 
 window.addEventListener('scroll', () => {
     const currentScroll = window.pageYOffset;
     
+    // Navbar shadow effect
     if (currentScroll > 100) {
-        navbar.style.boxShadow = 'var(--shadow-md)';
+        navbar.classList.add('scrolled');
     } else {
-        navbar.style.boxShadow = 'none';
+        navbar.classList.remove('scrolled');
+    }
+    
+    // Scroll progress bar
+    const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (currentScroll / windowHeight) * 100;
+    if (scrollProgress) {
+        scrollProgress.style.width = scrolled + '%';
     }
     
     lastScroll = currentScroll;
@@ -378,4 +443,100 @@ document.addEventListener('DOMContentLoaded', () => {
 // Add your analytics code here if needed
 // Example: Google Analytics, Facebook Pixel, etc.
 
+// ==================== Screenshots Slider ====================
+document.addEventListener('DOMContentLoaded', () => {
+    const track = document.querySelector('.screenshots-track');
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    
+    if (track && prevBtn && nextBtn) {
+        let currentPosition = 0;
+        const itemWidth = 300 + 32; // width + gap
+        const visibleItems = window.innerWidth < 768 ? 1 : window.innerWidth < 1024 ? 2 : 3;
+        const maxPosition = -(itemWidth * (8 - visibleItems));
+        
+        function updateSliderPosition() {
+            const isRTL = html.getAttribute('dir') === 'rtl';
+            if (isRTL) {
+                track.style.transform = `translateX(${-currentPosition}px)`;
+            } else {
+                track.style.transform = `translateX(${currentPosition}px)`;
+            }
+        }
+        
+        // Reset function for language change
+        window.sliderReset = function() {
+            currentPosition = 0;
+            updateSliderPosition();
+        };
+        
+        // Manual navigation only - no auto scroll
+        prevBtn.addEventListener('click', () => {
+            const isRTL = html.getAttribute('dir') === 'rtl';
+            
+            if (isRTL) {
+                // في RTL: prev يعني نروح لليمين (نقلل الـ position)
+                if (currentPosition > maxPosition) {
+                    currentPosition -= itemWidth;
+                    updateSliderPosition();
+                }
+            } else {
+                // في LTR: prev يعني نروح لليسار (نزود الـ position)
+                if (currentPosition < 0) {
+                    currentPosition += itemWidth;
+                    updateSliderPosition();
+                }
+            }
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            const isRTL = html.getAttribute('dir') === 'rtl';
+            
+            if (isRTL) {
+                // في RTL: next يعني نروح لليسار (نزود الـ position)
+                if (currentPosition < 0) {
+                    currentPosition += itemWidth;
+                    updateSliderPosition();
+                }
+            } else {
+                // في LTR: next يعني نروح لليمين (نقلل الـ position)
+                if (currentPosition > maxPosition) {
+                    currentPosition -= itemWidth;
+                    updateSliderPosition();
+                }
+            }
+        });
+        
+        // Update on resize
+        window.addEventListener('resize', () => {
+            currentPosition = 0;
+            updateSliderPosition();
+        });
+        
+        // Initialize position
+        updateSliderPosition();
+    }
+});
+
 console.log('UniSkills website loaded successfully! 🎓');
+
+// ==================== Back to Top Button ====================
+const backToTopBtn = document.getElementById('backToTop');
+
+if (backToTopBtn) {
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 500) {
+            backToTopBtn.classList.add('visible');
+        } else {
+            backToTopBtn.classList.remove('visible');
+        }
+    });
+    
+    backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+}
+
