@@ -287,7 +287,7 @@ const translations = {
         'footer.quickLinks': 'Quick Links',
         'footer.contact': 'Contact Us',
         'footer.address': 'Cairo, Egypt',
-        'footer.email': 'support@uniskills.app',
+        'footer.email': 'ahmedsalmanareda@gmail.com',
         'footer.terms': 'Terms of Service',
         'footer.copyright': '© 2026 UniSkills. All rights reserved.',
         // Terms page translations
