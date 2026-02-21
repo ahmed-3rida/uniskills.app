@@ -28,6 +28,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ar" dir="rtl" suppressHydrationWarning>
+      <head />
       <body className={cairo.className}>
         <ThemeProvider>
           {children}
