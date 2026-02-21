@@ -1,207 +1,195 @@
-# Uni Skills Landing Page
+# UniSkills Website
 
-Modern, responsive landing page for Uni Skills educational app built with Next.js, TypeScript, and Tailwind CSS.
+A modern, responsive, and production-ready website for the UniSkills mobile learning platform.
 
-## Features
+## 🚀 Features
 
-- ✨ Modern, premium design inspired by Stripe, Notion, and Linear
-- 🌓 Dark mode and Light mode with smooth transitions
-- 🌍 Bilingual support (Arabic RTL & English LTR)
-- 📱 Fully responsive design
-- 🎨 Smooth animations with Framer Motion
-- ⚡ Optimized for Vercel deployment
-- 🎯 SEO optimized
-- 🚀 Fast loading with Next.js 14
+- **Modern Design**: Clean, futuristic UI with glassmorphism effects
+- **Fully Responsive**: Works perfectly on mobile, tablet, and desktop
+- **Bilingual Support**: Arabic (RTL) and English (LTR) with language switcher
+- **Theme Support**: Light and dark mode with localStorage persistence
+- **Smooth Animations**: Scroll animations, hover effects, and micro-interactions
+- **Performance Optimized**: Fast loading with minimal dependencies
+- **SEO Friendly**: Semantic HTML and proper meta tags
+- **Production Ready**: Optimized for Vercel deployment
 
-## Tech Stack
-
-- **Framework:** Next.js 14 (App Router)
-- **Language:** TypeScript
-- **Styling:** Tailwind CSS
-- **Animations:** Framer Motion
-- **Icons:** Lucide React
-- **Font:** Cairo (Google Fonts)
-
-## Color Scheme
-
-Matches the Flutter app's design system:
-
-### Light Theme
-- Primary: `#2E3FE6`
-- Secondary: `#4A5FE7`
-- Background: `#F5F5F5`
-
-### Dark Theme (Neon)
-- Neon Blue: `#00D9FF`
-- Neon Purple: `#BB86FC`
-- Neon Pink: `#FF006E`
-- Neon Green: `#39FF14`
-- Dark Background: `#0A0E27`
-- Dark Surface: `#1A1F3A`
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js 18+ installed
-- npm or yarn package manager
-
-### Installation
-
-1. Install dependencies:
-```bash
-npm install
-# or
-yarn install
-```
-
-2. Run development server:
-```bash
-npm run dev
-# or
-yarn dev
-```
-
-3. Open [http://localhost:3000](http://localhost:3000) in your browser
-
-### Build for Production
-
-```bash
-npm run build
-# or
-yarn build
-```
-
-## Deployment on Vercel
-
-### Quick Deploy
-
-1. Push your code to GitHub
-2. Go to [vercel.com](https://vercel.com)
-3. Click "New Project"
-4. Import your GitHub repository
-5. Vercel will auto-detect Next.js and configure everything
-6. Click "Deploy"
-
-### Manual Configuration
-
-If needed, use these settings:
-
-- **Framework Preset:** Next.js
-- **Build Command:** `npm run build`
-- **Output Directory:** `.next`
-- **Install Command:** `npm install`
-
-### Environment Variables
-
-No environment variables required for basic functionality.
-
-## Project Structure
+## 📁 File Structure
 
 ```
 Uniskills Web/
-├── app/
-│   ├── layout.tsx          # Root layout with theme provider
-│   ├── page.tsx            # Home page
-│   ├── terms/
-│   │   └── page.tsx        # Terms of Service page
-│   └── globals.css         # Global styles
-├── components/
-│   ├── Header.tsx          # Navigation header
-│   ├── HeroSection.tsx     # Hero section with CTA
-│   ├── FeaturesSection.tsx # Features grid
-│   ├── ComingSoonSection.tsx # Coming soon features
-│   ├── AboutSection.tsx    # About section
-│   ├── SocialSection.tsx   # Social media links
-│   ├── Footer.tsx          # Footer component
-│   └── ThemeProvider.tsx   # Theme & language context
-├── lib/
-│   └── translations.ts     # Arabic & English translations
-├── public/                 # Static assets
-├── tailwind.config.ts      # Tailwind configuration
-├── tsconfig.json          # TypeScript configuration
-├── next.config.js         # Next.js configuration
-└── package.json           # Dependencies
-
+├── index.html          # Main landing page
+├── terms.html          # Terms of Service page
+├── style.css           # All styles and animations
+├── script.js           # JavaScript functionality
+└── README.md           # This file
 ```
 
-## Customization
+## 🎨 Sections
 
-### Update Content
+### Main Page (index.html)
+1. **Hero Section** - Eye-catching introduction with download button
+2. **Features Section** - Platform features showcase
+3. **About Section** - Platform vision and mission
+4. **Coming Soon Section** - Upcoming features
+5. **Download Section** - Call-to-action for app download
+6. **Social Media Section** - Social media links
+7. **Footer** - Copyright and links
 
-Edit translations in `lib/translations.ts`:
+### Terms Page (terms.html)
+- Comprehensive Terms of Service
+- Professional legal content
+- Fully translated (Arabic/English)
 
-```typescript
-export const translations = {
-  ar: { /* Arabic content */ },
-  en: { /* English content */ }
+## 🛠️ Technologies Used
+
+- **HTML5** - Semantic markup
+- **CSS3** - Modern styling with CSS variables
+- **Vanilla JavaScript** - No frameworks or libraries
+- **Google Fonts** - Cairo (Arabic) and Inter (English)
+
+## 🌐 Deployment on Vercel
+
+### Option 1: Using Vercel CLI
+
+1. Install Vercel CLI:
+```bash
+npm install -g vercel
+```
+
+2. Navigate to the website folder:
+```bash
+cd "Uniskills Web"
+```
+
+3. Deploy:
+```bash
+vercel
+```
+
+### Option 2: Using Vercel Dashboard
+
+1. Go to [vercel.com](https://vercel.com)
+2. Click "New Project"
+3. Import your Git repository or upload the folder
+4. Vercel will automatically detect the static site
+5. Click "Deploy"
+
+### Option 3: Drag and Drop
+
+1. Go to [vercel.com/new](https://vercel.com/new)
+2. Drag and drop the "Uniskills Web" folder
+3. Click "Deploy"
+
+## ⚙️ Configuration
+
+### Vercel Configuration (Optional)
+
+Create a `vercel.json` file if you need custom configuration:
+
+```json
+{
+  "cleanUrls": true,
+  "trailingSlash": false
 }
 ```
 
-### Update Colors
+## 🎯 Features Breakdown
 
-Edit `tailwind.config.ts`:
+### Theme System
+- Light and dark mode toggle
+- Saves preference in localStorage
+- Smooth transitions between themes
+- Custom CSS variables for easy customization
 
-```typescript
-colors: {
-  primary: '#2E3FE6',
-  // Add your colors
+### Language System
+- Arabic (RTL) and English (LTR) support
+- Complete translations for all content
+- Saves preference in localStorage
+- Automatic direction switching
+
+### Animations
+- Fade in on scroll
+- Smooth hover effects
+- Gradient orb animations
+- Card reveal animations
+- Button micro-interactions
+
+### Performance
+- Minimal JavaScript
+- Optimized CSS
+- No external dependencies (except fonts)
+- Fast loading times
+- Lazy loading support
+
+## 📱 Responsive Breakpoints
+
+- **Mobile**: < 480px
+- **Tablet**: 481px - 768px
+- **Desktop**: > 768px
+
+## 🎨 Color Scheme
+
+### Light Mode
+- Background: #ffffff
+- Text: #1a1a1a
+- Accent: #6366f1 → #8b5cf6 (gradient)
+
+### Dark Mode
+- Background: #0f0f0f
+- Text: #ffffff
+- Accent: #6366f1 → #8b5cf6 (gradient)
+
+## 🔗 Links
+
+- **Google Play**: https://play.google.com/store/apps/details?id=com.uniskills.app
+- **Facebook**: https://facebook.com/uniskills.eg
+- **Instagram**: https://instagram.com/uniskills.app
+- **WhatsApp**: https://whatsapp.com/channel/0029VbCWl5B2f3EBP01LLm2d
+- **YouTube**: https://youtube.com/@uni.skills
+
+## 📝 Customization
+
+### Changing Colors
+Edit CSS variables in `style.css`:
+```css
+:root {
+    --accent-primary: #6366f1;
+    --accent-secondary: #8b5cf6;
+    /* ... more variables */
 }
 ```
 
-### Update Social Links
-
-Edit `components/SocialSection.tsx`:
-
-```typescript
-const socialLinks = [
-  { name: 'Facebook', url: 'your-url', ... }
-]
+### Adding Translations
+Edit the translations object in `script.js`:
+```javascript
+const translations = {
+    ar: { /* Arabic translations */ },
+    en: { /* English translations */ }
+};
 ```
 
-## Pages
+### Modifying Content
+Simply edit the HTML files - all content uses `data-translate` attributes for easy translation management.
 
-- **Home (`/`):** Main landing page with all sections
-- **Terms (`/terms`):** Terms of Service page
-
-## Features Included
-
-### Home Page Sections
-1. Hero Section with download CTA
-2. Features grid (6 features)
-3. Coming Soon section (Exams & iOS)
-4. About section with stats
-5. Social media links
-6. Footer with navigation
-
-### Terms Page
-- Fully styled terms of service
-- 7 comprehensive sections
-- Back to home navigation
-- Matches main design system
-
-## Browser Support
+## 🐛 Browser Support
 
 - Chrome (latest)
 - Firefox (latest)
 - Safari (latest)
 - Edge (latest)
+- Mobile browsers (iOS Safari, Chrome Mobile)
 
-## Performance
+## 📄 License
 
-- Lighthouse Score: 95+
-- First Contentful Paint: < 1s
-- Time to Interactive: < 2s
-- Static generation for optimal performance
+© 2024 UniSkills. All rights reserved.
 
-## License
+## 🤝 Support
 
-© 2024 Uni Skills. All Rights Reserved.
+For questions or issues, contact us via:
+- Facebook: https://facebook.com/uniskills.eg
+- Instagram: https://instagram.com/uniskills.app
+- WhatsApp: https://whatsapp.com/channel/0029VbCWl5B2f3EBP01LLm2d
 
-## Support
+---
 
-For questions or issues:
-- Facebook: [facebook.com/uniskills.eg](https://facebook.com/uniskills.eg)
-- Instagram: [@uniskills.app](https://instagram.com/uniskills.app)
-- WhatsApp: [Channel Link](https://whatsapp.com/channel/0029VbCWl5B2f3EBP01LLm2d)
-- YouTube: [@uni.skills](https://youtube.com/@uni.skills)
+Built with ❤️ for UniSkills
