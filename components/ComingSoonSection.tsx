@@ -29,7 +29,7 @@ export default function ComingSoonSection() {
             className="inline-block mb-4 px-6 py-2 rounded-full bg-gradient-to-r from-primary to-secondary dark:from-neon-blue dark:to-neon-purple"
           >
             <span className="text-sm font-bold text-white">
-              {t.badge}
+              {language === 'ar' ? 'قريباً' : 'Coming Soon'}
             </span>
           </motion.div>
           
