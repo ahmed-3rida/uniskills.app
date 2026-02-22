@@ -778,13 +778,86 @@ document.addEventListener('DOMContentLoaded', () => {
         // Initialize position
         updateSliderPosition();
         
-        // Ensure screenshots are visible (force display)
+        // Advanced Image Loading System
         const screenshots = track.querySelectorAll('.screenshot-item');
+        
         screenshots.forEach((item, index) => {
-            setTimeout(() => {
-                item.style.opacity = '1';
-                item.style.visibility = 'visible';
-            }, index * 50);
+            const img = item.querySelector('img');
+            const originalSrc = img.src;
+            let retryCount = 0;
+            const maxRetries = 3;
+            
+            // Add loading state
+            item.classList.add('loading');
+            
+            // Function to load image with retry
+            function loadImage() {
+                const newImg = new Image();
+                
+                newImg.onload = function() {
+                    // Image loaded successfully
+                    setTimeout(() => {
+                        item.classList.remove('loading');
+                        item.classList.add('loaded');
+                        img.src = originalSrc;
+                        item.style.opacity = '1';
+                        item.style.visibility = 'visible';
+                    }, index * 100);
+                };
+                
+                newImg.onerror = function() {
+                    retryCount++;
+                    
+                    if (retryCount < maxRetries) {
+                        // Retry after delay
+                        console.log(`Retrying image ${index + 1}, attempt ${retryCount + 1}/${maxRetries}`);
+                        setTimeout(() => {
+                            loadImage();
+                        }, 1000 * retryCount); // Exponential backoff
+                    } else {
+                        // Max retries reached, show error
+                        console.error(`Failed to load image ${index + 1} after ${maxRetries} attempts`);
+                        item.classList.remove('loading');
+                        item.classList.add('error');
+                        item.style.opacity = '1';
+                        item.style.visibility = 'visible';
+                        
+                        // Add retry button
+                        const retryBtn = document.createElement('button');
+                        retryBtn.textContent = '🔄 إعادة المحاولة';
+                        retryBtn.style.cssText = `
+                            position: absolute;
+                            top: 60%;
+                            left: 50%;
+                            transform: translateX(-50%);
+                            padding: 8px 16px;
+                            background: var(--accent-primary);
+                            color: white;
+                            border: none;
+                            border-radius: 8px;
+                            cursor: pointer;
+                            z-index: 21;
+                            font-size: 14px;
+                            font-weight: 600;
+                        `;
+                        retryBtn.onclick = function() {
+                            retryBtn.remove();
+                            item.classList.remove('error');
+                            item.classList.add('loading');
+                            retryCount = 0;
+                            loadImage();
+                        };
+                        item.appendChild(retryBtn);
+                    }
+                };
+                
+                // Add cache buster for retries
+                const cacheBuster = retryCount > 0 ? `?retry=${retryCount}&t=${Date.now()}` : '';
+                newImg.src = originalSrc + cacheBuster;
+            }
+            
+            // Start loading
+            loadImage();
         });
     }
 });
