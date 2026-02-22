@@ -17,13 +17,18 @@ export default defineConfig({
         drop_console: true, // Remove console.log
         drop_debugger: true, // Remove debugger
         pure_funcs: ['console.log', 'console.info', 'console.debug'], // Remove specific console methods
+        passes: 2, // Multiple passes for better compression
       },
       mangle: {
         toplevel: true, // Mangle top-level variable names
+        safari10: true, // Safari 10 compatibility
       },
       format: {
         comments: false, // Remove all comments
+        ecma: 2020, // Use modern JS
       },
+      keep_classnames: false, // Mangle class names
+      keep_fnames: false, // Mangle function names
     },
     
     // Code splitting

@@ -34,3 +34,5 @@ script.original.js
 .env
 .env.local
 .env.*.local
+.vercel
+.env*.local
