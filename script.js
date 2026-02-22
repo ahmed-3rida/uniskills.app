@@ -41,31 +41,14 @@ document.addEventListener('dragstart', (e) => {
 });
 
 // ==================== Page Loader ====================
-// Hide loader immediately if already loaded
-if (document.readyState === 'complete') {
-    const loader = document.querySelector('.page-loader');
-    if (loader) {
-        loader.classList.add('hidden');
-    }
-}
-
-// Also listen for load event
 window.addEventListener('load', () => {
     const loader = document.querySelector('.page-loader');
     if (loader) {
         setTimeout(() => {
             loader.classList.add('hidden');
-        }, 300);
+        }, 500);
     }
 });
-
-// Fallback: force hide after 2 seconds
-setTimeout(() => {
-    const loader = document.querySelector('.page-loader');
-    if (loader && !loader.classList.contains('hidden')) {
-        loader.classList.add('hidden');
-    }
-}, 2000);
 
 // ==================== Translations ====================
 const translations = {

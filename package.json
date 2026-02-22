@@ -2,14 +2,12 @@
   "name": "uniskills-web",
   "version": "1.0.0",
   "description": "A modern, responsive, and production-ready website for the UniSkills mobile learning platform.",
-  "type": "module",
+  "main": "NEW_SECTIONS_SCRIPTS.js",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["uniskills", "education", "learning", "platform"],
-  "author": "UniSkills Team",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
   "devDependencies": {
     "terser": "^5.46.0",
