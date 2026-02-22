@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار Screenshots</title>
+    <link rel="stylesheet" href="style.css?v=7">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: var(--bg-primary);
+        }
+        .test-header {
+            background: var(--accent-gradient);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        .test-info {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+        .debug-info {
+            background: var(--bg-card);
+            padding: 1rem;
+            margin: 2rem auto;
+            max-width: 800px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+        }
+        .debug-info h3 {
+            margin-top: 0;
+            color: var(--accent-primary);
+        }
+        .debug-info ul {
+            list-style: none;
+            padding: 0;
+        }
+        .debug-info li {
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            background: rgba(46, 63, 230, 0.05);
+            border-radius: var(--radius-sm);
+        }
+        .test-single-image {
+            max-width: 400px;
+            margin: 2rem auto;
+            text-align: center;
+        }
+        .test-single-image img {
+            width: 100%;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+        }
+    </style>
+</head>
+<body>
+    <div class="test-header">
+        <h1>🧪 اختبار Screenshots</h1>
+        <p>فحص عرض الصور</p>
+    </div>
+
+    <div class="test-info">
+        <p><strong>✅ إذا رأيت الصور، كل شيء يعمل</strong></p>
+        <p><strong>❌ إذا لم تظهر الصور، هناك مشكلة في المسار أو الملفات</strong></p>
+    </div>
+
+    <div class="debug-info">
+        <h3>🔍 معلومات التشخيص:</h3>
+        <ul>
+            <li>✓ مجلد الصور: <code>screens/</code></li>
+            <li>✓ عدد الصور: 8 صور</li>
+            <li>✓ حجم كل صورة: ~390 KB</li>
+            <li>✓ صيغة الصور: PNG</li>
+        </ul>
+    </div>
+
+    <!-- اختبار صورة واحدة -->
+    <div class="test-single-image">
+        <h3>اختبار صورة واحدة:</h3>
+        <img src="screens/1.png" alt="Test Screenshot" onerror="this.style.border='3px solid red'; this.alt='❌ فشل تحميل الصورة'">
+        <p id="imageStatus">جاري التحميل...</p>
+    </div>
+
+    <!-- Screenshots Section الكاملة -->
+    <section class="screenshots" id="screenshots">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">لقطات من التطبيق</h2>
+                <p class="section-subtitle">استكشف واجهة التطبيق وتصميمه العصري</p>
+            </div>
+            <div class="screenshots-slider">
+                <div class="screenshots-track" id="screenshotsTrack">
+                    <div class="screenshot-item">
+                        <img src="screens/1.png" alt="Screenshot 1" loading="lazy" onerror="console.error('Failed to load: screens/1.png')">
+                    </div>
+                    <div class="screenshot-item">
+                        <img src="screens/2.png" alt="Screenshot 2" loading="lazy" onerror="console.error('Failed to load: screens/2.png')">
+                    </div>
+                    <div class="screenshot-item">
+                        <img src="screens/3.png" alt="Screenshot 3" loading="lazy" onerror="console.error('Failed to load: screens/3.png')">
+                    </div>
+                    <div class="screenshot-item">
+                        <img src="screens/4.png" alt="Screenshot 4" loading="lazy" onerror="console.error('Failed to load: screens/4.png')">
+                    </div>
+                    <div class="screenshot-item">
+                        <img src="screens/5.png" alt="Screenshot 5" loading="lazy" onerror="console.error('Failed to load: screens/5.png')">
+                    </div>
+                    <div class="screenshot-item">
+                        <img src="screens/6.png" alt="Screenshot 6" loading="lazy" onerror="console.error('Failed to load: screens/6.png')">
+                    </div>
+                    <div class="screenshot-item">
+                        <img src="screens/7.png" alt="Screenshot 7" loading="lazy" onerror="console.error('Failed to load: screens/7.png')">
+                    </div>
+                    <div class="screenshot-item">
+                        <img src="screens/8.png" alt="Screenshot 8" loading="lazy" onerror="console.error('Failed to load: screens/8.png')">
+                    </div>
+                </div>
+            </div>
+            <div class="slider-controls">
+                <button class="slider-btn prev-btn" aria-label="Previous">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" />
+                    </svg>
+                </button>
+                <button class="slider-btn next-btn" aria-label="Next">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <div class="debug-info">
+        <h3>📊 نتائج الاختبار:</h3>
+        <ul id="testResults">
+            <li>جاري الفحص...</li>
+        </ul>
+    </div>
+
+    <script>
+        // Test single image
+        const testImg = document.querySelector('.test-single-image img');
+        const statusEl = document.getElementById('imageStatus');
+        
+        testImg.onload = function() {
+            statusEl.textContent = '✅ تم تحميل الصورة بنجاح!';
+            statusEl.style.color = 'green';
+        };
+        
+        testImg.onerror = function() {
+            statusEl.textContent = '❌ فشل تحميل الصورة - تحقق من المسار!';
+            statusEl.style.color = 'red';
+        };
+
+        // Test all screenshots
+        setTimeout(() => {
+            const allImages = document.querySelectorAll('.screenshot-item img');
+            const resultsEl = document.getElementById('testResults');
+            let loadedCount = 0;
+            let failedCount = 0;
+            
+            allImages.forEach((img, index) => {
+                if (img.complete && img.naturalHeight !== 0) {
+                    loadedCount++;
+                } else {
+                    failedCount++;
+                }
+            });
+            
+            resultsEl.innerHTML = `
+                <li>✅ صور تم تحميلها: ${loadedCount} / ${allImages.length}</li>
+                <li>${failedCount > 0 ? '❌' : '✅'} صور فشلت: ${failedCount}</li>
+                <li>📏 عرض الـ track: ${document.getElementById('screenshotsTrack').offsetWidth}px</li>
+                <li>📐 عرض كل صورة: ${document.querySelector('.screenshot-item')?.offsetWidth || 0}px</li>
+            `;
+        }, 2000);
+    </script>
+    
+    <script src="script.js"></script>
+</body>
+</html>
