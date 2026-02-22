@@ -1,3 +1,45 @@
+// ==================== Content Protection ====================
+// Disable right-click
+document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    return false;
+});
+
+// Disable copy
+document.addEventListener('copy', (e) => {
+    e.preventDefault();
+    return false;
+});
+
+// Disable cut
+document.addEventListener('cut', (e) => {
+    e.preventDefault();
+    return false;
+});
+
+// Disable text selection via keyboard
+document.addEventListener('keydown', (e) => {
+    // Ctrl+C, Ctrl+X, Ctrl+A, Ctrl+U (view source)
+    if (e.ctrlKey && (e.key === 'c' || e.key === 'x' || e.key === 'a' || e.key === 'u')) {
+        e.preventDefault();
+        return false;
+    }
+    // F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C (DevTools)
+    if (e.key === 'F12' || 
+        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C'))) {
+        e.preventDefault();
+        return false;
+    }
+});
+
+// Disable drag for images
+document.addEventListener('dragstart', (e) => {
+    if (e.target.tagName === 'IMG') {
+        e.preventDefault();
+        return false;
+    }
+});
+
 // ==================== Page Loader ====================
 window.addEventListener('load', () => {
     const loader = document.querySelector('.page-loader');
