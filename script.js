@@ -40,6 +40,68 @@ document.addEventListener('dragstart', (e) => {
     }
 });
 
+// Advanced DevTools Detection
+(function() {
+    // Detect if DevTools is open by checking window size
+    const devtools = {
+        isOpen: false,
+        orientation: null
+    };
+
+    const threshold = 160;
+
+    const emitEvent = (isOpen, orientation) => {
+        if (devtools.isOpen !== isOpen || devtools.orientation !== orientation) {
+            devtools.isOpen = isOpen;
+            devtools.orientation = orientation;
+            
+            if (isOpen) {
+                // Redirect or show warning when DevTools detected
+                document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:Arial;font-size:24px;color:#2E3FE6;text-align:center;padding:20px;">⚠️<br>يرجى إغلاق أدوات المطور<br>Please close Developer Tools</div>';
+            }
+        }
+    };
+
+    const checkDevTools = () => {
+        const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+        const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+        const orientation = widthThreshold ? 'vertical' : 'horizontal';
+
+        if (!(heightThreshold && widthThreshold) &&
+            ((window.Firebug && window.Firebug.chrome && window.Firebug.chrome.isInitialized) || widthThreshold || heightThreshold)) {
+            emitEvent(true, orientation);
+        } else {
+            emitEvent(false, null);
+        }
+    };
+
+    // Check every 500ms
+    setInterval(checkDevTools, 500);
+    checkDevTools();
+
+    // Detect debugger
+    setInterval(() => {
+        const before = new Date();
+        debugger;
+        const after = new Date();
+        if (after - before > 100) {
+            document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:Arial;font-size:24px;color:#2E3FE6;text-align:center;padding:20px;">⚠️<br>يرجى إغلاق أدوات المطور<br>Please close Developer Tools</div>';
+        }
+    }, 1000);
+})();
+
+// Disable console
+(function() {
+    const noop = () => {};
+    const methods = ['log', 'debug', 'info', 'warn', 'error', 'table', 'trace', 'dir', 'dirxml', 'group', 'groupCollapsed', 'groupEnd', 'clear', 'count', 'countReset', 'assert', 'profile', 'profileEnd', 'time', 'timeLog', 'timeEnd', 'timeStamp', 'context', 'memory'];
+    
+    methods.forEach(method => {
+        if (console[method]) {
+            console[method] = noop;
+        }
+    });
+})();
+
 // ==================== Page Loader ====================
 window.addEventListener('load', () => {
     const loader = document.querySelector('.page-loader');
