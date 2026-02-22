@@ -1074,63 +1074,90 @@ section {
     padding: 0 var(--spacing-md);
 }
 
+/* iPhone Mockup Container */
 .screenshot-item {
-    flex: 0 0 300px;
-    background: var(--bg-card);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-sm);
+    flex: 0 0 320px;
+    background: #1a1a1a;
+    border-radius: 42px;
+    padding: 14px;
     transition: all var(--transition-normal);
-    box-shadow: var(--shadow-md);
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.05);
     cursor: pointer;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
 }
 
+/* iPhone Notch */
 .screenshot-item::before {
     content: '';
     position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(46, 63, 230, 0.1) 0%, rgba(74, 95, 231, 0.1) 100%);
-    opacity: 0;
-    transition: opacity var(--transition-normal);
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 28px;
+    background: #1a1a1a;
+    border-radius: 0 0 20px 20px;
+    z-index: 10;
+    box-shadow: 
+        inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+        0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.screenshot-item:hover::before {
-    opacity: 1;
+/* iPhone Speaker */
+.screenshot-item::after {
+    content: '';
+    position: absolute;
+    top: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 6px;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 3px;
+    z-index: 11;
 }
 
 .screenshot-item:hover {
     transform: translateY(-12px) scale(1.03);
-    box-shadow: var(--shadow-xl);
-    border-color: var(--accent-primary);
+    box-shadow: 
+        0 30px 80px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.15),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
 [data-theme="dark"] .screenshot-item {
+    background: #0a0a0a;
     box-shadow:
-        0 0 20px rgba(0, 217, 255, 0.1),
-        0 4px 16px rgba(0, 0, 0, 0.4);
+        0 20px 60px rgba(0, 217, 255, 0.15),
+        0 0 0 1px rgba(0, 217, 255, 0.2),
+        inset 0 0 0 1px rgba(0, 217, 255, 0.1);
 }
 
 [data-theme="dark"] .screenshot-item:hover {
     box-shadow:
-        0 0 30px rgba(0, 217, 255, 0.2),
-        0 12px 48px rgba(0, 0, 0, 0.5);
-    border-color: var(--neon-blue);
+        0 30px 80px rgba(0, 217, 255, 0.25),
+        0 0 0 1px rgba(0, 217, 255, 0.3),
+        inset 0 0 0 1px rgba(0, 217, 255, 0.15);
 }
 
+/* iPhone Screen */
 .screenshot-item img {
     width: 100%;
     height: auto;
-    border-radius: var(--radius-md);
+    border-radius: 32px;
     display: block;
     transition: transform var(--transition-normal);
+    position: relative;
+    z-index: 1;
+    background: #000;
 }
 
 .screenshot-item:hover img {
-    transform: scale(1.02);
+    transform: scale(1.01);
 }
 
 .slider-controls {
@@ -2713,6 +2740,24 @@ section {
 
     .screenshot-item {
         flex: 0 0 280px;
+        padding: 12px;
+        border-radius: 38px;
+    }
+    
+    .screenshot-item::before {
+        width: 100px;
+        height: 24px;
+        top: 12px;
+    }
+    
+    .screenshot-item::after {
+        width: 50px;
+        height: 5px;
+        top: 19px;
+    }
+    
+    .screenshot-item img {
+        border-radius: 28px;
     }
 
     .slider-btn {
@@ -2957,6 +3002,24 @@ section {
 
     .screenshot-item {
         flex: 0 0 260px;
+        padding: 10px;
+        border-radius: 34px;
+    }
+    
+    .screenshot-item::before {
+        width: 90px;
+        height: 22px;
+        top: 10px;
+    }
+    
+    .screenshot-item::after {
+        width: 45px;
+        height: 4px;
+        top: 17px;
+    }
+    
+    .screenshot-item img {
+        border-radius: 26px;
     }
 
     .screenshots-track {
