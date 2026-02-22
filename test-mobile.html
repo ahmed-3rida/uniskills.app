@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار الموبايل - UniSkills</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: #F8FAFC;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .test-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #2E3FE6;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .logo-test {
+            margin: 20px 0;
+        }
+
+        .hero-logo-img {
+            width: 180px;
+            height: 180px;
+            object-fit: contain;
+            border: 2px solid #2E3FE6;
+            border-radius: 16px;
+            padding: 10px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 1rem;
+            background: linear-gradient(135deg, #2E3FE6 0%, #4A5FE7 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        .btn-icon {
+            font-size: 1.5rem;
+        }
+
+        .info {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .screen-size {
+            color: #2E3FE6;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .hero-logo-img {
+                width: 100px !important;
+                height: 100px !important;
+            }
+
+            .btn {
+                width: 100% !important;
+                padding: 0.875rem 1.5rem !important;
+                font-size: 0.95rem !important;
+            }
+
+            .btn-icon {
+                font-size: 1.25rem !important;
+            }
+
+            h1 {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-logo-img {
+                width: 80px !important;
+                height: 80px !important;
+            }
+
+            .btn {
+                padding: 0.75rem 1.25rem !important;
+                font-size: 0.875rem !important;
+            }
+
+            .btn-icon {
+                font-size: 1.1rem !important;
+            }
+
+            h1 {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 اختبار الأحجام على الموبايل</h1>
+        
+        <div class="screen-size" id="screenSize">جاري القياس...</div>
+        
+        <div class="logo-test">
+            <p>اللوجو:</p>
+            <img src="uniskills-logo.png" alt="UniSkills Logo" class="hero-logo-img" id="logo">
+            <p id="logoSize" style="margin-top: 10px; color: #666;">جاري القياس...</p>
+        </div>
+
+        <button class="btn" id="testBtn">
+            <span class="btn-icon">📱</span>
+            <span>حمل التطبيق الآن</span>
+        </button>
+        <p id="btnSize" style="margin-top: 10px; color: #666;">جاري القياس...</p>
+
+        <div class="info">
+            <p><strong>التوقعات:</strong></p>
+            <p>Desktop (>768px): اللوجو 180x180</p>
+            <p>Tablet/Mobile (≤768px): اللوجو 100x100</p>
+            <p>Small Mobile (≤480px): اللوجو 80x80</p>
+        </div>
+
+        <div class="info" style="margin-top: 10px; background: #e3f2fd;">
+            <p><strong>إذا لم تتغير الأحجام:</strong></p>
+            <p>1. امسح الـ Cache</p>
+            <p>2. افتح في وضع Incognito</p>
+            <p>3. اضغط Ctrl+Shift+R (Hard Refresh)</p>
+        </div>
+    </div>
+
+    <script>
+        function updateSizes() {
+            const logo = document.getElementById('logo');
+            const btn = document.getElementById('testBtn');
+            const screenWidth = window.innerWidth;
+            
+            // Update screen size
+            document.getElementById('screenSize').textContent = 
+                `عرض الشاشة: ${screenWidth}px`;
+            
+            // Get computed styles
+            const logoStyle = window.getComputedStyle(logo);
+            const btnStyle = window.getComputedStyle(btn);
+            
+            // Update logo size
+            document.getElementById('logoSize').textContent = 
+                `حجم اللوجو الفعلي: ${logoStyle.width} × ${logoStyle.height}`;
+            
+            // Update button size
+            document.getElementById('btnSize').textContent = 
+                `حجم الزر: ${btnStyle.fontSize} | Padding: ${btnStyle.padding}`;
+            
+            // Add color coding
+            const logoSizeEl = document.getElementById('logoSize');
+            const expectedSize = screenWidth <= 480 ? '80px' : 
+                                screenWidth <= 768 ? '100px' : '180px';
+            
+            if (logoStyle.width === expectedSize) {
+                logoSizeEl.style.color = 'green';
+                logoSizeEl.textContent += ' ✅';
+            } else {
+                logoSizeEl.style.color = 'red';
+                logoSizeEl.textContent += ` ❌ (المتوقع: ${expectedSize})`;
+            }
+        }
+
+        // Update on load
+        window.addEventListener('load', updateSizes);
+        
+        // Update on resize
+        window.addEventListener('resize', updateSizes);
+        
+        // Update every second for testing
+        setInterval(updateSizes, 1000);
+    </script>
+</body>
+</html>

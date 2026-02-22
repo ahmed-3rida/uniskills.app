@@ -2149,8 +2149,8 @@ section {
 
     /* تصغير اللوجو على الموبايل */
     .hero-logo-img {
-        width: 100px;
-        height: 100px;
+        width: 100px !important;
+        height: 100px !important;
     }
 
     .hero-title {
@@ -2168,14 +2168,14 @@ section {
     }
 
     .btn {
-        width: 100%;
-        justify-content: center;
-        padding: 0.875rem 1.5rem;
-        font-size: 0.95rem;
+        width: 100% !important;
+        justify-content: center !important;
+        padding: 0.875rem 1.5rem !important;
+        font-size: 0.95rem !important;
     }
 
     .btn-icon {
-        font-size: 1.25rem;
+        font-size: 1.25rem !important;
     }
 
     .hero-notes {
@@ -2321,8 +2321,8 @@ section {
 
     /* تصغير اللوجو أكثر على الشاشات الصغيرة جداً */
     .hero-logo-img {
-        width: 80px;
-        height: 80px;
+        width: 80px !important;
+        height: 80px !important;
     }
 
     .hero-title {
@@ -2344,12 +2344,12 @@ section {
     }
 
     .btn {
-        padding: 0.75rem 1.25rem;
-        font-size: 0.875rem;
+        padding: 0.75rem 1.25rem !important;
+        font-size: 0.875rem !important;
     }
 
     .btn-icon {
-        font-size: 1.1rem;
+        font-size: 1.1rem !important;
     }
 
     .section-title {
