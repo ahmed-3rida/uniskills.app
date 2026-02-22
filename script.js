@@ -575,6 +575,15 @@ document.addEventListener('DOMContentLoaded', () => {
     );
 
     animatedElements.forEach(el => observer.observe(el));
+    
+    // Fallback: Force visibility after 2 seconds if observer fails
+    setTimeout(() => {
+        animatedElements.forEach(el => {
+            if (!el.classList.contains('visible')) {
+                el.classList.add('visible');
+            }
+        });
+    }, 2000);
 });
 
 // ==================== Smooth Scroll ====================
@@ -765,6 +774,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Initialize position
         updateSliderPosition();
+        
+        // Ensure screenshots are visible (force display)
+        const screenshots = track.querySelectorAll('.screenshot-item');
+        screenshots.forEach((item, index) => {
+            setTimeout(() => {
+                item.style.opacity = '1';
+                item.style.visibility = 'visible';
+            }, index * 50);
+        });
     }
 });
 
