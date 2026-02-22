@@ -2149,8 +2149,8 @@ section {
 
     /* تصغير اللوجو على الموبايل */
     .hero-logo-img {
-        width: 100px !important;
-        height: 100px !important;
+        width: 120px !important;
+        height: 120px !important;
     }
 
     .hero-title {
@@ -2175,6 +2175,8 @@ section {
     }
 
     .btn-icon {
+        width: 20px !important;
+        height: 20px !important;
         font-size: 1.25rem !important;
     }
 
@@ -2321,8 +2323,8 @@ section {
 
     /* تصغير اللوجو أكثر على الشاشات الصغيرة جداً */
     .hero-logo-img {
-        width: 80px !important;
-        height: 80px !important;
+        width: 100px !important;
+        height: 100px !important;
     }
 
     .hero-title {
@@ -2349,6 +2351,8 @@ section {
     }
 
     .btn-icon {
+        width: 18px !important;
+        height: 18px !important;
         font-size: 1.1rem !important;
     }
 
@@ -3138,6 +3142,18 @@ section {
         grid-template-columns: 1fr;
     }
 
+    /* تصغير أزرار CTA في الـ sections */
+    .cta-inline .btn {
+        padding: 0.75rem 1.25rem !important;
+        font-size: 0.9rem !important;
+    }
+
+    .cta-inline .btn-icon {
+        width: 20px !important;
+        height: 20px !important;
+        font-size: 1.15rem !important;
+    }
+
     .exam-preview-card {
         padding: var(--spacing-lg);
     }
@@ -3193,6 +3209,18 @@ section {
 @media (max-width: 480px) {
     .testimonial-card {
         padding: var(--spacing-md);
+    }
+
+    /* تصغير أزرار CTA أكثر على الشاشات الصغيرة */
+    .cta-inline .btn {
+        padding: 0.65rem 1rem !important;
+        font-size: 0.85rem !important;
+    }
+
+    .cta-inline .btn-icon {
+        width: 18px !important;
+        height: 18px !important;
+        font-size: 1rem !important;
     }
 
     .testimonial-avatar {
