@@ -41,11 +41,18 @@ document.addEventListener('dragstart', (e) => {
 });
 
 // ==================== Page Loader ====================
+// Prevent body scroll during loading
+document.body.style.overflow = 'hidden';
+
 window.addEventListener('load', () => {
     const loader = document.querySelector('.page-loader');
     if (loader) {
         setTimeout(() => {
             loader.classList.add('hidden');
+            // Re-enable body scroll after loader is hidden
+            setTimeout(() => {
+                document.body.style.overflow = '';
+            }, 500);
         }, 500);
     }
 });
@@ -200,6 +207,7 @@ const translations = {
         'social.subtitle': 'تابعنا على منصات التواصل الاجتماعي',
         'footer.description': 'منصة تعليمية حديثة تهدف إلى تمكين الطلاب من خلال التكنولوجيا والذكاء الاصطناعي.',
         'footer.quickLinks': 'روابط سريعة',
+        'footer.moreLinkss': 'المزيد',
         'footer.contact': 'اتصل بنا',
         'footer.address': 'القاهرة، مصر',
         'footer.email': 'ahmedsalmanareda@gmail.com',
@@ -403,6 +411,7 @@ const translations = {
         'social.subtitle': 'Follow us on social media platforms',
         'footer.description': 'A modern educational platform aiming to empower students through technology and AI.',
         'footer.quickLinks': 'Quick Links',
+        'footer.moreLinkss': 'More',
         'footer.contact': 'Contact Us',
         'footer.address': 'Cairo, Egypt',
         'footer.email': 'ahmedsalmanareda@gmail.com',
@@ -604,9 +613,9 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 const scrollIndicator = document.querySelector('.scroll-indicator');
 if (scrollIndicator) {
     scrollIndicator.addEventListener('click', () => {
-        const featuresSection = document.getElementById('features');
-        if (featuresSection) {
-            featuresSection.scrollIntoView({
+        const aiSection = document.getElementById('ai-tools');
+        if (aiSection) {
+            aiSection.scrollIntoView({
                 behavior: 'smooth',
                 block: 'start'
             });
@@ -707,77 +716,77 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ==================== Screenshots Slider ====================
 document.addEventListener('DOMContentLoaded', () => {
+    const slider = document.querySelector('.screenshots-slider');
     const track = document.querySelector('.screenshots-track');
     const prevBtn = document.querySelector('.prev-btn');
     const nextBtn = document.querySelector('.next-btn');
 
-    if (track && prevBtn && nextBtn) {
-        let currentPosition = 0;
-        const itemWidth = 300 + 32; // width + gap
-        const visibleItems = window.innerWidth < 768 ? 1 : window.innerWidth < 1024 ? 2 : 3;
-        const maxPosition = -(itemWidth * (8 - visibleItems));
+    if (slider && track && prevBtn && nextBtn) {
+        const scrollAmount = 350; // Amount to scroll on button click
 
-        function updateSliderPosition() {
-            const isRTL = html.getAttribute('dir') === 'rtl';
-            if (isRTL) {
-                track.style.transform = `translateX(${-currentPosition}px)`;
-            } else {
-                track.style.transform = `translateX(${currentPosition}px)`;
-            }
+        // Check if RTL
+        function isRTL() {
+            return document.documentElement.getAttribute('dir') === 'rtl';
         }
 
-        // Reset function for language change
-        window.sliderReset = function () {
-            currentPosition = 0;
-            updateSliderPosition();
-        };
+        // Initialize scroll position for RTL
+        if (isRTL()) {
+            slider.scrollLeft = slider.scrollWidth;
+        }
 
-        // Manual navigation only - no auto scroll
+        // Button navigation
         prevBtn.addEventListener('click', () => {
-            const isRTL = html.getAttribute('dir') === 'rtl';
-
-            if (isRTL) {
-                // في RTL: prev يعني نروح لليمين (نقلل الـ position)
-                if (currentPosition > maxPosition) {
-                    currentPosition -= itemWidth;
-                    updateSliderPosition();
-                }
+            if (isRTL()) {
+                // في RTL: prev يعني نروح لليسار (نقلل scrollLeft)
+                slider.scrollBy({
+                    left: -scrollAmount,
+                    behavior: 'smooth'
+                });
             } else {
-                // في LTR: prev يعني نروح لليسار (نزود الـ position)
-                if (currentPosition < 0) {
-                    currentPosition += itemWidth;
-                    updateSliderPosition();
-                }
+                // في LTR: prev يعني نروح لليسار (نقلل scrollLeft)
+                slider.scrollBy({
+                    left: -scrollAmount,
+                    behavior: 'smooth'
+                });
             }
         });
 
         nextBtn.addEventListener('click', () => {
-            const isRTL = html.getAttribute('dir') === 'rtl';
-
-            if (isRTL) {
-                // في RTL: next يعني نروح لليسار (نزود الـ position)
-                if (currentPosition < 0) {
-                    currentPosition += itemWidth;
-                    updateSliderPosition();
-                }
+            if (isRTL()) {
+                // في RTL: next يعني نروح لليمين (نزود scrollLeft)
+                slider.scrollBy({
+                    left: scrollAmount,
+                    behavior: 'smooth'
+                });
             } else {
-                // في LTR: next يعني نروح لليمين (نقلل الـ position)
-                if (currentPosition > maxPosition) {
-                    currentPosition -= itemWidth;
-                    updateSliderPosition();
-                }
+                // في LTR: next يعني نروح لليمين (نزود scrollLeft)
+                slider.scrollBy({
+                    left: scrollAmount,
+                    behavior: 'smooth'
+                });
             }
         });
 
-        // Update on resize
-        window.addEventListener('resize', () => {
-            currentPosition = 0;
-            updateSliderPosition();
-        });
+        // Update buttons visibility based on scroll position
+        function updateButtons() {
+            // خلي الأزرار شغالة دايماً، المتصفح هيمنع السكرول لو وصلت النهاية
+            prevBtn.style.opacity = '1';
+            prevBtn.style.pointerEvents = 'auto';
+            
+            nextBtn.style.opacity = '1';
+            nextBtn.style.pointerEvents = 'auto';
+        }
 
-        // Initialize position
-        updateSliderPosition();
+        slider.addEventListener('scroll', updateButtons);
         
+        // Initial check with delay to ensure proper initialization
+        setTimeout(() => {
+            if (isRTL()) {
+                slider.scrollLeft = slider.scrollWidth;
+            }
+            updateButtons();
+        }, 100);
+
         // Advanced Image Loading System
         const screenshots = track.querySelectorAll('.screenshot-item');
         
