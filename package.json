@@ -1,6 +1,6 @@
 {
   "name": "uniskills-web",
-  "version": "1.0.0",
+  "version": "4.0.0",
   "description": "A modern, responsive, and production-ready website for the UniSkills mobile learning platform.",
   "main": "NEW_SECTIONS_SCRIPTS.js",
   "scripts": {
