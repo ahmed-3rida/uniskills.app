@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الأسئلة الشائعة | UniSkills</title>
+    <meta name="description" content="البحث عن إجابات لاستفساراتك مع UniSkills">
+    <link rel="icon" type="image/png" href="uniskills-logo.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- AOS for smooth animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Background Elements -->
+    <div class="blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <img src="uniskills.png" alt="UniSkills Logo">
+                <span>UniSkills</span>
+            </a>
+
+            <div class="nav-links desktop-only">
+                <a href="index.html">الرئيسية</a>
+                <a href="terms.html">شروط الخدمة</a>
+            </div>
+
+            <div class="nav-actions">
+                <a href="index.html#download" class="btn btn-secondary desktop-only">حمل التطبيق</a>
+                <button class="mobile-menu-btn mobile-only" id="menuBtn">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div class="mobile-menu glass" id="mobileMenu">
+            <a href="index.html" class="mobile-link">الرئيسية</a>
+            <a href="terms.html" class="mobile-link">شروط الخدمة</a>
+            <a href="index.html#download" class="mobile-link highlight">حمل التطبيق</a>
+        </div>
+    </nav>
+
+    <!-- FAQ Header -->
+    <section class="page-header" data-aos="fade-down">
+        <div class="container">
+            <h1 class="section-title">الأسئلة الشائعة</h1>
+            <p class="section-subtitle">قمنا بجمع أكثر التساؤلات وطرح إجابات شافية تفيدك</p>
+        </div>
+    </section>
+
+    <!-- Full FAQ System -->
+    <section class="page-content" data-aos="fade-up">
+        <div class="container">
+            <div class="faq-list">
+                <!-- Q1 -->
+                <div class="faq-item glass">
+                    <div class="faq-header" onclick="this.parentElement.classList.toggle('open')">
+                        هل التطبيق مجاني؟
+                        <svg class="faq-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+                        </svg>
+                    </div>
+                    <div class="faq-content">
+                        <p>نعم، يتيح التطبيق تجربة تعليمية واسعة مجاناً؛ هدفنا هو تسهيل رحلتك التعليمية بأفضل محتوى
+                            ممكن. وهناك مزايا إضافية مدفوعة باشتراكات مناسبة حسب احتياجك.</p>
+                    </div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="faq-item glass">
+                    <div class="faq-header" onclick="this.parentElement.classList.toggle('open')">
+                        هل يدعم التطبيق الذكاء الاصطناعي (AI)؟
+                        <svg class="faq-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+                        </svg>
+                    </div>
+                    <div class="faq-content">
+                        <p>بالتأكيد! دمجنا أدوات ذكاء اصطناعي قوية داخل منصتنا يمكنها الإجابة على استفساراتك المعقدة،
+                            تحليل مستواك، وتوليد أسئلة دراسية تفاعلية من ملفات الـ PDF التي ترفعها.</p>
+                    </div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="faq-item glass">
+                    <div class="faq-header" onclick="this.parentElement.classList.toggle('open')">
+                        كيف أبدأ في الموقع؟
+                        <svg class="faq-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+                        </svg>
+                    </div>
+                    <div class="faq-content">
+                        <p>ببساطة، حمّل التطبيق من زر التنزيل، قم بتسجيل عضوية جديدة وأكمل إعداد ملفك الشخصي لتتمكن من
+                            الوصول لآلاف الكورسات والمقالات.</p>
+                    </div>
+                </div>
+
+                <!-- Q4 -->
+                <div class="faq-item glass">
+                    <div class="faq-header" onclick="this.parentElement.classList.toggle('open')">
+                        هل الشهادات معتمدة؟
+                        <svg class="faq-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+                        </svg>
+                    </div>
+                    <div class="faq-content">
+                        <p>نوفر شهادات إتمام للكورسات تؤكد الجهد الذي بذلته. يمكنك إضافتها لملفك المهني في LinkedIn أو
+                            السيرة الذاتية (CV). لا نمنح شهادات أكاديمية رسمية تصدر من جامعات.</p>
+                    </div>
+                </div>
+
+                <!-- Q5 -->
+                <div class="faq-item glass">
+                    <div class="faq-header" onclick="this.parentElement.classList.toggle('open')">
+                        كيف أتواصل مع الدعم الفني؟
+                        <svg class="faq-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+                        </svg>
+                    </div>
+                    <div class="faq-content">
+                        <p>عبر قسم المساعدة داخل التطبيق، أو يمكنك التواصل المباشر عبر البريد الإلكتروني
+                            ahmedsalmanareda@gmail.com وسنرد في أقرب وقت.</p>
+                    </div>
+                </div>
+
+                <!-- Q6 -->
+                <div class="faq-item glass">
+                    <div class="faq-header" onclick="this.parentElement.classList.toggle('open')">
+                        هل يمكن الوصول للدورات بعد الانتهاء منها؟
+                        <svg class="faq-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+                        </svg>
+                    </div>
+                    <div class="faq-content">
+                        <p>نعم، الكورسات والمواد التعليمية المندرجة تحت حسابك تبقى محفوظة في أرشيفك وتستطيع العودة
+                            لتدريب وتجديد معلوماتك متى ما شئت.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <img src="uniskills.png" alt="UniSkills">
+                        <span>UniSkills</span>
+                    </div>
+                    <p>المكان الذي يبدأ منه تفوقك الأكاديمي.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>الروابط الهامة</h4>
+                    <a href="index.html">الرئيسية</a>
+                    <a href="terms.html">شروط الخدمة والسياسة</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 UniSkills. جميع الحقوق والملكيات محفوظة للمنصة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 50,
+        });
+    </script>
+</body>
+
+</html>
