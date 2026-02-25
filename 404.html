@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - الصفحة غير موجودة | UniSkills</title>
+    <meta name="description" content="عذراً، الصفحة التي تبحث عنها غير موجودة.">
+    <link rel="icon" type="image/png" href="uniskills-logo.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css?v=4.0.0">
+
+    <style>
+        .error-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-8) var(--space-4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .error-container {
+            max-width: 700px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .error-icon {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto var(--space-4);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4.5rem;
+            animation: float 3s ease-in-out infinite;
+            box-shadow: 0 20px 60px rgba(0, 217, 255, 0.3);
+        }
+
+        .error-code {
+            font-size: clamp(5rem, 15vw, 8rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: var(--space-3);
+            animation: glitch 4s infinite;
+            letter-spacing: -0.02em;
+        }
+
+        .error-title {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: var(--space-3);
+            color: var(--text-main);
+        }
+
+        .error-description {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--text-muted);
+            margin-bottom: var(--space-6);
+            line-height: 1.8;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .error-actions {
+            display: flex;
+            gap: var(--space-3);
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: var(--space-8);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: 16px var(--space-6);
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 1.05rem;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            font-family: var(--font-main);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--bg-color);
+            box-shadow: 0 4px 20px rgba(0, 217, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(0, 217, 255, 0.5);
+            background: #1affff;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 217, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .helpful-links {
+            margin-top: var(--space-4);
+        }
+
+        .helpful-links h3 {
+            font-size: 1.25rem;
+            margin-bottom: var(--space-4);
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: var(--space-3);
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .link-item {
+            padding: var(--space-3);
+            background: rgba(0, 217, 255, 0.05);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            color: var(--primary);
+            font-size: 1rem;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-1);
+        }
+
+        .link-item:hover {
+            background: rgba(0, 217, 255, 0.15);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0, 217, 255, 0.2);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        @keyframes glitch {
+            0%, 92%, 100% {
+                transform: translate(0);
+            }
+            93% {
+                transform: translate(-3px, 3px);
+            }
+            94% {
+                transform: translate(3px, -3px);
+            }
+            95% {
+                transform: translate(-3px, -3px);
+            }
+            96% {
+                transform: translate(3px, 3px);
+            }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .error-page {
+                padding: var(--space-6) var(--space-3);
+            }
+
+            .error-icon {
+                width: 110px;
+                height: 110px;
+                font-size: 3.5rem;
+            }
+
+            .error-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .links-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background Elements -->
+    <div class="blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <!-- Error Page -->
+    <div class="error-page">
+        <div class="error-container">
+            <div class="error-icon">
+                🔍
+            </div>
+            
+            <h1 class="error-code">404</h1>
+            
+            <h2 class="error-title">عذراً، الصفحة غير موجودة!</h2>
+            
+            <p class="error-description">
+                يبدو أن الصفحة التي تبحث عنها قد تم نقلها أو حذفها أو ربما لم تكن موجودة من الأساس.
+                لا تقلق، يمكنك العودة للصفحة الرئيسية أو تصفح الروابط المفيدة أدناه.
+            </p>
+
+            <div class="error-actions">
+                <a href="/" class="btn btn-primary">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                    </svg>
+                    العودة للرئيسية
+                </a>
+                <button onclick="history.back()" class="btn btn-secondary">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                        <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                    </svg>
+                    الرجوع للخلف
+                </button>
+            </div>
+
+            <div class="helpful-links">
+                <h3>روابط مفيدة</h3>
+                <div class="links-grid">
+                    <a href="/#features" class="link-item">
+                        المميزات
+                    </a>
+                    <a href="/#ai" class="link-item">
+                        الذكاء الاصطناعي
+                    </a>
+                    <a href="/#download" class="link-item">
+                        تحميل التطبيق
+                    </a>
+                    <a href="faq.html" class="link-item">
+                        الأسئلة الشائعة
+                    </a>
+                    <a href="terms.html" class="link-item">
+                        الشروط والسياسة
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add blob animations
+        const blobs = document.querySelectorAll('.blob');
+        blobs.forEach((blob, index) => {
+            const size = 300 + Math.random() * 200;
+            const x = Math.random() * 100;
+            const y = Math.random() * 100;
+            
+            blob.style.width = `${size}px`;
+            blob.style.height = `${size}px`;
+            blob.style.left = `${x}%`;
+            blob.style.top = `${y}%`;
+            
+            const colors = ['var(--primary)', 'var(--secondary)', 'var(--accent-pink)'];
+            blob.style.background = colors[index % colors.length];
+        });
+    </script>
+</body>
+
+</html>

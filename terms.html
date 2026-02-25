@@ -20,6 +20,88 @@
 
     <!-- AOS for smooth animations -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        .page-content {
+            padding-bottom: var(--space-12);
+        }
+
+        .terms-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .terms-content h2 {
+            color: var(--primary);
+            margin-top: var(--space-6);
+            margin-bottom: var(--space-3);
+            font-size: clamp(1.5rem, 3vw, 1.75rem);
+            font-weight: 700;
+        }
+
+        .terms-content h2:first-child {
+            margin-top: 0;
+        }
+
+        .terms-content p {
+            margin-bottom: var(--space-3);
+            color: var(--text-muted);
+            line-height: 1.9;
+            font-size: 1.05rem;
+        }
+
+        .terms-content ul {
+            list-style: none;
+            padding-right: var(--space-4);
+            margin-bottom: var(--space-3);
+        }
+
+        .terms-content li {
+            margin-bottom: var(--space-2);
+            color: var(--text-muted);
+            line-height: 1.8;
+            font-size: 1.05rem;
+            position: relative;
+            padding-right: var(--space-3);
+        }
+
+        .terms-content li::before {
+            content: "•";
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.5rem;
+            position: absolute;
+            right: 0;
+            top: -2px;
+        }
+
+        .terms-content a {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: underline;
+            transition: var(--transition);
+        }
+
+        .terms-content a:hover {
+            color: var(--secondary);
+        }
+
+        .back-button-container {
+            text-align: center;
+            margin-top: var(--space-8);
+        }
+
+        @media (max-width: 768px) {
+            .terms-content h2 {
+                margin-top: var(--space-4);
+            }
+
+            .terms-content p,
+            .terms-content li {
+                font-size: 1rem;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -70,7 +152,7 @@
     <!-- Terms Content -->
     <section class="page-content" data-aos="fade-up">
         <div class="container">
-            <div class="terms-box glass">
+            <div class="terms-content">
                 <h2>1. قبول الشروط</h2>
                 <p>
                     مرحباً بك في منصة وتطبيق UniSkills. باستخدامك لخدماتنا ومحاولتك الوصول إلى المحتوى التعليمي أو
@@ -84,7 +166,7 @@
                     ليس ملكاً حصرياً لنا، بل قد يتضمن محتوى متاحاً للعموم سواءً على YouTube أو مصادر تعليمية أخرى.
                 </p>
                 <ul>
-                    <li>نقوم בתنظيم فهرسة وتسهيل الوصول لهذا المحتوى لخدمة الطلاب بصورة واضحة.</li>
+                    <li>نقوم بتنظيم فهرسة وتسهيل الوصول لهذا المحتوى لخدمة الطلاب بصورة واضحة.</li>
                     <li>نحن نحترم وكامل الإقرار نعود بحقوق الملكية الفكرية لصناع المحتوى الأصليين.</li>
                     <li>لا نتحمل مسؤولية أي محتوى تراه غير ملائم صادر عن هذه الجهات، ولكننا نسعى لانتقاء الأفضل.</li>
                 </ul>
@@ -124,12 +206,11 @@
                 <p>
                     للاستفسار عن هذه الشروط، أو لطلب المساعدة التقنية والأكاديمية، يُرجى مراسلة الدعم على البريد
                     الإلكتروني:<br />
-                    <a href="mailto:ahmedsalmanareda@gmail.com"
-                        style="color: var(--primary); font-weight: 600;">ahmedsalmanareda@gmail.com</a>
+                    <a href="mailto:ahmedsalmanareda@gmail.com">ahmedsalmanareda@gmail.com</a>
                 </p>
             </div>
 
-            <div style="text-align: center; margin-top: var(--space-4);" data-aos="fade-up" data-aos-delay="200">
+            <div class="back-button-container" data-aos="fade-up" data-aos-delay="200">
                 <a href="index.html" class="btn btn-primary">
                     موافق، ارجع للرئيسية
                 </a>

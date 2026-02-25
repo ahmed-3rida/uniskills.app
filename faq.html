@@ -20,6 +20,40 @@
 
     <!-- AOS for smooth animations -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        .faq-list {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: rgba(37, 43, 72, 0.3);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            margin-bottom: var(--space-3);
+            transition: var(--transition);
+        }
+
+        .faq-item:hover {
+            border-color: var(--primary);
+            background: rgba(37, 43, 72, 0.5);
+        }
+
+        .faq-item.open {
+            border-color: var(--primary);
+            background: rgba(37, 43, 72, 0.6);
+        }
+
+        .faq-header {
+            padding: var(--space-4);
+            font-size: 1.1rem;
+        }
+
+        .faq-content p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+    </style>
 </head>
 
 <body>
@@ -72,7 +106,7 @@
         <div class="container">
             <div class="faq-list">
                 <!-- Q1 -->
-                <div class="faq-item glass">
+                <div class="faq-item">
                     <div class="faq-header" onclick="this.parentElement.classList.toggle('open')">
                         هل التطبيق مجاني؟
                         <svg class="faq-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
@@ -86,7 +120,7 @@
                 </div>
 
                 <!-- Q2 -->
-                <div class="faq-item glass">
+                <div class="faq-item">
                     <div class="faq-header" onclick="this.parentElement.classList.toggle('open')">
                         هل يدعم التطبيق الذكاء الاصطناعي (AI)؟
                         <svg class="faq-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
@@ -100,7 +134,7 @@
                 </div>
 
                 <!-- Q3 -->
-                <div class="faq-item glass">
+                <div class="faq-item">
                     <div class="faq-header" onclick="this.parentElement.classList.toggle('open')">
                         كيف أبدأ في الموقع؟
                         <svg class="faq-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
@@ -114,7 +148,7 @@
                 </div>
 
                 <!-- Q4 -->
-                <div class="faq-item glass">
+                <div class="faq-item">
                     <div class="faq-header" onclick="this.parentElement.classList.toggle('open')">
                         هل الشهادات معتمدة؟
                         <svg class="faq-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
@@ -128,7 +162,7 @@
                 </div>
 
                 <!-- Q5 -->
-                <div class="faq-item glass">
+                <div class="faq-item">
                     <div class="faq-header" onclick="this.parentElement.classList.toggle('open')">
                         كيف أتواصل مع الدعم الفني؟
                         <svg class="faq-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
@@ -142,7 +176,7 @@
                 </div>
 
                 <!-- Q6 -->
-                <div class="faq-item glass">
+                <div class="faq-item">
                     <div class="faq-header" onclick="this.parentElement.classList.toggle('open')">
                         هل يمكن الوصول للدورات بعد الانتهاء منها؟
                         <svg class="faq-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
