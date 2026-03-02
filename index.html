@@ -426,7 +426,7 @@
 
             <div class="nav-actions">
                 <a href="#download" class="btn btn-secondary desktop-only">ابدأ الآن</a>
-                <button class="mobile-menu-btn mobile-only" id="menuBtn">
+                <button class="mobile-menu-btn mobile-only" id="menuBtn" aria-label="فتح القائمة الجانبية">
                     <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
                         <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
                     </svg>
@@ -812,14 +812,14 @@
     <!-- 6. FAQ Preview Section -->
     <section class="section-padding" style="background: rgba(37, 43, 72, 0.2);">
         <div class="container">
-            <div class="section-top" data-aos="fade-up">
+            <div class="section-top">
                 <h2 class="section-title">أسئلة شائعة</h2>
                 <p class="section-subtitle">نجيب على أهم تساؤلاتكم للحصول على تجربة خالية من المتاعب.</p>
             </div>
 
             <div class="faq-list">
                 <!-- FAQ 1 -->
-                <div class="faq-item" data-aos="fade-up" data-aos-delay="100">
+                <div class="faq-item">
                     <div class="faq-header" onclick="this.parentElement.classList.toggle('open')">
                         هل التطبيق مجاني؟
                         <svg class="faq-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
@@ -831,7 +831,7 @@
                     </div>
                 </div>
                 <!-- FAQ 2 -->
-                <div class="faq-item" data-aos="fade-up" data-aos-delay="200">
+                <div class="faq-item">
                     <div class="faq-header" onclick="this.parentElement.classList.toggle('open')">
                         هل يدعم التطبيق الذكاء الاصطناعي (AI)؟
                         <svg class="faq-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
@@ -844,7 +844,7 @@
                     </div>
                 </div>
 
-                <div class="faq-footer-action" data-aos="fade-up" data-aos-delay="300">
+                <div class="faq-footer-action">
                     <a href="faq" class="btn btn-secondary">عرض جميع الأسئلة والتفاصيل المتبقية</a>
                 </div>
             </div>
@@ -854,7 +854,7 @@
     <!-- 7. Download CTA Section -->
     <section class="cta-section" id="download">
         <div class="container">
-            <div class="cta-card glass" data-aos="zoom-in">
+            <div class="cta-card glass">
                 <div class="cta-content" style="z-index: 10;">
                     <h2 class="cta-title">جاهز لتحقيق أهدافك؟</h2>
                     <p class="cta-desc">انضم إلى آلاف الطلاب الذين حولوا دراستهم لتجربة ممتعة وذكية.</p>

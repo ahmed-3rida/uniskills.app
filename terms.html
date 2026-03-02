@@ -59,11 +59,8 @@
         href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
         rel="stylesheet">
 
-    <!-- CSS -->
+    <!-- Swiper and CSS -->
     <link rel="stylesheet" href="style.css?v=4.2.0">
-
-    <!-- AOS for smooth animations -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
         .page-content {
@@ -171,7 +168,7 @@
 
             <div class="nav-actions">
                 <a href="index#download" class="btn btn-secondary desktop-only">حمل التطبيق</a>
-                <button class="mobile-menu-btn mobile-only" id="menuBtn">
+                <button class="mobile-menu-btn mobile-only" id="menuBtn" aria-label="فتح القائمة الجانبية">
                     <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
                         <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
                     </svg>
@@ -187,7 +184,7 @@
     </nav>
 
     <!-- Header -->
-    <section class="page-header" data-aos="fade-down">
+    <section class="page-header">
         <div class="container">
             <h1 class="section-title">شروط الخدمة وسياسة الاستخدام</h1>
             <p class="section-subtitle">آخر تحديث: فبراير 2026</p>
@@ -195,7 +192,7 @@
     </section>
 
     <!-- Terms Content -->
-    <section class="page-content" data-aos="fade-up">
+    <section class="page-content">
         <div class="container">
             <div class="terms-content">
                 <h2>1. قبول الشروط</h2>
@@ -255,7 +252,7 @@
                 </p>
             </div>
 
-            <div class="back-button-container" data-aos="fade-up" data-aos-delay="200">
+            <div class="back-button-container">
                 <a href="index" class="btn btn-primary">
                     موافق، ارجع للرئيسية
                 </a>
@@ -291,16 +288,6 @@
 
     <!-- Scripts -->
     <script src="script.js?v=4.2.0" defer></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
-    <script>
-        window.addEventListener('load', () => {
-            AOS.init({
-                duration: 800,
-                once: true,
-                offset: 50,
-            });
-        });
-    </script>
 </body>
 
 </html>

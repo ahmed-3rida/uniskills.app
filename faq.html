@@ -59,11 +59,8 @@
         href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
         rel="stylesheet">
 
-    <!-- CSS -->
+    <!-- Swiper and CSS -->
     <link rel="stylesheet" href="style.css?v=4.2.0">
-
-    <!-- AOS for smooth animations -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <!-- Structured Data - FAQPage Schema -->
     <script type="application/ld+json">
@@ -181,7 +178,7 @@
 
             <div class="nav-actions">
                 <a href="index#download" class="btn btn-secondary desktop-only">حمل التطبيق</a>
-                <button class="mobile-menu-btn mobile-only" id="menuBtn">
+                <button class="mobile-menu-btn mobile-only" id="menuBtn" aria-label="فتح القائمة الجانبية">
                     <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
                         <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
                     </svg>
@@ -197,7 +194,7 @@
     </nav>
 
     <!-- FAQ Header -->
-    <section class="page-header" data-aos="fade-down">
+    <section class="page-header">
         <div class="container">
             <h1 class="section-title">الأسئلة الشائعة</h1>
             <p class="section-subtitle">قمنا بجمع أكثر التساؤلات وطرح إجابات شافية تفيدك</p>
@@ -205,7 +202,7 @@
     </section>
 
     <!-- Full FAQ System -->
-    <section class="page-content" data-aos="fade-up">
+    <section class="page-content">
         <div class="container">
             <div class="faq-list">
                 <!-- Q1 -->
@@ -321,16 +318,6 @@
 
     <!-- Scripts -->
     <script src="script.js?v=4.2.0" defer></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
-    <script>
-        window.addEventListener('load', () => {
-            AOS.init({
-                duration: 800,
-                once: true,
-                offset: 50,
-            });
-        });
-    </script>
 </body>
 
 </html>
