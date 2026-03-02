@@ -36,6 +36,17 @@
   ],
   "redirects": [
     {
+      "source": "/(.*)",
+      "destination": "https://www.uniskills.pro/$1",
+      "permanent": true,
+      "has": [
+        {
+          "type": "host",
+          "value": "uniskills-app.vercel.app"
+        }
+      ]
+    },
+    {
       "source": "/home",
       "destination": "/",
       "permanent": true

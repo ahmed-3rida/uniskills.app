@@ -1,4 +1,11 @@
 RewriteEngine On
+
+# 301 Redirect to new domain
+RewriteCond %{HTTP_HOST} ^uniskills-app\.vercel\.app$ [NC]
+RewriteRule ^(.*)$ https://www.uniskills.pro/$1 [R=301,L]
+
+# Clean URLs
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}\.html -f
 RewriteRule ^(.*)$ $1.html [NC,L]
+

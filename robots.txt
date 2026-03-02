@@ -26,7 +26,7 @@ Allow: /*.webp$
 Allow: /*.svg$
 
 # Sitemap location
-Sitemap: https://uniskills-app.vercel.app/sitemap.xml
+Sitemap: https://www.uniskills.pro/sitemap.xml
 
 # Crawl-delay for respectful crawling
 Crawl-delay: 1
