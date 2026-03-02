@@ -910,55 +910,8 @@
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer crossorigin></script>
-    <script>
-        // Initialize Swiper immediately after it loads
-        if (typeof Swiper !== 'undefined') {
-            window.addEventListener('DOMContentLoaded', () => {
-                const showcaseSwiper = new Swiper('.showcase-swiper', {
-                    effect: 'coverflow',
-                    grabCursor: false,
-                    allowTouchMove: false,
-                    centeredSlides: true,
-                    slidesPerView: 'auto',
-                    loop: false,
-                    rewind: true,
-                    initialSlide: 0,
-                    speed: 600,
-                    autoplay: {
-                        delay: 4000,
-                        disableOnInteraction: false,
-                        pauseOnMouseEnter: false,
-                    },
-                    coverflowEffect: {
-                        rotate: 0,
-                        stretch: 0,
-                        depth: 100,
-                        modifier: 2.5,
-                        slideShadows: false,
-                    },
-                });
-            });
-        }
-    </script>
-    <script src="script.js?v=4.2.1" defer></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer crossorigin></script>
-    <script>
-        // Initialize AOS after full page load to avoid layout shift warnings
-        window.addEventListener('load', () => {
-            // Small delay to ensure layout is stable
-            setTimeout(() => {
-                if (typeof AOS !== 'undefined') {
-                    AOS.init({
-                        duration: 800,
-                        once: true,
-                        offset: 50,
-                        disable: false,
-                        startEvent: 'load',
-                    });
-                }
-            }, 100);
-        });
-    </script>
+    <script src="script.js?v=4.2.1" defer></script>
 </body>
 
 </html>

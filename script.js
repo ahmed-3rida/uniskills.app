@@ -94,18 +94,61 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1500);
     });
 
-    /* --- 5. Layout Fixes for Mobile --- */
-    // Refresh AOS after a short delay to ensure everything is positioned correctly
-    const refreshLayout = () => {
-        if (typeof AOS !== 'undefined') {
-            AOS.refresh();
+    /* --- 5. Swiper Initialization --- */
+    const initSwiper = () => {
+        if (typeof Swiper !== 'undefined' && document.querySelector('.showcase-swiper')) {
+            new Swiper('.showcase-swiper', {
+                effect: 'coverflow',
+                grabCursor: true,
+                allowTouchMove: true,
+                centeredSlides: true,
+                slidesPerView: 'auto',
+                loop: true,
+                initialSlide: 0,
+                speed: 800,
+                autoplay: {
+                    delay: 3000,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true,
+                },
+                coverflowEffect: {
+                    rotate: 0,
+                    stretch: 0,
+                    depth: 100,
+                    modifier: 2.5,
+                    slideShadows: false,
+                },
+            });
         }
     };
 
-    window.addEventListener('load', refreshLayout);
+    /* --- 6. AOS Initialization --- */
+    const initAOS = () => {
+        if (typeof AOS !== 'undefined') {
+            AOS.init({
+                duration: 800,
+                once: true,
+                offset: 50,
+                disable: false,
+                startEvent: 'DOMContentLoaded',
+            });
+            // Force a refresh after a small delay to catch any layout changes
+            setTimeout(() => AOS.refresh(), 500);
+        }
+    };
+
+    /* --- 7. Execution & Layout Fixes --- */
+    window.addEventListener('load', () => {
+        initSwiper();
+        initAOS();
+    });
+
     // Also refresh on orientation change for mobile
     window.addEventListener('orientationchange', () => {
-        // Delay extra for orientation change to let the browser recalculate layout first
-        setTimeout(refreshLayout, 500);
+        setTimeout(() => {
+            if (typeof AOS !== 'undefined') {
+                AOS.refresh();
+            }
+        }, 500);
     });
 });
