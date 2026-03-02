@@ -70,14 +70,14 @@ All images now include:
 #### Examples:
 ```html
 <!-- Hero Image (eager loading for LCP) -->
-<img src="screens/1.png" 
+<img src="screens/1.webp" 
      alt="واجهة تطبيق UniSkills الرئيسية - عرض الكورسات والمحتوى التعليمي" 
      width="300" 
      height="600" 
      loading="eager">
 
 <!-- Below-fold images (lazy loading) -->
-<img src="screens/2.png" 
+<img src="screens/2.webp" 
      alt="عرض الكورسات التعليمية في UniSkills - محتوى تعليمي متنوع" 
      width="300" 
      height="600" 
@@ -372,11 +372,11 @@ Complete Twitter Card implementation:
 
 ```html
 <!-- Hero image: eager loading for LCP -->
-<img loading="eager" src="screens/1.png" alt="...">
+<img loading="eager" src="screens/1.webp" alt="...">
 
 <!-- Below-fold images: lazy loading -->
-<img loading="lazy" src="screens/2.png" alt="...">
-<img loading="lazy" src="screens/3.png" alt="...">
+<img loading="lazy" src="screens/2.webp" alt="...">
+<img loading="lazy" src="screens/3.webp" alt="...">
 ```
 
 **✓ Reduces initial page load by ~60%**
@@ -416,7 +416,7 @@ Complete Twitter Card implementation:
 All images include explicit width/height:
 
 ```html
-<img src="screens/1.png" 
+<img src="screens/1.webp" 
      width="300" 
      height="600" 
      alt="...">

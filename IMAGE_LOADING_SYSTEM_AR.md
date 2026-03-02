@@ -308,7 +308,7 @@ F12 → Console
 ```html
 <picture>
     <source srcset="screens/1.webp" type="image/webp">
-    <img src="screens/1.png" alt="Screenshot 1">
+    <img src="screens/1.webp" alt="Screenshot 1">
 </picture>
 ```
 

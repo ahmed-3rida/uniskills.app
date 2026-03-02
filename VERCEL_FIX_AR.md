@@ -187,8 +187,8 @@ setTimeout(() => {
 
 ### 3. Preload الصور المهمة
 ```html
-<link rel="preload" as="image" href="screens/1.png">
-<link rel="preload" as="image" href="screens/2.png">
+<link rel="preload" as="image" href="screens/1.webp">
+<link rel="preload" as="image" href="screens/2.webp">
 ```
 
 ---
@@ -210,7 +210,7 @@ setTimeout(() => {
 
 **الحل**: تحقق من:
 1. الصور موجودة في مجلد `screens/`
-2. الأسماء صحيحة (1.png, 2.png, ...)
+2. الأسماء صحيحة (1.webp, 2.webp, ...)
 3. الصور تم رفعها على Git
 
 ### المشكلة: الموقع بطيء
