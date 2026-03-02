@@ -99,17 +99,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (typeof Swiper !== 'undefined' && document.querySelector('.showcase-swiper')) {
             new Swiper('.showcase-swiper', {
                 effect: 'coverflow',
-                grabCursor: true,
-                allowTouchMove: true,
+                grabCursor: false, // Disabled for hands-off experience
+                allowTouchMove: false, // Disabled manual dragging
                 centeredSlides: true,
                 slidesPerView: 'auto',
                 loop: true,
                 initialSlide: 0,
-                speed: 800,
+                speed: 1200, // Slightly slower transition for premium feel
                 autoplay: {
-                    delay: 3000,
+                    delay: 2000,
                     disableOnInteraction: false,
-                    pauseOnMouseEnter: true,
+                    pauseOnMouseEnter: false,
                 },
                 coverflowEffect: {
                     rotate: 0,
@@ -118,6 +118,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     modifier: 2.5,
                     slideShadows: false,
                 },
+                observer: true,
+                observeParents: true,
+                watchSlidesProgress: true,
             });
         }
     };
