@@ -69,6 +69,7 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 
     <!-- Preload critical assets -->
+    <link rel="preload" href="style.css?v=4.2.0" as="style">
     <link rel="stylesheet" href="style.css?v=4.2.0">
 
     <!-- Fonts with display=swap for performance -->
@@ -345,7 +346,10 @@
     </style>
 
     <!-- Main CSS (Non-blocking) -->
-    <link rel="stylesheet" href="vendor/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" href="vendor/swiper/swiper-bundle.min.css" media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="vendor/swiper/swiper-bundle.min.css">
+    </noscript>
 
     <!-- Structured Data - Organization Schema -->
     <script type="application/ld+json">
@@ -927,7 +931,7 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="vendor/swiper/swiper-bundle.min.js" defer></script>
     <script src="script.js?v=4.2.1" defer></script>
 </body>
 
