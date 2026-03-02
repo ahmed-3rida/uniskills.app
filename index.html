@@ -59,6 +59,9 @@
     <meta name="msapplication-TileColor" content="#00d9ff">
 
 
+    <!-- Preload critical images for LCP -->
+    <link rel="preload" as="image" href="screens/3.webp" type="image/webp" fetchpriority="high">
+
     <!-- Preconnect for Performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -67,7 +70,6 @@
 
     <!-- Preload critical assets -->
     <link rel="stylesheet" href="style.css?v=4.2.0">
-    <link rel="preload" as="image" href="screens/3.webp" type="image/webp" fetchpriority="high">
 
     <!-- Fonts with display=swap for performance -->
     <link rel="preload" as="style"
@@ -334,6 +336,12 @@
             height: auto;
             display: block;
         }
+
+        .hero-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
     </style>
 
     <!-- Main CSS (Non-blocking) -->
@@ -441,6 +449,7 @@
             <a href="#preview" class="mobile-link">التطبيق</a>
             <a href="faq" class="mobile-link">الأسئلة الشائعة</a>
             <a href="#download" class="mobile-link highlight">حمل التطبيق الآن</a>
+        </div>
     </nav>
 
     <main>
@@ -477,7 +486,7 @@
                 <div class="hero-visual">
                     <div class="premium-phone-mockup">
                         <img src="screens/3.webp" alt="واجهة تطبيق UniSkills الرئيسية" class="img-fluid hero-img"
-                            fetchpriority="high" decoding="async" width="300" height="600">
+                            fetchpriority="high" decoding="sync" loading="eager" width="300" height="600">
                     </div>
                     <!-- Panels that float above -->
                     <div class="floating-panel glass panel-1">
