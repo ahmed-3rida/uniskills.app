@@ -36,6 +36,9 @@
     <meta name="twitter:description" content="حمّل تطبيق UniSkills الآن على هاتفك. متاح مجاناً على Google Play و App Store">
     <meta name="twitter:image" content="https://www.uniskills.pro/uniskills.png">
     
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css?v=4.2.0">
+    
     <style>
         * {
             margin: 0;
@@ -336,9 +339,9 @@
     </div>
 
     <script>
-        // Store URLs - استبدل هذه الروابط بروابطك الفعلية
+        // Store URLs
         const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.uniskills.app';
-        const APP_STORE_URL = 'https://www.uniskills.pro';
+        const APP_STORE_URL = 'https://apps.apple.com/app/uniskills/id123456789'; // حدّث هذا عند توفر التطبيق على iOS
         const WEB_APP_URL = 'https://www.uniskills.pro';
 
         // Detect platform
@@ -395,6 +398,8 @@
             
             // Update button
             btn.href = downloadURL;
+            btn.target = '_blank';
+            btn.rel = 'noopener noreferrer';
             
             if (platform === 'android') {
                 btnText.innerHTML = `
@@ -414,13 +419,8 @@
             }
             
             // Show platform info
-            platformInfo.textContent = `تم اكتشاف جهازك: ${platformName}`;
+            platformInfo.textContent = `تم اكتشاف جهازك: ${platformName} - اضغط الزر للتحميل`;
             platformInfo.classList.add('show');
-            
-            // Auto redirect after 2 seconds
-            setTimeout(() => {
-                window.location.href = downloadURL;
-            }, 2000);
         }
 
         // Track download click
@@ -444,6 +444,9 @@
             trackDownload(platform);
         });
     </script>
+    
+    <!-- Main Script -->
+    <script src="script.js?v=4.2.0"></script>
 </body>
 
 </html>
