@@ -95,31 +95,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* --- 5. Layout Fixes for Mobile --- */
-    // Force a layout recalculation and AOS refresh after a short delay
-    // This fixes issues where some elements are incorrectly sized or cut off until scroll
+    // Refresh AOS after a short delay to ensure everything is positioned correctly
     const refreshLayout = () => {
         if (typeof AOS !== 'undefined') {
             AOS.refresh();
         }
-        
-        // Trigger a tiny scroll to jumpstart any scroll-based libraries
-        window.scrollTo(window.scrollX, window.scrollY + 1);
-        setTimeout(() => {
-            window.scrollTo(window.scrollX, window.scrollY - 1);
-        }, 10);
-
-        // Ensure reveal-up elements are checked immediately
-        revealElements.forEach(el => {
-            const rect = el.getBoundingClientRect();
-            if (rect.top < window.innerHeight) {
-                el.classList.add('active');
-            }
-        });
     };
 
     window.addEventListener('load', refreshLayout);
     // Also refresh on orientation change for mobile
     window.addEventListener('orientationchange', () => {
-        setTimeout(refreshLayout, 200);
+        // Delay extra for orientation change to let the browser recalculate layout first
+        setTimeout(refreshLayout, 500);
     });
 });

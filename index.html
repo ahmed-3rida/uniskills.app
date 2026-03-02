@@ -65,6 +65,10 @@
     <link rel="dns-prefetch" href="https://unpkg.com">
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 
+    <!-- Preload critical fonts -->
+    <link rel="preload" as="style"
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+
     <!-- Fonts with display=swap for performance -->
     <link
         href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
@@ -151,7 +155,8 @@
     <nav class="navbar" id="navbar">
         <div class="container nav-container">
             <a href="#" class="logo" aria-label="UniSkills - الصفحة الرئيسية">
-                <img src="uniskills.png" alt="شعار UniSkills - منصة التعلم الذكي" width="40" height="40">
+                <img src="uniskills.png" alt="شعار UniSkills - منصة التعلم الذكي" width="40" height="40"
+                    decoding="async">
                 <span>UniSkills</span>
             </a>
 
@@ -216,7 +221,7 @@
             <div class="hero-visual reveal-up delay-1">
                 <div class="premium-phone-mockup">
                     <img src="screens/3.png" alt="واجهة تطبيق UniSkills الرئيسية - عرض الكورسات والمحتوى التعليمي"
-                        width="300" height="600" loading="eager">
+                        class="img-fluid hero-img" fetchpriority="high" decoding="async" width="300" height="600">
                 </div>
                 <!-- Panels that float above -->
                 <div class="floating-panel glass panel-1">
@@ -458,37 +463,37 @@
                 <div class="swiper-slide">
                     <div class="premium-phone-mockup">
                         <img src="screens/1.png" alt="الشاشة الرئيسية لتطبيق UniSkills - عرض الكورسات والمقالات"
-                            width="300" height="600" loading="lazy">
+                            loading="lazy" decoding="async" width="300" height="600">
                     </div>
                 </div>
                 <div class="swiper-slide">
                     <div class="premium-phone-mockup">
                         <img src="screens/2.png" alt="عرض الكورسات التعليمية في UniSkills - محتوى تعليمي متنوع"
-                            width="300" height="600" loading="lazy">
+                            loading="lazy" decoding="async" width="300" height="600">
                     </div>
                 </div>
                 <div class="swiper-slide">
                     <div class="premium-phone-mockup">
                         <img src="screens/3.png" alt="تجربة الدردشة مع الذكاء الاصطناعي في UniSkills - مساعد ذكي تفاعلي"
-                            width="300" height="600" loading="lazy">
+                            loading="lazy" decoding="async" width="300" height="600">
                     </div>
                 </div>
                 <div class="swiper-slide">
                     <div class="premium-phone-mockup">
                         <img src="screens/4.png" alt="بوابة الامتحانات في UniSkills - اختبارات تفاعلية وتقييم فوري"
-                            width="300" height="600" loading="lazy">
+                            loading="lazy" decoding="async" width="300" height="600">
                     </div>
                 </div>
                 <div class="swiper-slide">
                     <div class="premium-phone-mockup">
                         <img src="screens/5.png" alt="ملف التقدم الشخصي في UniSkills - تتبع الإنجازات والشهادات"
-                            width="300" height="600" loading="lazy">
+                            loading="lazy" decoding="async" width="300" height="600">
                     </div>
                 </div>
                 <div class="swiper-slide">
                     <div class="premium-phone-mockup">
                         <img src="screens/6.png" alt="إعدادات التطبيق في UniSkills - تخصيص التجربة التعليمية"
-                            width="300" height="600" loading="lazy">
+                            loading="lazy" decoding="async" width="300" height="600">
                     </div>
                 </div>
             </div>
@@ -505,7 +510,7 @@
                     <!-- Parallax/Floating effect mockup -->
                     <div class="premium-phone-mockup" style="animation: float 5s infinite alternate;">
                         <img class="img-fluid" src="screens/2.png" alt="داخل تطبيق UniSkills - تجربة المستخدم التفاعلية"
-                            width="300" height="600" loading="lazy">
+                            loading="lazy" decoding="async" width="300" height="600">
                     </div>
                 </div>
                 <div class="benefits-content" data-aos="fade-left">
@@ -603,7 +608,7 @@
                     <div class="premium-phone-mockup"
                         style="width: 100%; max-width: 250px; transform: rotate(-5deg) translateY(40px);">
                         <img src="screens/1.png" alt="تحميل تطبيق UniSkills - متاح الآن على متجر Google Play"
-                            width="250" height="500" loading="lazy">
+                            loading="lazy" decoding="async" width="250" height="500">
                     </div>
                 </div>
             </div>
@@ -617,7 +622,7 @@
                 <div class="footer-brand">
                     <div class="logo">
                         <img src="uniskills.png" alt="شعار UniSkills - منصة التعلم الذكي" width="40" height="40"
-                            loading="lazy">
+                            loading="lazy" decoding="async">
                         <span>UniSkills</span>
                     </div>
                     <p>نحو بيئة تعليمية ذكية وتكنولوجيا متطورة في متناول أيدي جميع الطلاب والطالبات.</p>
@@ -638,14 +643,16 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="script.js?v=4.2.0"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="script.js?v=4.2.0" defer></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
     <script>
-        AOS.init({
-            duration: 800,
-            once: true,
-            offset: 50,
+        window.addEventListener('load', () => {
+            AOS.init({
+                duration: 800,
+                once: true,
+                offset: 50,
+            });
         });
 
         // Initialize Swiper for Premium Apple/Stripe like showcase

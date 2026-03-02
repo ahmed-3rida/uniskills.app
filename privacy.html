@@ -53,6 +53,8 @@
     <link rel="dns-prefetch" href="https://unpkg.com">
 
     <!-- Fonts -->
+    <link rel="preload" as="style"
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap">
     <link
         href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
         rel="stylesheet">
@@ -157,7 +159,8 @@
     <nav class="navbar" id="navbar">
         <div class="container nav-container">
             <a href="index" class="logo" aria-label="UniSkills - العودة للرئيسية">
-                <img src="uniskills.png" alt="شعار UniSkills - منصة التعلم الذكي" width="40" height="40">
+                <img src="uniskills.png" alt="شعار UniSkills - منصة التعلم الذكي" width="40" height="40"
+                    decoding="async">
                 <span>UniSkills</span>
             </a>
 
@@ -359,13 +362,15 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="script.js?v=4.2.0"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="script.js?v=4.2.0" defer></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
     <script>
-        AOS.init({
-            duration: 800,
-            once: true,
-            offset: 50,
+        window.addEventListener('load', () => {
+            AOS.init({
+                duration: 800,
+                once: true,
+                offset: 50,
+            });
         });
     </script>
 </body>
