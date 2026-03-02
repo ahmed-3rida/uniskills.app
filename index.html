@@ -645,39 +645,47 @@
     <!-- Scripts -->
     <script src="script.js?v=4.2.0" defer></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
-        window.addEventListener('load', () => {
-            AOS.init({
-                duration: 800,
-                once: true,
-                offset: 50,
-            });
+        // Wait for DOM and Swiper to load
+        window.addEventListener('DOMContentLoaded', () => {
+            // Initialize AOS when it loads
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 800,
+                    once: true,
+                    offset: 50,
+                });
+            }
         });
 
-        // Initialize Swiper for Premium Apple/Stripe like showcase
-        const showcaseSwiper = new Swiper('.showcase-swiper', {
-            effect: 'coverflow',
-            grabCursor: false,
-            allowTouchMove: false,
-            centeredSlides: true,
-            slidesPerView: 'auto',
-            loop: false,
-            rewind: true,
-            initialSlide: 0,
-            speed: 600, // Smooth transition duration
-            autoplay: {
-                delay: 4000,
-                disableOnInteraction: false,
-                pauseOnMouseEnter: false,
-            },
-            coverflowEffect: {
-                rotate: 0, // No rotation, keeping it flat like Apple
-                stretch: 0, // Distance between slides
-                depth: 100, // Depth offset
-                modifier: 2.5, // Multiplier for the coverflow values
-                slideShadows: false, // Disable native grey shadows
-            },
+        // Initialize Swiper after it loads
+        window.addEventListener('load', () => {
+            if (typeof Swiper !== 'undefined') {
+                const showcaseSwiper = new Swiper('.showcase-swiper', {
+                    effect: 'coverflow',
+                    grabCursor: false,
+                    allowTouchMove: false,
+                    centeredSlides: true,
+                    slidesPerView: 'auto',
+                    loop: false,
+                    rewind: true,
+                    initialSlide: 0,
+                    speed: 600,
+                    autoplay: {
+                        delay: 4000,
+                        disableOnInteraction: false,
+                        pauseOnMouseEnter: false,
+                    },
+                    coverflowEffect: {
+                        rotate: 0,
+                        stretch: 0,
+                        depth: 100,
+                        modifier: 2.5,
+                        slideShadows: false,
+                    },
+                });
+            }
         });
     </script>
 </body>
