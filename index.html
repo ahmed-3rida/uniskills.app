@@ -643,25 +643,11 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="script.js?v=4.2.0" defer></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
-        // Wait for DOM and Swiper to load
-        window.addEventListener('DOMContentLoaded', () => {
-            // Initialize AOS when it loads
-            if (typeof AOS !== 'undefined') {
-                AOS.init({
-                    duration: 800,
-                    once: true,
-                    offset: 50,
-                });
-            }
-        });
-
-        // Initialize Swiper after it loads
-        window.addEventListener('load', () => {
-            if (typeof Swiper !== 'undefined') {
+        // Initialize Swiper immediately after it loads
+        if (typeof Swiper !== 'undefined') {
+            window.addEventListener('DOMContentLoaded', () => {
                 const showcaseSwiper = new Swiper('.showcase-swiper', {
                     effect: 'coverflow',
                     grabCursor: false,
@@ -685,7 +671,26 @@
                         slideShadows: false,
                     },
                 });
-            }
+            });
+        }
+    </script>
+    <script src="script.js?v=4.2.1" defer></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
+    <script>
+        // Initialize AOS after full page load to avoid layout shift warnings
+        window.addEventListener('load', () => {
+            // Small delay to ensure layout is stable
+            setTimeout(() => {
+                if (typeof AOS !== 'undefined') {
+                    AOS.init({
+                        duration: 800,
+                        once: true,
+                        offset: 50,
+                        disable: false,
+                        startEvent: 'load',
+                    });
+                }
+            }, 100);
         });
     </script>
 </body>
