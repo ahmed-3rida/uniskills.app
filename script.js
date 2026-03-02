@@ -10,14 +10,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const menuBtn = document.getElementById('menuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
 
-    // Scroll Event
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
+    // Scroll effect using Intersection Observer for better performance (avoids forced reflows)
+    const navSentinel = document.createElement('div');
+    navSentinel.style.position = 'absolute';
+    navSentinel.style.top = '50px';
+    navSentinel.style.height = '1px';
+    navSentinel.style.width = '1px';
+    navSentinel.style.pointerEvents = 'none';
+    navSentinel.style.visibility = 'hidden';
+    document.body.prepend(navSentinel);
+
+    const navObserver = new IntersectionObserver((entries) => {
+        if (!entries[0].isIntersecting) {
             navbar.classList.add('scrolled');
         } else {
             navbar.classList.remove('scrolled');
         }
-    });
+    }, { threshold: 0 });
+
+    navObserver.observe(navSentinel);
 
     // Mobile Menu Toggle
     menuBtn.addEventListener('click', () => {
@@ -168,9 +179,4 @@ document.addEventListener('DOMContentLoaded', () => {
         initReveal();
     });
 
-    // Also refresh on orientation change for mobile
-    // Orientation change handling (if needed for other things in future)
-    window.addEventListener('orientationchange', () => {
-        // Reserved for layout recalcs if necessary
-    });
 });
