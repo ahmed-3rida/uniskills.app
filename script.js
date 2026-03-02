@@ -64,8 +64,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    /* --- 3. Intersection Observer (Removed Animation) --- */
-    // Animations removed as per user request to ensure immediate visibility
+    /* --- 3. Intersection Observer (Scroll Animations) --- */
+    const revealCallback = (entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                // Once animated, no need to keep observing
+                observer.unobserve(entry.target);
+            }
+        });
+    };
+
+    const revealObserver = new IntersectionObserver(revealCallback, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -50px 0px'
+    });
+
+    const initReveal = () => {
+        document.querySelectorAll('.reveal').forEach(el => {
+            revealObserver.observe(el);
+        });
+    };
 
     /* --- 5. Swiper Initialization --- */
     const initSwiper = () => {
@@ -115,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('load', () => {
         // Delay swiper init slightly to ensure DOM and styles are fully stable
         setTimeout(initSwiper, 100);
-        initAOS();
+        initReveal();
     });
 
     // Also refresh on orientation change for mobile
