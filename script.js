@@ -86,7 +86,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    /* --- 5. Swiper Initialization --- */
+    /* --- 5. Swiper Lazy Loading & Initialization --- */
+    let swiperLoaded = false;
     const initSwiper = () => {
         if (typeof Swiper !== 'undefined' && document.querySelector('.showcase-swiper')) {
             new Swiper('.showcase-swiper', {
@@ -125,15 +126,45 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    /* --- 6. AOS Initialization (Removed) --- */
-    const initAOS = () => {
-        // Removed as per request
+    const loadSwiperAssets = () => {
+        if (swiperLoaded) return;
+        swiperLoaded = true;
+
+        // Dynamic CSS Injection
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'vendor/swiper/swiper-bundle.min.css';
+        document.head.appendChild(link);
+
+        // Dynamic JS Injection
+        const script = document.createElement('script');
+        script.src = 'vendor/swiper/swiper-bundle.min.js';
+        script.onload = () => {
+            setTimeout(initSwiper, 100);
+        };
+        document.body.appendChild(script);
     };
+
+    const swiperObserver = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+            loadSwiperAssets();
+            swiperObserver.disconnect();
+        }
+    }, { rootMargin: '200px' });
+
+    const setupSwiperLazyLoad = () => {
+        const swiperSection = document.getElementById('preview');
+        if (swiperSection) {
+            swiperObserver.observe(swiperSection);
+        }
+    };
+
+    /* --- 6. AOS Initialization (Removed) --- */
+    // Removed as per request
 
     /* --- 7. Execution & Layout Fixes --- */
     window.addEventListener('load', () => {
-        // Delay swiper init slightly to ensure DOM and styles are fully stable
-        setTimeout(initSwiper, 100);
+        setupSwiperLazyLoad();
         initReveal();
     });
 
