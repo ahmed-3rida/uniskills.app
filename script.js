@@ -142,7 +142,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* --- 7. Execution & Layout Fixes --- */
     window.addEventListener('load', () => {
-        initSwiper();
+        // Delay swiper init slightly to ensure DOM and styles are fully stable
+        setTimeout(initSwiper, 100);
         initAOS();
     });
 
