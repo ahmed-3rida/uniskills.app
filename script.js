@@ -94,17 +94,32 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1500);
     });
 
-    /* --- 4. Content Protection (Anti-Copy/Inspect) --- */
-    // Slightly more modern approach without being overly intrusive
-    document.addEventListener('contextmenu', (e) => {
-        if (e.target.tagName === 'IMG') {
-            e.preventDefault();
+    /* --- 5. Layout Fixes for Mobile --- */
+    // Force a layout recalculation and AOS refresh after a short delay
+    // This fixes issues where some elements are incorrectly sized or cut off until scroll
+    const refreshLayout = () => {
+        if (typeof AOS !== 'undefined') {
+            AOS.refresh();
         }
-    });
+        
+        // Trigger a tiny scroll to jumpstart any scroll-based libraries
+        window.scrollTo(window.scrollX, window.scrollY + 1);
+        setTimeout(() => {
+            window.scrollTo(window.scrollX, window.scrollY - 1);
+        }, 10);
 
-    document.addEventListener('dragstart', (e) => {
-        if (e.target.tagName === 'IMG') {
-            e.preventDefault();
-        }
+        // Ensure reveal-up elements are checked immediately
+        revealElements.forEach(el => {
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight) {
+                el.classList.add('active');
+            }
+        });
+    };
+
+    window.addEventListener('load', refreshLayout);
+    // Also refresh on orientation change for mobile
+    window.addEventListener('orientationchange', () => {
+        setTimeout(refreshLayout, 200);
     });
 });

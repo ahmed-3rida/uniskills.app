@@ -4,6 +4,14 @@
    Exact colors matched from app_theme.dart
    ========================================= */
 
+/* Force proper rendering on mobile */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
 :root {
     /* Colors from app_theme.dart */
     --bg-color: #0A0E27;
@@ -68,10 +76,15 @@
 html {
     scroll-behavior: smooth;
     font-size: 16px;
-    -webkit-text-size-adjust: 100%; /* Prevent font scaling in landscape */
+    -webkit-text-size-adjust: 100%;
+    /* Prevent font scaling in landscape */
     -moz-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
     text-size-adjust: 100%;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    position: relative;
 }
 
 body {
@@ -84,6 +97,8 @@ body {
     -webkit-text-size-adjust: 100%;
     width: 100%;
     max-width: 100vw;
+    min-height: 100vh;
+    position: relative;
 }
 
 /* Background Animated Blobs */
@@ -91,8 +106,8 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     z-index: -1;
     overflow: hidden;
     pointer-events: none;
@@ -148,7 +163,10 @@ body {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 var(--space-3);
+    padding-left: 1.5rem;
+    /* 24px */
+    padding-right: 1.5rem;
+    /* 24px */
 }
 
 .glass {
@@ -246,6 +264,7 @@ a {
     position: fixed;
     top: 0;
     left: 0;
+    right: 0;
     width: 100%;
     z-index: 100;
     padding: var(--space-2) 0;
@@ -263,6 +282,11 @@ a {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: var(--space-3);
+    padding-right: var(--space-3);
 }
 
 .logo {
@@ -385,6 +409,8 @@ a {
     font-weight: 600;
     margin-bottom: var(--space-3);
     border: 1px solid rgba(0, 217, 255, 0.3);
+    max-width: 100%;
+    word-wrap: break-word;
 }
 
 .pill-badge .dot {
@@ -419,6 +445,7 @@ a {
     font-size: clamp(1rem, 2vw, 1.25rem);
     margin-bottom: var(--space-4);
     max-width: 500px;
+    word-wrap: break-word;
 }
 
 .hero-actions {
@@ -1034,151 +1061,308 @@ a {
 
 
 /* =========================================
-   Mobile Responsive Fixes
+   Mobile Responsive Fixes - Complete Rewrite
    ========================================= */
 
-/* Mobile: Extra padding to prevent text cutoff */
-@media (max-width: 768px) {
-    html {
-        font-size: 16px; /* Force 16px base to prevent zoom */
+/* Tablet and below */
+@media (max-width: 900px) {
+    .hero {
+        padding: calc(var(--space-8) + 60px) 0 var(--space-6);
     }
 
-    .container {
-        padding: 0 var(--space-4);
-        /* Increase from 1.5rem to 2rem (32px) */
-    }
-
-    .hero-content {
-        padding: 0 var(--space-2);
-    }
-
-    .section-padding {
-        padding: var(--space-8) 0;
-    }
-
-    .section-top {
-        padding: 0 var(--space-2);
-    }
-
-    .hero-title {
-        font-size: clamp(1.5rem, 6vw, 2rem);
-        line-height: 1.3;
-        padding: 0;
-        margin-bottom: var(--space-2);
-    }
-
-    .hero-desc {
-        font-size: 1rem;
-        padding: 0;
-        line-height: 1.6;
-    }
-
-    .feature-card,
-    .glass {
-        padding: var(--space-3);
-    }
-
-    .cta-card {
-        padding: var(--space-4) var(--space-3);
+    .hero-grid {
+        gap: var(--space-4);
     }
 }
 
-/* Small Mobile: Even more padding */
-@media (max-width: 480px) {
-    html {
-        font-size: 16px; /* Prevent iOS zoom on input focus */
+/* Mobile: 768px and below */
+@media (max-width: 768px) {
+
+    /* Force 16px to prevent zoom */
+    html,
+    body {
+        font-size: 16px !important;
     }
 
+    /* Container padding */
+    .container {
+        padding-left: 1.5rem !important;
+        padding-right: 1.5rem !important;
+    }
+
+    /* Navbar */
+    .navbar {
+        padding: 0.75rem 0;
+    }
+
+    .logo {
+        font-size: 1.1rem;
+    }
+
+    .logo img {
+        height: 28px;
+    }
+
+    .mobile-menu {
+        left: 1.5rem;
+        right: 1.5rem;
+    }
+
+    /* Hero Section */
+    .hero {
+        padding: calc(var(--space-6) + 60px) 0 var(--space-4);
+    }
+
+    .hero-grid {
+        gap: var(--space-3);
+    }
+
+    .hero-content {
+        padding: 0;
+        text-align: center;
+    }
+
+    .pill-badge {
+        font-size: 0.8rem;
+        padding: 5px 12px;
+    }
+
+    .hero-title {
+        font-size: 1.75rem !important;
+        /* 28px */
+        line-height: 1.25;
+        margin-bottom: 1rem;
+        letter-spacing: -0.01em;
+    }
+
+    .hero-title br {
+        display: none;
+    }
+
+    .hero-desc {
+        font-size: 1rem !important;
+        /* 16px */
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+        max-width: 100%;
+    }
+
+    .hero-actions {
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .btn {
+        font-size: 1rem;
+        padding: 0.875rem 1.75rem;
+        width: 100%;
+        max-width: 320px;
+        justify-content: center;
+    }
+
+    .hero-trust {
+        justify-content: center;
+        font-size: 0.85rem;
+    }
+
+    /* Sections */
+    .section-padding {
+        padding: var(--space-6) 0;
+    }
+
+    .section-top {
+        padding: 0;
+        margin-bottom: var(--space-4);
+    }
+
+    .section-title {
+        font-size: 1.75rem !important;
+        line-height: 1.3;
+    }
+
+    .section-subtitle {
+        font-size: 1rem;
+    }
+
+    /* Cards */
+    .feature-card,
+    .glass {
+        padding: 1.25rem;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .cta-card {
+        padding: 1.5rem 1.25rem;
+    }
+
+    /* Phone mockup */
+    .premium-phone-mockup {
+        max-width: 280px;
+        margin: 0 auto;
+    }
+}
+
+/* Small Mobile: 480px and below */
+@media (max-width: 480px) {
     .container {
         padding: 0 1.25rem;
-        /* 20px minimum for very small screens */
+        /* 20px */
     }
 
-    body {
-        overflow-x: hidden;
+    /* Navbar */
+    .nav-container {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+
+    .logo {
+        font-size: 1rem;
+    }
+
+    .logo img {
+        height: 26px;
+    }
+
+    .mobile-menu {
+        left: 1.25rem;
+        right: 1.25rem;
+    }
+
+    /* Hero */
+    .hero {
+        padding: calc(var(--space-4) + 60px) 0 var(--space-3);
     }
 
     .hero-title {
         font-size: 1.5rem;
-        line-height: 1.3;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-        margin-bottom: 1rem;
+        /* 24px */
+        margin-bottom: 0.875rem;
     }
 
     .hero-desc {
         font-size: 0.95rem;
-        line-height: 1.6;
-        word-wrap: break-word;
+        /* 15.2px */
+        margin-bottom: 1.25rem;
+    }
+
+    .btn {
+        font-size: 0.95rem;
+        padding: 0.75rem 1.5rem;
     }
 
     .section-title {
         font-size: 1.5rem;
-        line-height: 1.3;
+        /* 24px */
     }
 
     .section-subtitle {
         font-size: 0.95rem;
     }
 
-    /* Prevent horizontal scroll */
-    * {
-        max-width: 100%;
+    .premium-phone-mockup {
+        max-width: 240px;
+    }
+}
+
+/* Very Small Mobile: 375px and below */
+@media (max-width: 375px) {
+    .container {
+        padding: 0 1rem;
+        /* 16px */
     }
 
-    img {
-        max-width: 100%;
-        height: auto;
+    /* Navbar */
+    .nav-container {
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
 
-    /* Fix buttons on mobile */
-    .btn {
+    .logo {
         font-size: 0.95rem;
-        padding: 0.75rem 1.5rem;
     }
 
-    /* Fix hero actions */
-    .hero-actions {
-        flex-direction: column;
-        gap: 1rem;
-        width: 100%;
+    .logo img {
+        height: 24px;
     }
 
-    .hero-actions .btn {
-        width: 100%;
-        justify-content: center;
+    .mobile-menu {
+        left: 1rem;
+        right: 1rem;
+    }
+
+    /* Hero */
+    .hero-title {
+        font-size: 1.35rem;
+        /* 21.6px */
+    }
+
+    .hero-desc {
+        font-size: 0.9rem;
+        /* 14.4px */
+    }
+
+    .btn {
+        font-size: 0.9rem;
+        padding: 0.7rem 1.25rem;
+    }
+
+    .premium-phone-mockup {
+        max-width: 220px;
     }
 }
 
 
-/* iOS Specific Fixes */
-@supports (-webkit-touch-callout: none) {
-    /* iOS Safari */
-    body {
-        -webkit-text-size-adjust: 100%;
-    }
-    
-    input, textarea, select {
-        font-size: 16px !important; /* Prevent zoom on focus */
-    }
-}
+
+
+/* =========================================
+   Global Mobile Fixes
+   ========================================= */
 
 /* Prevent zoom on double tap */
 * {
     touch-action: manipulation;
 }
 
-/* Fix for very small screens */
-@media (max-width: 375px) {
-    .container {
-        padding: 0 1rem;
+/* Prevent horizontal scroll */
+body {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100%;
+    position: relative;
+}
+
+/* iOS Specific Fixes */
+@supports (-webkit-touch-callout: none) {
+
+    input,
+    textarea,
+    select {
+        font-size: 16px !important;
     }
-    
-    .hero-title {
-        font-size: 1.35rem;
-    }
-    
-    .hero-desc {
-        font-size: 0.9rem;
+}
+
+/* Ensure images don't overflow */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Fix for RTL text wrapping */
+@media (max-width: 768px) {
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
     }
 }
