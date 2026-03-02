@@ -42,14 +42,6 @@
         <priority>0.6</priority>
     </url>
     
-    <!-- App Download Page -->
-    <url>
-        <loc>https://www.uniskills.pro/app.html</loc>
-        <lastmod>2026-03-02</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.9</priority>
-    </url>
-    
     <!-- 404 Page -->
     <url>
         <loc>https://www.uniskills.pro/404.html</loc>

@@ -25,38 +25,11 @@
       ]
     },
     {
-      "source": "/(.*)\\.(css|js)",
+      "source": "/(.*)\\.(css|js|jpg|jpeg|png|gif|svg|ico|woff|woff2|ttf|eot)",
       "headers": [
         {
           "key": "Cache-Control",
           "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/(.*)\\.(jpg|jpeg|png|gif|svg|ico|webp)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/(.*)\\.(woff|woff2|ttf|eot)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/(.*)\\.html",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=0, must-revalidate"
         }
       ]
     }
@@ -72,27 +45,6 @@
           "value": "uniskills-app.vercel.app"
         }
       ]
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/app.html",
-      "permanent": false,
-      "has": [
-        {
-          "type": "host",
-          "value": "app.uniskills.pro"
-        }
-      ]
-    },
-    {
-      "source": "/app",
-      "destination": "/app.html",
-      "permanent": false
-    },
-    {
-      "source": "/download",
-      "destination": "/app.html",
-      "permanent": false
     },
     {
       "source": "/home",
