@@ -68,7 +68,7 @@ final url = Uri.parse('https://uniskills-app.vercel.app/privacy');
 - تحتوي على SEO meta tags كاملة
 - روابط خدمات الطرف الثالث (Google Play Services, AdMob, Firebase) موجودة
 - التاريخ: 26 فبراير 2026
-- البريد الإلكتروني للتواصل: altafoukapp@gmail.com
+- البريد الإلكتروني للتواصل: uniskillsapp@gmail.com
 
 ## التصميم
 
