@@ -66,7 +66,7 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 
     <!-- Preload critical assets -->
-    <link rel="preload" as="style" href="style.css?v=4.2.0" fetchpriority="high">
+    <link rel="stylesheet" href="style.css?v=4.2.0">
     <link rel="preload" as="image" href="screens/3.webp" type="image/webp" fetchpriority="high">
 
     <!-- Fonts with display=swap for performance -->
@@ -337,15 +337,7 @@
     </style>
 
     <!-- Main CSS (Non-blocking) -->
-    <link rel="stylesheet" href="style.css?v=4.2.0" media="print" onload="this.media='all'">
-
-    <!-- AOS (Non-blocking) -->
-    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" media="print" onload="this.media='all'"
-        crossorigin>
-
-    <!-- Swiper (Non-blocking) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" media="print"
-        onload="this.media='all'" crossorigin>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" crossorigin>
 
     <!-- Structured Data - Organization Schema -->
     <script type="application/ld+json">
@@ -455,7 +447,7 @@
     <!-- 1. Hero Section -->
     <section class="hero" id="hero">
         <div class="container hero-grid">
-            <div class="hero-content reveal-up">
+            <div class="hero-content">
                 <div class="pill-badge">
                     <span class="dot"></span> التحديث الجديد لـ UniSkills
                 </div>
@@ -482,10 +474,10 @@
                 </div>
             </div>
 
-            <div class="hero-visual reveal-up delay-1">
+            <div class="hero-visual">
                 <div class="premium-phone-mockup">
-                    <img src="screens/3.webp" alt="واجهة تطبيق UniSkills الرئيسية - عرض الكورسات والمحتوى التعليمي"
-                        class="img-fluid hero-img" fetchpriority="high" decoding="async" width="300" height="600">
+                    <img src="screens/3.webp" alt="واجهة تطبيق UniSkills الرئيسية" class="img-fluid hero-img"
+                        fetchpriority="high" decoding="async" width="300" height="600">
                 </div>
                 <!-- Panels that float above -->
                 <div class="floating-panel glass panel-1">
@@ -509,14 +501,14 @@
     <!-- Features Sandbox -->
     <section class="section-padding" id="features">
         <div class="container">
-            <div class="section-top" data-aos="fade-up">
+            <div class="section-top">
                 <h2 class="section-title">ميزات المنصة</h2>
                 <p class="section-subtitle">نوفر لك تجربة تعليمية حديثة ومتكاملة تحقق أهدافك.</p>
             </div>
 
             <div class="features-grid">
                 <!-- Feature 1 -->
-                <div class="feature-card glass" data-aos="fade-up" data-aos-delay="100">
+                <div class="feature-card glass">
                     <div class="feature-icon">
                         <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor">
                             <path
@@ -527,7 +519,7 @@
                     <p>شهادات موثقة لمسارك</p>
                 </div>
                 <!-- Feature 2 -->
-                <div class="feature-card glass" data-aos="fade-up" data-aos-delay="150">
+                <div class="feature-card glass">
                     <div class="feature-icon">
                         <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor">
                             <path
@@ -538,7 +530,7 @@
                     <p>كورسات تعليمية بجودة عالية</p>
                 </div>
                 <!-- Feature 3 -->
-                <div class="feature-card glass" data-aos="fade-up" data-aos-delay="200">
+                <div class="feature-card glass">
                     <div class="feature-icon">
                         <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor">
                             <path
@@ -549,7 +541,7 @@
                     <p>مساعد ذكي مخصص لك</p>
                 </div>
                 <!-- Feature 4 -->
-                <div class="feature-card glass" data-aos="fade-up" data-aos-delay="250">
+                <div class="feature-card glass">
                     <div class="feature-icon">
                         <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor">
                             <path
@@ -560,7 +552,7 @@
                     <p>محتوى تعليمي غني ومتنوع</p>
                 </div>
                 <!-- Feature 5 -->
-                <div class="feature-card glass" data-aos="fade-up" data-aos-delay="300">
+                <div class="feature-card glass">
                     <div class="feature-icon">
                         <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor">
                             <path d="M4 19h16v2H4zM6 13h4v4H6zm6-6h4v10h-4zm6 3h4v7h-4z" />
@@ -570,7 +562,7 @@
                     <p>راقب تقدمك وإنجازاتك</p>
                 </div>
                 <!-- Feature 6 -->
-                <div class="feature-card glass" data-aos="fade-up" data-aos-delay="350">
+                <div class="feature-card glass">
                     <div class="feature-icon">
                         <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor">
                             <path
@@ -587,18 +579,9 @@
     <!-- 2. AI Features Section -->
     <section class="section-padding" id="ai" style="background: rgba(37, 43, 72, 0.2);">
         <div class="container">
-            <div class="section-top" data-aos="fade-up">
-                <div class="pill-badge">
-                    <span class="dot" style="background: var(--secondary);"></span> تكنولوجيا المستقبل
-                </div>
-                <h2 class="section-title">أدوات الذكاء الاصطناعي المتقدمة</h2>
-                <p class="section-subtitle">نوفر لك أحدث أنظمة الذكاء الاصطناعي المدمجة داخل التطبيق لرفع مستوى استيعابك
-                    للمناهج الدراسية.</p>
-            </div>
-
             <div class="ai-grid">
                 <!-- AI Feature 1 -->
-                <div class="ai-card glass" data-aos="fade-up" data-aos-delay="100">
+                <div class="ai-card glass">
                     <div class="coming-soon-badge-top">قريبًا في الإصدار القادم</div>
                     <div class="feature-icon" style="background: rgba(187, 134, 252, 0.1); color: var(--secondary);">
                         <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor">
@@ -617,12 +600,12 @@
                 </div>
 
                 <!-- AI Feature 2 -->
-                <div class="ai-card glass" data-aos="fade-up" data-aos-delay="200">
+                <div class="ai-card glass">
                     <div class="coming-soon-badge-top">قريبًا في الإصدار القادم</div>
                     <div class="feature-icon" style="background: rgba(0, 217, 255, 0.1); color: var(--primary);">
                         <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor">
                             <path
-                                d="M14 2H6A2 2 0 0 0 4 4V20A2 2 0 0 0 6 22H18A2 2 0 0 0 20 20V8L14 2M18 20H6V4H13V9H18V20Z" />
+                                d="M14 2H6A2 2 0 0 0 4 4V20A2 2 0 0 0 6 22H18A2 2 0 0 0 20 22H18A2 2 0 0 0 20 20V8L14 2M18 20H6V4H13V9H18V20Z" />
                         </svg>
                     </div>
                     <h3>توليد أسئلة من الملفات</h3>
@@ -635,7 +618,7 @@
                 </div>
 
                 <!-- AI Feature 3 -->
-                <div class="ai-card glass" data-aos="fade-up" data-aos-delay="300">
+                <div class="ai-card glass">
                     <div class="coming-soon-badge-top">قريبًا في الإصدار القادم</div>
                     <div class="feature-icon" style="background: rgba(57, 255, 20, 0.1); color: var(--accent-green);">
                         <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor">
@@ -658,7 +641,7 @@
     <!-- 3. Interactive Exam System -->
     <section class="section-padding" id="exams">
         <div class="container">
-            <div class="section-top" data-aos="fade-up">
+            <div class="section-top">
                 <div class="pill-badge"
                     style="background: rgba(255,0,110,0.1); color: var(--accent-pink); border-color: rgba(255,0,110,0.3); margin-bottom: var(--space-2);">
                     <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
@@ -674,39 +657,38 @@
 
             <div class="exam-grid opacity-dim">
                 <!-- Exam Feature 1 -->
-                <div class="exam-card glass" data-aos="fade-right" data-aos-delay="100">
+                <div class="exam-card glass">
                     <h3 style="color: var(--primary);">تقييم فوري</h3>
                     <p>لا داعي للانتظار. بمجرد الانتهاء من الاختبار، تظهر النتيجة فوراً لتتعرف على مستواك الحقيقي.</p>
                 </div>
 
                 <!-- Exam Feature 2 -->
-                <div class="exam-card glass" data-aos="fade-left" data-aos-delay="100">
+                <div class="exam-card glass">
                     <h3 style="color: var(--secondary);">تحليل الأداء</h3>
                     <p>رسومات بيانية وتقييم يوضح نقاط الضعف والقوة عندك في كل جزء من المنهج والمحاضرات.</p>
                 </div>
 
                 <!-- Exam Feature 3 -->
-                <div class="exam-card glass" data-aos="fade-right" data-aos-delay="200">
+                <div class="exam-card glass">
                     <h3 style="color: var(--accent-pink);">تقارير مفصلة</h3>
                     <p>تقرير إنجاز شامل يمكنك مشاركته مع زملائك أو مراجعته لمعرفة مسار تقدمك الدراسي.</p>
                 </div>
 
                 <!-- Exam Feature 4 -->
-                <div class="exam-card glass" data-aos="fade-left" data-aos-delay="200">
+                <div class="exam-card glass">
                     <h3 style="color: var(--accent-orange);">أسئلة متنوعة</h3>
                     <p>بنك أسئلة يجمع بين الاختياري، الصح والخطأ، وإكمال الفراغات بأسلوب حديث يمنع الملل الدارسي.</p>
                 </div>
 
                 <!-- Exam Feature 5 -->
-                <div class="exam-card glass" data-aos="fade-right" data-aos-delay="300">
+                <div class="exam-card glass">
                     <h3 style="color: var(--accent-green);">تصحيح ذكي</h3>
                     <p>يعتمد النظام على خوارزميات مراجعة لإعطاء تقييم دقيق للمصطلحات التي كتبتها حتى لو لم تتطابق
                         حرفياً.</p>
                 </div>
 
                 <!-- Exam Feature 6 (Empty layout filler to make it 6 items) -->
-                <div class="exam-card glass" data-aos="fade-left" data-aos-delay="300"
-                    style="display: flex; justify-content: center; align-items: center;">
+                <div class="exam-card glass" style="display: flex; justify-content: center; align-items: center;">
                     <h3 class="gradient-text">تدرب الآن وتفوق! 🎉</h3>
                 </div>
             </div>
@@ -716,7 +698,7 @@
     <!-- 4. Premium Screenshots Showcase Section -->
     <section class="app-showcase" id="preview">
         <div class="container">
-            <div class="section-top" data-aos="fade-up" style="position: relative; z-index: 20;">
+            <div class="section-top" style="position: relative; z-index: 20;">
                 <h2 class="section-title">تجربة مستخدم لا مثيل لها</h2>
                 <p class="section-subtitle">قمنا ببناء بيئة دراسية مبهرة وسهلة التصفح بشكل خيالي.</p>
             </div>
@@ -774,7 +756,13 @@
                 </div>
 
             </div>
-
+            <!-- Pagination and Scrollbar below -->
+            <div class="swiper-pagination-container" style="margin-top: 2rem;">
+                <div class="swiper-pagination"></div>
+            </div>
+            <div class="swiper-scrollbar-container" style="max-width: 600px; margin: 1.5rem auto 0; padding: 0 20px;">
+                <div class="swiper-scrollbar"></div>
+            </div>
         </div>
         </div>
     </section>
@@ -783,15 +771,14 @@
     <section class="benefits section-padding" id="benefits">
         <div class="container">
             <div class="benefits-grid">
-                <div class="benefits-visual" data-aos="fade-right">
+                <div class="benefits-visual">
                     <!-- Parallax/Floating effect mockup -->
                     <div class="premium-phone-mockup" style="animation: float 5s infinite alternate;">
-                        <img class="img-fluid" src="screens/3.webp"
-                            alt="داخل تطبيق UniSkills - تجربة المستخدم التفاعلية" loading="lazy" decoding="async"
-                            width="300" height="600">
+                        <img class="img-fluid" src="screens/3.webp" alt="داخل تطبيق UniSkills" loading="lazy"
+                            decoding="async" width="300" height="600">
                     </div>
                 </div>
-                <div class="benefits-content" data-aos="fade-left">
+                <div class="benefits-content">
                     <h2 class="section-title text-start">لماذا يعد UniSkills خيارك الأفضل؟</h2>
 
                     <div class="benefit-row glass">
@@ -921,8 +908,7 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer crossorigin></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer crossorigin></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" crossorigin></script>
     <script src="script.js?v=4.2.1" defer></script>
 </body>
 

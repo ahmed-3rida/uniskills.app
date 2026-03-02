@@ -64,52 +64,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    /* --- 3. Intersection Observer (Reveal Animations) --- */
-    const revealElements = document.querySelectorAll('.reveal-up');
-
-    const revealOptions = {
-        threshold: 0.1,
-        rootMargin: "0px 0px -50px 0px"
-    };
-
-    const revealOnScroll = new IntersectionObserver(function (entries, observer) {
-        entries.forEach(entry => {
-            if (!entry.isIntersecting) {
-                return;
-            } else {
-                entry.target.classList.add('active');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, revealOptions);
-
-    revealElements.forEach(el => {
-        revealOnScroll.observe(el);
-
-        // Fallback for older browsers
-        setTimeout(() => {
-            if (!el.classList.contains('active')) {
-                el.classList.add('active');
-            }
-        }, 1500);
-    });
+    /* --- 3. Intersection Observer (Removed Animation) --- */
+    // Animations removed as per user request to ensure immediate visibility
 
     /* --- 5. Swiper Initialization --- */
     const initSwiper = () => {
         if (typeof Swiper !== 'undefined' && document.querySelector('.showcase-swiper')) {
             new Swiper('.showcase-swiper', {
                 effect: 'coverflow',
-                grabCursor: false, // Disabled for hands-off experience
-                allowTouchMove: false, // Disabled manual dragging
+                grabCursor: true,
+                allowTouchMove: true,
                 centeredSlides: true,
                 slidesPerView: 'auto',
                 loop: true,
                 initialSlide: 0,
-                speed: 1200, // Slightly slower transition for premium feel
+                speed: 1000,
                 autoplay: {
-                    delay: 2000,
-                    disableOnInteraction: false,
-                    pauseOnMouseEnter: false,
+                    delay: 4000,
+                    disableOnInteraction: true,
+                    pauseOnMouseEnter: true,
                 },
                 coverflowEffect: {
                     rotate: 0,
@@ -118,6 +91,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     modifier: 2.5,
                     slideShadows: false,
                 },
+                scrollbar: {
+                    el: '.swiper-scrollbar',
+                    draggable: true,
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
                 observer: true,
                 observeParents: true,
                 watchSlidesProgress: true,
@@ -125,19 +106,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    /* --- 6. AOS Initialization --- */
+    /* --- 6. AOS Initialization (Removed) --- */
     const initAOS = () => {
-        if (typeof AOS !== 'undefined') {
-            AOS.init({
-                duration: 800,
-                once: true,
-                offset: 50,
-                disable: false,
-                startEvent: 'DOMContentLoaded',
-            });
-            // Force a refresh after a small delay to catch any layout changes
-            setTimeout(() => AOS.refresh(), 500);
-        }
+        // Removed as per request
     };
 
     /* --- 7. Execution & Layout Fixes --- */
@@ -148,11 +119,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Also refresh on orientation change for mobile
+    // Orientation change handling (if needed for other things in future)
     window.addEventListener('orientationchange', () => {
-        setTimeout(() => {
-            if (typeof AOS !== 'undefined') {
-                AOS.refresh();
-            }
-        }, 500);
+        // Reserved for layout recalcs if necessary
     });
 });

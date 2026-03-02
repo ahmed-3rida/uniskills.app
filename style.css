@@ -788,6 +788,38 @@ a {
 
 /* Replaced by .premium-phone-mockup */
 
+/* Custom Swiper Controls */
+.swiper-pagination-bullet {
+    background: var(--text-muted) !important;
+    opacity: 0.3;
+    width: 10px;
+    height: 10px;
+    transition: var(--transition);
+}
+
+.swiper-pagination-bullet-active {
+    background: var(--primary) !important;
+    opacity: 1;
+    width: 24px;
+    border-radius: var(--radius-full);
+}
+
+.swiper-scrollbar {
+    background: rgba(255, 255, 255, 0.05) !important;
+    height: 6px !important;
+    border-radius: var(--radius-full) !important;
+}
+
+.swiper-scrollbar-drag {
+    background: linear-gradient(to right, var(--primary), var(--secondary)) !important;
+    border-radius: var(--radius-full) !important;
+    cursor: grab;
+}
+
+.swiper-scrollbar-drag:active {
+    cursor: grabbing;
+}
+
 /* Benefits Section */
 .benefits-grid {
     display: grid;
