@@ -47,6 +47,27 @@
       ]
     },
     {
+      "source": "/(.*)",
+      "destination": "/app.html",
+      "permanent": false,
+      "has": [
+        {
+          "type": "host",
+          "value": "app.uniskills.pro"
+        }
+      ]
+    },
+    {
+      "source": "/app",
+      "destination": "/app.html",
+      "permanent": false
+    },
+    {
+      "source": "/download",
+      "destination": "/app.html",
+      "permanent": false
+    },
+    {
       "source": "/home",
       "destination": "/",
       "permanent": true

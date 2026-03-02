@@ -164,7 +164,7 @@ const translations = {
         'footer.quickLinks': 'روابط سريعة',
         'footer.contact': 'اتصل بنا',
         'footer.address': 'القاهرة، مصر',
-        'footer.email': 'ahmedsalmanareda@gmail.com',
+        'footer.email': 'uniskillsapp@gmail.com',
         'footer.terms': 'شروط الخدمة',
         'footer.copyright': '© 2026 UniSkills. جميع الحقوق محفوظة.',
         // Terms page translations
@@ -213,7 +213,7 @@ const translations = {
         'terms.changes.title': '12. التغييرات على الخدمة',
         'terms.changes.p1': 'نحتفظ بالحق في تعديل أو إيقاف الخدمة (أو أي جزء منها) مؤقتاً أو بشكل دائم في أي وقت دون إشعار مسبق. لن نكون مسؤولين تجاهك أو تجاه أي طرف ثالث عن أي تعديل أو تعليق أو إيقاف للخدمة.',
         'terms.contact.title': '13. الاتصال بنا',
-        'terms.contact.p1': 'إذا كان لديك أي أسئلة حول هذه الشروط، يرجى الاتصال بنا عبر البريد الإلكتروني ahmedsalmanareda@gmail.com',
+        'terms.contact.p1': 'إذا كان لديك أي أسئلة حول هذه الشروط، يرجى الاتصال بنا عبر البريد الإلكتروني uniskillsapp@gmail.com',
         'terms.footer.thanks': 'شكراً لاستخدامك UniSkills. نحن ملتزمون بتوفير أفضل تجربة تعليمية ممكنة.',
         'terms.back': 'العودة للرئيسية'
     },
@@ -329,7 +329,7 @@ const translations = {
         'footer.quickLinks': 'Quick Links',
         'footer.contact': 'Contact Us',
         'footer.address': 'Cairo, Egypt',
-        'footer.email': 'ahmedsalmanareda@gmail.com',
+        'footer.email': 'uniskillsapp@gmail.com',
         'footer.terms': 'Terms of Service',
         'footer.copyright': '© 2026 UniSkills. All rights reserved.',
         // Terms page translations
@@ -378,7 +378,7 @@ const translations = {
         'terms.changes.title': '12. Changes to Service',
         'terms.changes.p1': 'We reserve the right to modify or discontinue the service (or any part thereof) temporarily or permanently at any time without prior notice. We will not be liable to you or any third party for any modification, suspension, or discontinuation of the service.',
         'terms.contact.title': '13. Contact Us',
-        'terms.contact.p1': 'If you have any questions about these terms, please contact us via email at ahmedsalmanareda@gmail.com',
+        'terms.contact.p1': 'If you have any questions about these terms, please contact us via email at uniskillsapp@gmail.com',
         'terms.footer.thanks': 'Thank you for using UniSkills. We are committed to providing the best possible learning experience.',
         'terms.back': 'Back to Home'
     }

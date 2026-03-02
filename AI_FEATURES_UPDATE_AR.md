@@ -236,7 +236,7 @@
 
 - [الموقع الرسمي](https://uniskills.app)
 - [Google Play Store](https://play.google.com/store/apps/details?id=com.uniskills.app)
-- [البريد الإلكتروني](mailto:ahmedsalmanareda@gmail.com)
+- [البريد الإلكتروني](mailto:uniskillsapp@gmail.com)
 
 ---
 

@@ -273,7 +273,7 @@ Complete Twitter Card implementation:
   "description": "منصة تعليمية عربية متطورة...",
   "contactPoint": {
     "@type": "ContactPoint",
-    "email": "ahmedsalmanareda@gmail.com",
+    "email": "uniskillsapp@gmail.com",
     "contactType": "Customer Support"
   }
 }
@@ -705,7 +705,7 @@ npx broken-link-checker https://uniskills.vercel.app
 ## 📞 14. SUPPORT & MAINTENANCE
 
 For SEO-related questions or updates:
-- Email: ahmedsalmanareda@gmail.com
+- Email: uniskillsapp@gmail.com
 - Review this document quarterly
 - Update as Google algorithm changes
 

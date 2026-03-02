@@ -24,7 +24,7 @@ This document contains all structured data implementations for the UniSkills web
   ],
   "contactPoint": {
     "@type": "ContactPoint",
-    "email": "ahmedsalmanareda@gmail.com",
+    "email": "uniskillsapp@gmail.com",
     "contactType": "Customer Support",
     "availableLanguage": ["Arabic", "English"]
   }
@@ -142,7 +142,7 @@ This document contains all structured data implementations for the UniSkills web
       "name": "كيف أتواصل مع الدعم الفني؟",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "عبر قسم المساعدة داخل التطبيق، أو يمكنك التواصل المباشر عبر البريد الإلكتروني ahmedsalmanareda@gmail.com وسنرد في أقرب وقت."
+        "text": "عبر قسم المساعدة داخل التطبيق، أو يمكنك التواصل المباشر عبر البريد الإلكتروني uniskillsapp@gmail.com وسنرد في أقرب وقت."
       }
     },
     {
@@ -411,7 +411,7 @@ This document contains all structured data implementations for the UniSkills web
 ## 📞 Support
 
 For questions about structured data implementation:
-- **Email**: ahmedsalmanareda@gmail.com
+- **Email**: uniskillsapp@gmail.com
 - **Documentation**: See SEO_IMPLEMENTATION_GUIDE.md
 
 ---

@@ -405,7 +405,7 @@
 ## Contact & Support
 
 **Technical SEO Specialist**  
-Email: ahmedsalmanareda@gmail.com
+Email: uniskillsapp@gmail.com
 
 **Documentation**
 - SEO Implementation Guide: `SEO_IMPLEMENTATION_GUIDE.md`

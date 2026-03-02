@@ -200,7 +200,7 @@ const counters = document.querySelectorAll('.stat-number, .ai-stat-number');
 ## 📞 الدعم
 
 إذا كنت لا تزال تواجه مشاكل:
-- 📧 ahmedsalmanareda@gmail.com
+- 📧 uniskillsapp@gmail.com
 - 🌐 https://uniskills.app
 
 ---

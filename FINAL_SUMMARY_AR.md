@@ -222,7 +222,7 @@ Warning: #f59e0b (برتقالي)
 ## 📞 الدعم
 
 ### للأسئلة والاستفسارات:
-- 📧 البريد: ahmedsalmanareda@gmail.com
+- 📧 البريد: uniskillsapp@gmail.com
 - 🌐 الموقع: https://uniskills.app
 - 📱 التطبيق: [Google Play Store](https://play.google.com/store/apps/details?id=com.uniskills.app)
 

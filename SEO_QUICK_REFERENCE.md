@@ -122,7 +122,7 @@ Description: اطلع على شروط الخدمة وسياسة الاستخدا
 
 ## 📞 Contact
 
-**Email**: ahmedsalmanareda@gmail.com  
+**Email**: uniskillsapp@gmail.com  
 **Website**: https://uniskills.vercel.app
 
 ---
