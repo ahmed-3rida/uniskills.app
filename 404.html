@@ -4,26 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!-- Primary Meta Tags -->
     <title>404 - الصفحة غير موجودة | UniSkills</title>
-    <meta name="description" content="عذراً، الصفحة التي تبحث عنها غير موجودة. عد إلى الصفحة الرئيسية لمنصة UniSkills التعليمية">
+    <meta name="description"
+        content="عذراً، الصفحة التي تبحث عنها غير موجودة. عد إلى الصفحة الرئيسية لمنصة UniSkills التعليمية">
     <meta name="robots" content="noindex, follow">
-    
+
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://www.uniskills.pro/404.html">
-    
+    <link rel="canonical" href="https://www.uniskills.pro/404">
+
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="uniskills-logo.ico">
     <link rel="shortcut icon" type="image/x-icon" href="uniskills-logo.ico">
 
-    
+
     <!-- Preconnect for Performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
+
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
 
     <!-- CSS -->
     <link rel="stylesheet" href="style.css?v=4.2.0">
@@ -186,6 +189,7 @@
                 opacity: 0;
                 transform: translateY(40px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -193,27 +197,37 @@
         }
 
         @keyframes float {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: translateY(0px);
             }
+
             50% {
                 transform: translateY(-15px);
             }
         }
 
         @keyframes glitch {
-            0%, 92%, 100% {
+
+            0%,
+            92%,
+            100% {
                 transform: translate(0);
             }
+
             93% {
                 transform: translate(-3px, 3px);
             }
+
             94% {
                 transform: translate(3px, -3px);
             }
+
             95% {
                 transform: translate(-3px, -3px);
             }
+
             96% {
                 transform: translate(3px, 3px);
             }
@@ -262,11 +276,11 @@
             <div class="error-icon">
                 🔍
             </div>
-            
+
             <h1 class="error-code">404</h1>
-            
+
             <h2 class="error-title">عذراً، الصفحة غير موجودة!</h2>
-            
+
             <p class="error-description">
                 يبدو أن الصفحة التي تبحث عنها قد تم نقلها أو حذفها أو ربما لم تكن موجودة من الأساس.
                 لا تقلق، يمكنك العودة للصفحة الرئيسية أو تصفح الروابط المفيدة أدناه.
@@ -275,13 +289,13 @@
             <div class="error-actions">
                 <a href="/" class="btn btn-primary">
                     <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
                     </svg>
                     العودة للرئيسية
                 </a>
                 <button onclick="history.back()" class="btn btn-secondary">
                     <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-                        <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                        <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" />
                     </svg>
                     الرجوع للخلف
                 </button>
@@ -299,10 +313,10 @@
                     <a href="/#download" class="link-item">
                         تحميل التطبيق
                     </a>
-                    <a href="faq.html" class="link-item">
+                    <a href="faq" class="link-item">
                         الأسئلة الشائعة
                     </a>
-                    <a href="terms.html" class="link-item">
+                    <a href="terms" class="link-item">
                         الشروط والسياسة
                     </a>
                 </div>
@@ -317,12 +331,12 @@
             const size = 300 + Math.random() * 200;
             const x = Math.random() * 100;
             const y = Math.random() * 100;
-            
+
             blob.style.width = `${size}px`;
             blob.style.height = `${size}px`;
             blob.style.left = `${x}%`;
             blob.style.top = `${y}%`;
-            
+
             const colors = ['var(--primary)', 'var(--secondary)', 'var(--accent-pink)'];
             blob.style.background = colors[index % colors.length];
         });
