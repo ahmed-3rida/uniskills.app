@@ -39,7 +39,7 @@ export default async function handler(req, res) {
         <h2 style="margin-top: 60px; margin-bottom: 20px;" class="gradient-text">مقالات مقترحة قد تعجبك</h2>
         <div class="article-grid">
             ${recommended.map(rec => `
-                <a href="/articles/${rec.slug}" class="article-card glass">
+                <a href="/articles/${rec.slug}" class="article-card glass" style="text-decoration:none;">
                     <img src="${rec.cover_image || '/uniskills-logo.png'}" alt="${rec.title_ar || rec.title_en}" style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 15px;">
                     <h3 style="color:var(--primary); font-size:1.1rem; margin-bottom: 10px;">${rec.title_ar || rec.title_en}</h3>
                     <p style="color: var(--text-muted); font-size: 0.9em; margin-bottom: 15px;">
@@ -61,6 +61,12 @@ export default async function handler(req, res) {
     contentHtml = contentHtml.replace(/\*\*(.*?)\*\*/g, '<strong class="bold-highlight">$1</strong>');
     // Handle Newlines: \n -> <br>
     contentHtml = contentHtml.replace(/\n/g, '<br>');
+
+    // Keywords logic
+    let keywordsHtml = '';
+    if (article.keywords) {
+        keywordsHtml = article.keywords.split(',').map(kw => `<span class="keyword-tag">#${kw.trim()}</span>`).join('');
+    }
 
     // Serverly generated meta tags and basic layout matches new UI style
     const html = `
@@ -84,15 +90,8 @@ export default async function handler(req, res) {
         <meta property="og:image" content="${article.cover_image || 'https://www.uniskills.pro/uniskills-logo.png'}">
         <meta property="og:url" content="https://www.uniskills.pro/articles/${article.slug}">
         
-        <!-- Twitter Card -->
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="${article.title_ar}">
-        <meta name="twitter:description" content="${article.short_description_ar || article.description_ar}">
-        <meta name="twitter:image" content="${article.cover_image || 'https://www.uniskills.pro/uniskills-logo.png'}">
-        
         <!-- Theme Color -->
         <meta name="theme-color" content="#00d9ff">
-        <meta name="msapplication-TileColor" content="#00d9ff">
 
         <!-- Fonts Default Style -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -112,12 +111,12 @@ export default async function handler(req, res) {
              /* Style for **bold** text */
              .bold-highlight { color: #fff; font-weight: 800; font-size: 1.25rem; display: inline-block; margin: 5px 0; border-bottom: 2px solid var(--primary); }
 
-             .article-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+             .article-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
              .article-card { display: block; background: var(--glass-bg); padding: 15px; border-radius: 12px; border: 1px solid var(--glass-border); text-decoration: none; color: white; transition: 0.3s; }
              .article-card:hover { transform: translateY(-5px); border-color: var(--primary); }
              
-             .view-pill { display: inline-flex; align-items: center; gap: 10px; background: rgba(0, 217, 255, 0.1); color: var(--primary); padding: 8px 18px; border-radius: 25px; font-weight: 700; margin-bottom: 20px; font-size: 0.95rem; }
-             .keyword-tag { background: rgba(255, 126, 0, 0.15); color: var(--accent-orange); padding: 2px 10px; border-radius: 5px; font-size: 0.8rem; margin-right: 5px; font-weight: 600; }
+             .view-pill { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 10px; background: rgba(0, 217, 255, 0.1); color: var(--primary); padding: 8px 18px; border-radius: 25px; font-weight: 700; margin-bottom: 20px; font-size: 0.95rem; }
+             .keyword-tag { background: rgba(255, 126, 0, 0.15); color: var(--accent-orange); padding: 2px 10px; border-radius: 5px; font-size: 0.8rem; font-weight: 600; }
         </style>
     </head>
     <body>
@@ -153,7 +152,7 @@ export default async function handler(req, res) {
             
             <div class="view-pill">
                 <span>👁 ${(article.views_count || 0) + 1} مشاهدة</span>
-                ${article.keywords ? article.keywords.split(',').map(kw => `<span class="keyword-tag">#${kw.trim()}</span>`).join('') : ''}
+                ${keywordsHtml}
             </div>
             
             <h1 style="color: var(--primary); margin-bottom: 25px; font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 900; line-height: 1.3;">${article.title_ar}</h1>
@@ -165,7 +164,7 @@ export default async function handler(req, res) {
             ${recommendedHtml}
             
             <div style="text-align: center; margin-top: 50px;">
-               <a href="/articles" class="btn btn-primary" style="padding: 12px 30px; border-radius: 30px;">← العودة إلى جميع المقالات</a>
+               <a href="/articles" class="btn btn-primary" style="padding: 12px 30px; border-radius: 30px; font-weight: 700;">← العودة إلى جميع المقالات</a>
             </div>
         </div>
 
