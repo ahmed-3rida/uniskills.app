@@ -264,9 +264,30 @@
     </footer>
 
     <script>
-        const supabaseUrl = 'https://wfmjnomanyfsrkujxmco.supabase.co';
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndmbWpub21hbnlmc3JrdWp4bWNvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg3NTEyODksImV4cCI6MjA4NDMyNzI4OX0.fJUs3Ku-LSA0DtLXY1vueZytOz_KIhbuXxKpD1zGrGA';
-        const sbClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+        let sbClient;
+
+        async function initSupabase() {
+            try {
+                // Fetch config from Vercel Serverless Function
+                const response = await fetch('/api/config');
+                const config = await response.json();
+
+                if (!config.supabaseUrl || !config.supabaseKey) {
+                    throw new Error("Missing credentials");
+                }
+
+                sbClient = window.supabase.createClient(config.supabaseUrl, config.supabaseKey);
+
+                // Load data after initialization
+                loadMostRead();
+                loadCategories();
+                loadArticles();
+            } catch (error) {
+                console.error("Supabase Init Error:", error);
+                document.getElementById('articles-container').innerHTML =
+                    '<p style="color: red; grid-column: 1 / -1;">حدث خطأ في الاتصال بالخادم. تأكد من إعداد المفاتيح في Vercel.</p>';
+            }
+        }
 
         async function loadMostRead() {
             const container = document.getElementById('most-read-container');
@@ -368,9 +389,7 @@
 
         // تشغيل الدوال عند تحميل الصفحة
         window.addEventListener('load', () => {
-            loadMostRead();
-            loadCategories();
-            loadArticles();
+            initSupabase();
         });
     </script>
 </body>

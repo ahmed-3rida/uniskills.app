@@ -956,9 +956,21 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
-            const supabaseUrl = 'https://wfmjnomanyfsrkujxmco.supabase.co';
-            const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndmbWpub21hbnlmc3JrdWp4bWNvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg3NTEyODksImV4cCI6MjA4NDMyNzI4OX0.fJUs3Ku-LSA0DtLXY1vueZytOz_KIhbuXxKpD1zGrGA';
-            const sbClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+            let sbClient;
+
+            async function initSupabase() {
+                try {
+                    const response = await fetch('/api/config');
+                    const config = await response.json();
+
+                    if (!config.supabaseUrl || !config.supabaseKey) return;
+
+                    sbClient = window.supabase.createClient(config.supabaseUrl, config.supabaseKey);
+                    loadHomeArticles();
+                } catch (e) {
+                    console.error("Home Supabase Init Error:", e);
+                }
+            }
 
             async function loadHomeArticles() {
                 const container = document.getElementById('home-articles-container');
@@ -998,7 +1010,8 @@
                     container.appendChild(card);
                 });
             }
-            loadHomeArticles();
+
+            initSupabase();
         });
     </script>
     <script src="script.js?v=4.2.1" defer></script>
