@@ -87,48 +87,40 @@ export default async function handler(req, res) {
         const recCards = recommended.map(rec => {
             const encodedUrl = Buffer.from(rec.cover_image || '/uniskills-logo.png').toString('base64');
             return `
-            <a href="/articles/${rec.slug}" style="display: flex; flex-direction: column; background: rgba(15, 20, 50, 0.6); border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.06); text-decoration: none; color: white; transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden; backdrop-filter: blur(10px);" onmouseenter="this.style.transform='translateY(-6px)';this.style.borderColor='rgba(0,217,255,0.3)';this.style.boxShadow='0 12px 40px rgba(0,217,255,0.12)';" onmouseleave="this.style.transform='';this.style.borderColor='rgba(255,255,255,0.06)';this.style.boxShadow='';">
-                <div style="position: relative; width: 100%; height: 180px; overflow: hidden;">
-                    <img src="/uniskills.png" style="position: absolute; top: 10px; left: 10px; width: 30px; height: 30px; z-index: 5; opacity: 0.7; pointer-events: none; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));" alt="UniSkills">
-                    <div class="rec-img" data-src="${encodedUrl}" style="width: 100%; height: 100%; background-size: cover; background-position: center; transition: 0.5s;"></div>
+            <a class="rec-card" href="/articles/${rec.slug}">
+                <div class="rec-img-wrap">
+                    <img src="/uniskills.png" class="rec-wm" alt="UniSkills">
+                    <div class="rec-img-bg" data-src="${encodedUrl}"></div>
+                    <div class="rec-views-pill">${rec.views_count || 0} مشاهدة</div>
                 </div>
-                <div style="padding: 18px 20px 20px; flex-grow: 1;">
-                    <h3 style="color: #fff; font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; line-height: 1.5;">${rec.title_ar || rec.title_en}</h3>
-                    <p style="color: rgba(255,255,255,0.5); font-size: 0.88rem; line-height: 1.6; margin-bottom: 14px;">
-                        ${(rec.short_description_ar || "").substring(0, 80)}...
-                    </p>
-                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; font-weight: 500; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05);">
-                        <span style="color: rgba(0,217,255,0.7);">👁 ${rec.views_count || 0} مشاهدة</span>
-                        <span style="color: rgba(255,255,255,0.4);">اقرأ المزيد ←</span>
+                <div class="rec-body">
+                    <div class="rec-title">${rec.title_ar || rec.title_en}</div>
+                    <div class="rec-desc">${(rec.short_description_ar || '').substring(0, 80)}</div>
+                    <div class="rec-read">اقرأ المقال
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     </div>
                 </div>
             </a>
             `;
         }).join('');
 
-        // Skeleton card HTML (3 cards matching the real card shape)
+        // Skeleton card
         const skeletonCard = `
-        <div style="display:flex;flex-direction:column;background:rgba(15,20,50,0.6);border-radius:16px;border:1px solid rgba(255,255,255,0.06);overflow:hidden;">
-            <div style="width:100%;height:180px;background:linear-gradient(110deg,rgba(255,255,255,0.04) 30%,rgba(255,255,255,0.09) 50%,rgba(255,255,255,0.04) 70%);background-size:200% 100%;animation:shimmer 1.5s infinite;"></div>
-            <div style="padding:18px 20px 20px;">
-                <div style="height:14px;border-radius:8px;margin-bottom:10px;width:85%;background:linear-gradient(110deg,rgba(255,255,255,0.04) 30%,rgba(255,255,255,0.09) 50%,rgba(255,255,255,0.04) 70%);background-size:200% 100%;animation:shimmer 1.5s infinite;"></div>
-                <div style="height:12px;border-radius:8px;margin-bottom:8px;background:linear-gradient(110deg,rgba(255,255,255,0.04) 30%,rgba(255,255,255,0.09) 50%,rgba(255,255,255,0.04) 70%);background-size:200% 100%;animation:shimmer 1.5s infinite;"></div>
-                <div style="height:12px;border-radius:8px;margin-bottom:14px;width:70%;background:linear-gradient(110deg,rgba(255,255,255,0.04) 30%,rgba(255,255,255,0.09) 50%,rgba(255,255,255,0.04) 70%);background-size:200% 100%;animation:shimmer 1.5s infinite;"></div>
-                <div style="height:10px;border-radius:8px;width:50%;background:linear-gradient(110deg,rgba(255,255,255,0.04) 30%,rgba(255,255,255,0.09) 50%,rgba(255,255,255,0.04) 70%);background-size:200% 100%;animation:shimmer 1.5s infinite;"></div>
-            </div>
-        </div>`;
+        <div class="sk-rec-card"><div class="sk sk-rec-img"></div><div class="sk-rec-body"><div class="sk sk-line w100"></div><div class="sk sk-line w75"></div><div class="sk sk-line w50"></div></div></div>`;
 
         recommendedHtml = `
-        <h2 style="margin-top: 60px; margin-bottom: 20px;" class="gradient-text">مقالات مقترحة قد تعجبك</h2>
+        <div class="rec-section">
+            <div class="rec-header">
+                <h2>مقالات مقترحة قد تعجبك</h2>
+                <div class="rec-line"></div>
+            </div>
 
-        <!-- Shimmer Skeletons (visible on load) -->
-        <div id="rec-skeleton" class="article-grid">
-            ${skeletonCard}${skeletonCard}${skeletonCard}
-        </div>
-
-        <!-- Real cards (hidden until JS reveals them) -->
-        <div id="rec-real" class="article-grid" style="display:none; opacity:0; transition: opacity 0.5s ease;">
-            ${recCards}
+            <div id="rec-skeleton" style="display:grid; grid-template-columns: repeat(3,1fr); gap:20px;">
+                ${skeletonCard}${skeletonCard}${skeletonCard}
+            </div>
+            <div id="rec-real" style="display:none; opacity:0; transition: opacity 0.5s ease; grid-template-columns: repeat(3,1fr); gap:20px;">
+                ${recCards}
+            </div>
         </div>
         `;
     }
