@@ -10,27 +10,27 @@ function formatContent(text) {
 
     let formatted = text
         // Bold: **text** → <strong>
-        .replace(/\*\*(.+?)\*\*/g, '<strong style="font-size: 1.15em; color: var(--primary); display: inline-block; margin: 5px 0;">$1</strong>')
+        .replace(/\*\*(.+?)\*\*/g, '<strong style="font-size: 1.15em; color: var(--primary);">$1</strong>')
         // Italic: *text* → <em>
         .replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>')
         // Headers: ### text → <h3>, ## text → <h2>
-        .replace(/^### (.+)$/gm, '<h3 style="color: var(--primary); margin: 25px 0 10px; font-size: 1.3rem;">$1</h3>')
-        .replace(/^## (.+)$/gm, '<h2 style="color: var(--primary); margin: 30px 0 15px; font-size: 1.5rem;">$1</h2>')
-        .replace(/^# (.+)$/gm, '<h1 style="color: var(--primary); margin: 35px 0 15px; font-size: 1.8rem;">$1</h1>')
+        .replace(/^### (.+)$/gm, '<h3 style="color: var(--primary); margin: 20px 0 8px; font-size: 1.3rem;">$1</h3>')
+        .replace(/^## (.+)$/gm, '<h2 style="color: var(--primary); margin: 25px 0 10px; font-size: 1.5rem;">$1</h2>')
+        .replace(/^# (.+)$/gm, '<h1 style="color: var(--primary); margin: 30px 0 12px; font-size: 1.8rem;">$1</h1>')
         // Bullet lists: - text or • text
-        .replace(/^[-•] (.+)$/gm, '<li style="margin: 5px 0; padding-right: 10px;">$1</li>')
+        .replace(/^[-•] (.+)$/gm, '<li style="margin: 2px 0; padding-right: 10px;">$1</li>')
         // Numbered lists: 1. text
-        .replace(/^\d+\. (.+)$/gm, '<li style="margin: 5px 0; padding-right: 10px;">$1</li>')
+        .replace(/^\d+\. (.+)$/gm, '<li style="margin: 2px 0; padding-right: 10px;">$1</li>')
         // Links: [text](url)
         .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank" style="color: var(--primary); text-decoration: underline;">$1</a>')
         // New lines → <br> (preserve paragraph spacing)
-        .replace(/\n\n/g, '</p><p style="margin: 15px 0; line-height: 1.9;">')
+        .replace(/\n\n/g, '</p><p style="margin: 10px 0; line-height: 1.7;">')
         .replace(/\n/g, '<br>');
 
     // Wrap consecutive <li> items in <ul>
-    formatted = formatted.replace(/(<li[^>]*>.*?<\/li>\s*)+/g, '<ul style="list-style: disc; padding-right: 25px; margin: 15px 0;">$&</ul>');
+    formatted = formatted.replace(/(<li[^>]*>.*?<\/li>\s*)+/g, '<ul style="list-style: disc; padding-right: 25px; margin: 8px 0; line-height: 1.5;">$&</ul>');
 
-    return '<p style="margin: 15px 0; line-height: 1.9;">' + formatted + '</p>';
+    return '<p style="margin: 10px 0; line-height: 1.7;">' + formatted + '</p>';
 }
 
 export default async function handler(req, res) {
@@ -140,18 +140,19 @@ export default async function handler(req, res) {
         <link rel="stylesheet" href="/style.css">
         <style>
              body { background-color: var(--bg-color); color: var(--text-main); font-family: 'Cairo', sans-serif; }
-             .article-container { max-width: 800px; margin: 100px auto 40px; padding: 20px; }
-             .article-cover { width: 100%; border-radius: 12px; margin-bottom: 20px; max-height: 400px; object-fit: cover; box-shadow: var(--glass-shadow); }
+             .article-container { max-width: 1100px; margin: 100px auto 40px; padding: 20px; }
+             .article-cover { width: 100%; border-radius: 12px; margin-bottom: 20px; max-height: 450px; object-fit: cover; box-shadow: var(--glass-shadow); }
              .article-content img { max-width: 100%; height: auto; border-radius: 8px; margin: 15px 0; }
-             .article-content { line-height: 1.9; color: var(--text-main); font-size: 1.1rem; }
-             .article-content p { margin: 15px 0; }
+             .article-content { line-height: 1.7; color: var(--text-main); font-size: 1.1rem; }
+             .article-content p { margin: 10px 0; }
              .article-content a { color: var(--primary); text-decoration: underline; }
-             .article-content h1, .article-content h2, .article-content h3 { color: var(--primary); margin: 30px 0 15px; }
-             .article-content strong { font-size: 1.15em; color: var(--primary); display: inline-block; margin: 5px 0; }
-             .article-content ul { list-style: disc; padding-right: 25px; margin: 15px 0; }
-             .article-content li { margin: 8px 0; }
+             .article-content h1, .article-content h2, .article-content h3 { color: var(--primary); margin: 25px 0 10px; }
+             .article-content strong { font-size: 1.15em; color: var(--primary); }
+             .article-content ul { list-style: disc; padding-right: 25px; margin: 8px 0; line-height: 1.5; }
+             .article-content li { margin: 2px 0; }
 
-             .article-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+             .article-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+             @media (max-width: 768px) { .article-grid { grid-template-columns: 1fr; } }
              .article-card { display: block; background: var(--glass-bg); padding: 15px; border-radius: 12px; border: 1px solid var(--glass-border); text-decoration: none; color: white; transition: 0.3s; }
              .article-card:hover { transform: translateY(-5px); border-color: var(--primary); }
              
