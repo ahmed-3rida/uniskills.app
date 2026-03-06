@@ -1,5 +1,5 @@
 # UniSkills - Robots.txt Configuration
-# Updated: February 2026
+# Updated: March 2026
 
 # Allow all search engines
 User-agent: *
@@ -12,6 +12,7 @@ Disallow: /node_modules/
 Disallow: /dist/
 Disallow: /.vercel/
 Disallow: /.vscode/
+Disallow: /api/
 
 # Allow CSS and JS for proper rendering
 Allow: /*.css$
@@ -25,17 +26,12 @@ Allow: /*.jpeg$
 Allow: /*.webp$
 Allow: /*.svg$
 
-# Sitemap location
+# Sitemap locations
 Sitemap: https://www.uniskills.pro/sitemap.xml
+Sitemap: https://www.uniskills.pro/sitemap-pages.xml
+Sitemap: https://www.uniskills.pro/sitemap-posts.xml
 
-# Crawl-delay for respectful crawling
-Crawl-delay: 1
-
-# Specific rules for major search engines
-User-agent: Googlebot
-Allow: /
-Crawl-delay: 0
-
+# Specific rules for Bing (supports Crawl-delay)
 User-agent: Bingbot
 Allow: /
 Crawl-delay: 1
