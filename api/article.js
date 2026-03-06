@@ -63,8 +63,12 @@ export default async function handler(req, res) {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
         
-        <title>${article.title_ar || article.title_en} - UniSkills Articles</title>
+        <title>${article.title_ar || article.title_en}</title>
         <meta name="description" content="${article.short_description_ar || article.description_ar || 'وصف المقال متاح على UniSkills.'}">
+        
+        <!-- Favicon -->
+        <link rel="icon" type="image/x-icon" href="/uniskills-logo.ico">
+        <link rel="shortcut icon" type="image/x-icon" href="/uniskills-logo.ico">
         
         <!-- Open Graph / Facebook / WhatsApp -->
         <meta property="og:type" content="article">
@@ -115,8 +119,8 @@ export default async function handler(req, res) {
         <!-- Navigation (Same as other pages) -->
         <nav class="navbar scanned" id="navbar" style="background: rgba(10, 14, 39, 0.95); backdrop-filter: blur(10px);">
             <div class="container nav-container">
-                <a href="/" class="logo">
-                    <img src="/uniskills.png" alt="UniSkills" width="40" height="40">
+                <a href="/" class="logo" aria-label="UniSkills - الصفحة الرئيسية">
+                    <img src="/uniskills.png" alt="شعار UniSkills - منصة التعلم الذكي" width="40" height="40" decoding="async">
                     <span>UniSkills</span>
                 </a>
                 <div class="nav-links desktop-only">
