@@ -65,9 +65,14 @@ export default async function handler(req, res) {
     // Build recommended HTML
     let recommendedHtml = '';
     if (recommended && recommended.length > 0) {
-        const recCards = recommended.map(rec => `
+        const recCards = recommended.map(rec => {
+            const encodedUrl = Buffer.from(rec.cover_image || '/uniskills-logo.png').toString('base64');
+            return `
             <a href="/articles/${rec.slug}" style="display: flex; flex-direction: column; background: rgba(15, 20, 50, 0.6); border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.06); text-decoration: none; color: white; transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden; backdrop-filter: blur(10px);" onmouseenter="this.style.transform='translateY(-6px)';this.style.borderColor='rgba(0,217,255,0.3)';this.style.boxShadow='0 12px 40px rgba(0,217,255,0.12)';" onmouseleave="this.style.transform='';this.style.borderColor='rgba(255,255,255,0.06)';this.style.boxShadow='';">
-                <img src="${rec.cover_image || '/uniskills-logo.png'}" alt="${rec.title_ar || rec.title_en}" style="width: 100%; height: 190px; object-fit: cover;">
+                <div style="position: relative; width: 100%; height: 180px; overflow: hidden;">
+                    <img src="/uniskills.png" style="position: absolute; top: 10px; left: 10px; width: 30px; height: 30px; z-index: 5; opacity: 0.7; pointer-events: none; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));" alt="UniSkills">
+                    <div class="rec-img" data-src="${encodedUrl}" style="width: 100%; height: 100%; background-size: cover; background-position: center; transition: 0.5s;"></div>
+                </div>
                 <div style="padding: 18px 20px 20px; flex-grow: 1;">
                     <h3 style="color: #fff; font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; line-height: 1.5;">${rec.title_ar || rec.title_en}</h3>
                     <p style="color: rgba(255,255,255,0.5); font-size: 0.88rem; line-height: 1.6; margin-bottom: 14px;">
@@ -79,7 +84,8 @@ export default async function handler(req, res) {
                     </div>
                 </div>
             </a>
-        `).join('');
+            `;
+        }).join('');
 
         recommendedHtml = `
         <h2 style="margin-top: 60px; margin-bottom: 20px;" class="gradient-text">مقالات مقترحة قد تعجبك</h2>
@@ -253,6 +259,16 @@ export default async function handler(req, res) {
                     mc.removeAttribute('data-src');
                 } catch(err) {}
             }
+
+            // Hydrate recommended images
+            document.querySelectorAll('.rec-img').forEach(function(img) {
+                if (img.dataset.src) {
+                    try {
+                        img.style.backgroundImage = "url('" + atob(img.dataset.src) + "')";
+                        img.removeAttribute('data-src');
+                    } catch(err) {}
+                }
+            });
 
             document.querySelectorAll('img').forEach(function(img) {
                 img.addEventListener('dragstart', function(e) { e.preventDefault(); });
