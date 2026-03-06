@@ -469,7 +469,7 @@ export default async function handler(req, res) {
                     <a href="/faq" style="color:var(--text-muted); text-decoration:none; font-weight:500; transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--text-muted)'">الأسئلة الشائعة</a>
                 </div>
                 <div class="nav-actions">
-                    <a href="https://play.google.com/store/apps/details?id=com.uniskills.app" class="btn btn-primary desktop-only" style="padding:9px 20px; border-radius:50px; text-decoration:none; font-size:0.9rem;">حمل التطبيق</a>
+                    <a href="https://play.google.com/store/apps/details?id=com.uniskills.app" target="_blank" rel="noopener noreferrer" class="btn btn-primary desktop-only" style="padding:9px 20px; border-radius:50px; text-decoration:none; font-size:0.9rem;">حمل التطبيق</a>
                 </div>
             </div>
         </nav>
