@@ -66,15 +66,17 @@ export default async function handler(req, res) {
     let recommendedHtml = '';
     if (recommended && recommended.length > 0) {
         const recCards = recommended.map(rec => `
-            <a href="/articles/${rec.slug}" class="article-card glass">
-                <img src="${rec.cover_image || '/uniskills-logo.png'}" alt="${rec.title_ar || rec.title_en}" style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 15px;">
-                <h3 style="color:var(--primary); font-size:1.1rem; margin-bottom: 10px;">${rec.title_ar || rec.title_en}</h3>
-                <p style="color: var(--text-muted); font-size: 0.9em; margin-bottom: 15px;">
-                    ${(rec.short_description_ar || "").substring(0, 80)}...
-                </p>
-                <div style="display:flex; justify-content:space-between; align-items:center; color: var(--accent-orange); font-size: 0.85em;">
-                    <span>👁 مشاهدات: ${rec.views_count || 0}</span>
-                    <span>اقرأ المزيد ←</span>
+            <a href="/articles/${rec.slug}" style="display: flex; flex-direction: column; background: rgba(15, 20, 50, 0.6); border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.06); text-decoration: none; color: white; transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden; backdrop-filter: blur(10px);" onmouseenter="this.style.transform='translateY(-6px)';this.style.borderColor='rgba(0,217,255,0.3)';this.style.boxShadow='0 12px 40px rgba(0,217,255,0.12)';" onmouseleave="this.style.transform='';this.style.borderColor='rgba(255,255,255,0.06)';this.style.boxShadow='';">
+                <img src="${rec.cover_image || '/uniskills-logo.png'}" alt="${rec.title_ar || rec.title_en}" style="width: 100%; height: 190px; object-fit: cover;">
+                <div style="padding: 18px 20px 20px; flex-grow: 1;">
+                    <h3 style="color: #fff; font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; line-height: 1.5;">${rec.title_ar || rec.title_en}</h3>
+                    <p style="color: rgba(255,255,255,0.5); font-size: 0.88rem; line-height: 1.6; margin-bottom: 14px;">
+                        ${(rec.short_description_ar || "").substring(0, 80)}...
+                    </p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; font-weight: 500; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05);">
+                        <span style="color: rgba(0,217,255,0.7);">👁 ${rec.views_count || 0} مشاهدة</span>
+                        <span style="color: rgba(255,255,255,0.4);">اقرأ المزيد ←</span>
+                    </div>
                 </div>
             </a>
         `).join('');
