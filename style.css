@@ -627,6 +627,45 @@ a {
     gap: var(--space-4);
 }
 
+/* Latest Articles Grid - Responsive Row on Mobile */
+.home-articles-grid {
+    display: flex;
+    overflow-x: auto;
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+    padding: 0.5rem 0.5rem 1.5rem;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    text-align: right;
+}
+
+.home-articles-grid::-webkit-scrollbar {
+    display: none;
+}
+
+.home-articles-grid>* {
+    flex: 0 0 calc(85% - 20px);
+    max-width: 320px;
+    scroll-snap-align: center;
+}
+
+@media (min-width: 901px) {
+    .home-articles-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+        overflow-x: visible;
+        padding: 0;
+        margin-bottom: 3rem;
+    }
+
+    .home-articles-grid>* {
+        flex: none;
+        max-width: 100%;
+    }
+}
+
 .feature-card {
     padding: var(--space-4);
     transition: var(--transition);

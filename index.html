@@ -21,6 +21,7 @@
     <meta http-equiv="content-language" content="ar">
     <meta name="geo.region" content="SA">
     <meta name="geo.placename" content="Saudi Arabia">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="canonical" href="https://www.uniskills.pro/">
@@ -71,8 +72,8 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 
     <!-- Preload critical assets -->
-    <link rel="preload" href="style.css?v=4.2.0" as="style">
-    <link rel="stylesheet" href="style.css?v=4.2.0">
+    <link rel="preload" href="style.css?v=4.3.0" as="style">
+    <link rel="stylesheet" href="style.css?v=4.3.0">
 
     <!-- Fonts with display=swap for performance -->
     <link rel="preload" as="style"
@@ -452,7 +453,7 @@
             <a href="#features" class="mobile-link">المميزات</a>
             <a href="#ai" class="mobile-link">الذكاء الاصطناعي</a>
             <a href="#exams" class="mobile-link">الامتحانات</a>
-            <a href="#preview" class="mobile-link">التطبيق</a>
+            <a href="#preview" class="mobile-link desktop-only">التطبيق</a>
             <a href="/articles" class="mobile-link">المقالات</a>
             <a href="faq" class="mobile-link">الأسئلة الشائعة</a>
             <a href="#download" class="mobile-link highlight">حمل التطبيق الآن</a>
@@ -534,8 +535,7 @@
                     <p class="section-subtitle">اطلع على أحدث المواضيع والنصائح الأكاديمية.</p>
                 </div>
 
-                <div id="home-articles-container"
-                    style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; text-align: right; margin-bottom: 40px;">
+                <div id="home-articles-container" class="home-articles-grid">
                     <!-- Skeleton loaders -->
                     <div
                         style="display:flex;flex-direction:column;background:rgba(15,20,50,0.6);border-radius:16px;border:1px solid rgba(255,255,255,0.06);overflow:hidden;">
@@ -801,7 +801,7 @@
         </section>
 
         <!-- 4. Premium Screenshots Showcase Section -->
-        <section class="app-showcase" id="preview">
+        <section class="app-showcase desktop-only" id="preview">
             <div class="container">
                 <div class="section-top reveal fade-up" style="position: relative; z-index: 20;">
                     <h2 class="section-title">تجربة مستخدم لا مثيل لها</h2>
@@ -877,7 +877,7 @@
         <section class="benefits section-padding" id="benefits">
             <div class="container">
                 <div class="benefits-grid">
-                    <div class="benefits-visual">
+                    <div class="benefits-visual desktop-only">
                         <!-- Parallax/Floating effect mockup -->
                         <div class="premium-phone-mockup" style="animation: float 5s infinite alternate;">
                             <img class="img-fluid" src="screens/3.webp" alt="داخل تطبيق UniSkills" loading="lazy"
@@ -970,7 +970,8 @@
                             </div>
                         </div>
                         <h2 class="cta-title">جاهز لتحقيق <br><span class="gradient-text">أهدافك؟</span></h2>
-                        <p class="cta-desc" style="margin-left: auto; margin-right: auto;">انضم إلى آلاف الطلاب الذين
+                        <p class="cta-desc" style="margin-left: auto; margin-right: auto;">انضم إلى العديد من الطلاب
+                            الذين
                             حولوا دراستهم لتجربة ممتعة وذكية مع UniSkills.
                         </p>
 
@@ -1125,7 +1126,7 @@
                 initSupabase();
             });
         </script>
-        <script src="script.js?v=4.2.1" defer></script>
+        <script src="script.js?v=4.3.0" defer></script>
 </body>
 
 </html>
