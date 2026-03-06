@@ -76,58 +76,124 @@
         .article-card {
             display: flex;
             flex-direction: column;
-            background: var(--glass-bg);
-            border-radius: 12px;
-            border: 1px solid var(--glass-border);
+            background: rgba(15, 20, 50, 0.6);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
             text-decoration: none;
             color: white;
-            transition: 0.3s;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
             overflow: hidden;
-            box-shadow: var(--glass-shadow);
-            padding-bottom: 15px;
+            backdrop-filter: blur(10px);
         }
 
         .article-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--primary);
-            box-shadow: 0 10px 30px rgba(0, 217, 255, 0.2);
+            transform: translateY(-6px);
+            border-color: rgba(0, 217, 255, 0.3);
+            box-shadow: 0 12px 40px rgba(0, 217, 255, 0.12);
         }
 
         .article-card img {
             width: 100%;
-            height: 200px;
+            height: 190px;
             object-fit: cover;
         }
 
         .article-content {
-            padding: 20px;
+            padding: 18px 20px 20px;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
         }
 
         .article-content h3 {
-            color: var(--primary);
-            font-size: 1.25rem;
+            color: #fff;
+            font-size: 1.1rem;
             font-weight: 700;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
+            line-height: 1.5;
         }
 
         .article-content p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.88rem;
             line-height: 1.6;
             flex-grow: 1;
-            margin-bottom: 20px;
+            margin-bottom: 14px;
         }
 
         .article-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.85rem;
-            color: var(--accent-orange);
-            font-weight: 600;
+            font-size: 0.8rem;
+            color: rgba(0, 217, 255, 0.7);
+            font-weight: 500;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .article-meta span:last-child {
+            color: rgba(255, 255, 255, 0.4);
+            transition: 0.3s;
+        }
+
+        .article-card:hover .article-meta span:last-child {
+            color: var(--primary);
+        }
+
+        /* Skeleton Loading */
+        .skeleton-card {
+            display: flex;
+            flex-direction: column;
+            background: rgba(15, 20, 50, 0.6);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            overflow: hidden;
+        }
+
+        .skeleton-img {
+            width: 100%;
+            height: 190px;
+            background: linear-gradient(110deg, rgba(255, 255, 255, 0.04) 30%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.04) 70%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        .skeleton-body {
+            padding: 18px 20px 20px;
+        }
+
+        .skeleton-line {
+            height: 14px;
+            border-radius: 8px;
+            background: linear-gradient(110deg, rgba(255, 255, 255, 0.04) 30%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.04) 70%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            margin-bottom: 10px;
+        }
+
+        .skeleton-line.short {
+            width: 60%;
+        }
+
+        .skeleton-line.medium {
+            width: 85%;
+        }
+
+        .skeleton-line.tiny {
+            width: 40%;
+            height: 10px;
+            margin-top: 12px;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
         }
 
         /* Mobile menu fixes for this page */
@@ -276,8 +342,34 @@
                 🔥 الأكثر قراءة
             </h2>
             <div class="article-grid" id="most-read-container" style="margin-bottom: 60px;">
-                <!-- مقالات الاكثر قراءة هنا -->
-                <p id="loading-most-read" style="color: var(--text-muted);">جاري تحميل المقالات الشائعة...</p>
+                <!-- Skeleton loaders -->
+                <div class="skeleton-card">
+                    <div class="skeleton-img"></div>
+                    <div class="skeleton-body">
+                        <div class="skeleton-line medium"></div>
+                        <div class="skeleton-line"></div>
+                        <div class="skeleton-line short"></div>
+                        <div class="skeleton-line tiny"></div>
+                    </div>
+                </div>
+                <div class="skeleton-card">
+                    <div class="skeleton-img"></div>
+                    <div class="skeleton-body">
+                        <div class="skeleton-line medium"></div>
+                        <div class="skeleton-line"></div>
+                        <div class="skeleton-line short"></div>
+                        <div class="skeleton-line tiny"></div>
+                    </div>
+                </div>
+                <div class="skeleton-card">
+                    <div class="skeleton-img"></div>
+                    <div class="skeleton-body">
+                        <div class="skeleton-line medium"></div>
+                        <div class="skeleton-line"></div>
+                        <div class="skeleton-line short"></div>
+                        <div class="skeleton-line tiny"></div>
+                    </div>
+                </div>
             </div>
 
             <h2
@@ -431,7 +523,8 @@
             }
 
             const container = document.getElementById('articles-container');
-            container.innerHTML = '<p style="color: var(--text-muted); width: 100%; grid-column: 1 / -1;">جاري التحميل...</p>';
+            const skeletonHtml = Array(6).fill('<div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line medium"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div><div class="skeleton-line tiny"></div></div></div>').join('');
+            container.innerHTML = skeletonHtml;
 
             let query = sbClient.from('articles').select('*').order('created_at', { ascending: false });
             if (categoryId) query = query.eq('category_id', categoryId);
