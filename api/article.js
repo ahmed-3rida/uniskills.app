@@ -8,6 +8,13 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 function formatContent(text) {
     if (!text) return '';
 
+    const linkStyle = 'color: #00D9FF; text-decoration: underline; pointer-events: auto; cursor: pointer; font-weight: 600;';
+
+    function makeRedirectLink(url, label) {
+        const encoded = Buffer.from(url).toString('base64');
+        return '<a href="/redirect?url=' + encoded + '" target="_blank" rel="noopener noreferrer" style="' + linkStyle + '">🔗 ' + label + '</a>';
+    }
+
     let formatted = text
         // Bold: **text** → <strong>
         .replace(/\*\*(.+?)\*\*/g, '<strong style="font-size: 1.15em; color: var(--primary);">$1</strong>')
@@ -21,17 +28,24 @@ function formatContent(text) {
         .replace(/^[-•] (.+)$/gm, '<li style="margin: 2px 0; padding-right: 10px;">$1</li>')
         // Numbered lists: 1. text
         .replace(/^\d+\. (.+)$/gm, '<li style="margin: 2px 0; padding-right: 10px;">$1</li>')
-        // Links: [text](url) → redirect page
-        .replace(/\[(.+?)\]\((.+?)\)/g, function (_, text, rawUrl) {
-            const encoded = Buffer.from(rawUrl).toString('base64');
-            return '<a href="/redirect?url=' + encoded + '" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: underline; pointer-events: auto;">🔗 ' + text + '</a>';
+        // Markdown links: [text](url)
+        .replace(/\[(.+?)\]\((.+?)\)/g, function (_, label, rawUrl) {
+            return makeRedirectLink(rawUrl, label);
         })
-        // New lines → <br> (preserve paragraph spacing)
+        // New lines
         .replace(/\n\n/g, '</p><p style="margin: 10px 0; line-height: 1.7;">')
         .replace(/\n/g, '<br>');
 
     // Wrap consecutive <li> items in <ul>
     formatted = formatted.replace(/(<li[^>]*>.*?<\/li>\s*)+/g, '<ul style="list-style: disc; padding-right: 25px; margin: 8px 0; line-height: 1.5;">$&</ul>');
+
+    // Handle bare URLs (http:// or https://) that are NOT already inside an href
+    // We use a placeholder trick to avoid double-processing
+    formatted = formatted.replace(/(?<![='"">])https?:\/\/[^\s<>"']+/g, function (url) {
+        // Clean trailing punctuation
+        const clean = url.replace(/[.,;!?)\]]+$/, '');
+        return makeRedirectLink(clean, clean.length > 40 ? clean.substring(0, 40) + '...' : clean);
+    });
 
     return '<p style="margin: 10px 0; line-height: 1.7;">' + formatted + '</p>';
 }
