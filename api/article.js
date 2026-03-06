@@ -12,7 +12,7 @@ function formatContent(text) {
 
     function makeRedirectLink(url, label) {
         const encoded = Buffer.from(url).toString('base64');
-        return '<a href="/redirect?url=' + encoded + '" target="_blank" rel="noopener noreferrer" style="' + linkStyle + '">🔗 ' + label + '</a>';
+        return '<a href="/redirect?url=' + encoded + '" target="_blank" rel="noopener noreferrer" style="' + linkStyle + '" >  🔗 ' + label + '</a>';
     }
 
     let formatted = text
@@ -28,27 +28,29 @@ function formatContent(text) {
         .replace(/^[-•] (.+)$/gm, '<li style="margin: 2px 0; padding-right: 10px;">$1</li>')
         // Numbered lists: 1. text
         .replace(/^\d+\. (.+)$/gm, '<li style="margin: 2px 0; padding-right: 10px;">$1</li>')
-        // Markdown links: [text](url)
+        // Markdown links: [text](url) — must be before bare URL detection
         .replace(/\[(.+?)\]\((.+?)\)/g, function (_, label, rawUrl) {
             return makeRedirectLink(rawUrl, label);
-        })
-        // New lines
+        });
+
+    // Detect bare URLs BEFORE converting newlines to <br>
+    // so URLs at the start of a new line are caught (preceded by \n, not >)
+    formatted = formatted.replace(/(?<![='""])(https?:\/\/[^\s<>"'\n]+)/g, function (url) {
+        const clean = url.replace(/[.,;!?)\]]+$/, '');
+        return makeRedirectLink(clean, clean.length > 50 ? clean.substring(0, 50) + '...' : clean);
+    });
+
+    // Now convert newlines to HTML
+    formatted = formatted
         .replace(/\n\n/g, '</p><p style="margin: 10px 0; line-height: 1.7;">')
         .replace(/\n/g, '<br>');
 
     // Wrap consecutive <li> items in <ul>
     formatted = formatted.replace(/(<li[^>]*>.*?<\/li>\s*)+/g, '<ul style="list-style: disc; padding-right: 25px; margin: 8px 0; line-height: 1.5;">$&</ul>');
 
-    // Handle bare URLs (http:// or https://) that are NOT already inside an href
-    // We use a placeholder trick to avoid double-processing
-    formatted = formatted.replace(/(?<![='"">])https?:\/\/[^\s<>"']+/g, function (url) {
-        // Clean trailing punctuation
-        const clean = url.replace(/[.,;!?)\]]+$/, '');
-        return makeRedirectLink(clean, clean.length > 40 ? clean.substring(0, 40) + '...' : clean);
-    });
-
     return '<p style="margin: 10px 0; line-height: 1.7;">' + formatted + '</p>';
 }
+
 
 export default async function handler(req, res) {
     const slug = req.query.slug;
