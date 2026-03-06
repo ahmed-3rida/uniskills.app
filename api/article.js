@@ -55,6 +55,13 @@ export default async function handler(req, res) {
         `;
     }
 
+    // Simple Markdown-like Parser for Content
+    let contentHtml = article.content_ar || article.content || "";
+    // Handle Bold: **text** -> <strong class="bold-highlight">text</strong>
+    contentHtml = contentHtml.replace(/\*\*(.*?)\*\*/g, '<strong class="bold-highlight">$1</strong>');
+    // Handle Newlines: \n -> <br>
+    contentHtml = contentHtml.replace(/\n/g, '<br>');
+
     // Serverly generated meta tags and basic layout matches new UI style
     const html = `
     <!DOCTYPE html>
@@ -98,15 +105,19 @@ export default async function handler(req, res) {
              .article-container { max-width: 800px; margin: 100px auto 40px; padding: 20px; }
              .article-cover { width: 100%; border-radius: 12px; margin-bottom: 20px; max-height: 400px; object-fit: cover; box-shadow: var(--glass-shadow); }
              .article-content img { max-width: 100%; height: auto; border-radius: 8px; margin: 15px 0; }
-             .article-content { line-height: 1.8; color: var(--text-main); font-size: 1.1rem; }
+             .article-content { line-height: 1.8; color: var(--text-main); font-size: 1.15rem; }
              .article-content a { color: var(--primary); text-decoration: underline; }
              .article-content h1, .article-content h2, .article-content h3 { color: var(--primary); margin: 30px 0 15px; }
+
+             /* Style for **bold** text */
+             .bold-highlight { color: #fff; font-weight: 800; font-size: 1.25rem; display: inline-block; margin: 5px 0; border-bottom: 2px solid var(--primary); }
 
              .article-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
              .article-card { display: block; background: var(--glass-bg); padding: 15px; border-radius: 12px; border: 1px solid var(--glass-border); text-decoration: none; color: white; transition: 0.3s; }
              .article-card:hover { transform: translateY(-5px); border-color: var(--primary); }
              
-             .view-pill { display: inline-flex; align-items: center; gap: 5px; background: rgba(0, 217, 255, 0.1); color: var(--primary); padding: 5px 15px; border-radius: 20px; font-weight: 600; margin-bottom: 15px; }
+             .view-pill { display: inline-flex; align-items: center; gap: 10px; background: rgba(0, 217, 255, 0.1); color: var(--primary); padding: 8px 18px; border-radius: 25px; font-weight: 700; margin-bottom: 20px; font-size: 0.95rem; }
+             .keyword-tag { background: rgba(255, 126, 0, 0.15); color: var(--accent-orange); padding: 2px 10px; border-radius: 5px; font-size: 0.8rem; margin-right: 5px; font-weight: 600; }
         </style>
     </head>
     <body>
@@ -140,14 +151,18 @@ export default async function handler(req, res) {
             ? `<img src="${article.cover_image}" alt="${article.title_ar}" class="article-cover">`
             : `<img src="/uniskills-logo.png" alt="${article.title_ar}" class="article-cover" style="object-fit: contain; background: rgba(0,0,0,0.2);">`}
             
-            <div class="view-pill">👁 <span>${(article.views_count || 0) + 1} مشاهدة</span></div>
-            <h1 style="color: var(--primary); margin-bottom: 20px; font-size: clamp(2rem, 4vw, 3rem); font-weight: 800;">${article.title_ar}</h1>
-            
-            <div class="article-content glass" style="padding: 30px;">
-                ${article.content_ar || article.content}
+            <div class="view-pill">
+                <span>👁 ${(article.views_count || 0) + 1} مشاهدة</span>
+                ${article.keywords ? article.keywords.split(',').map(kw => `<span class="keyword-tag">#${kw.trim()}</span>`).join('') : ''}
             </div>
             
-            \${recommendedHtml}
+            <h1 style="color: var(--primary); margin-bottom: 25px; font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 900; line-height: 1.3;">${article.title_ar}</h1>
+            
+            <div class="article-content glass" style="padding: 40px; border-radius: 20px;">
+                ${contentHtml}
+            </div>
+            
+            ${recommendedHtml}
             
             <div style="text-align: center; margin-top: 50px;">
                <a href="/articles" class="btn btn-primary" style="padding: 12px 30px; border-radius: 30px;">← العودة إلى جميع المقالات</a>
