@@ -1,11 +1,10 @@
-# UniSkills - Robots.txt Configuration
+# UniSkills - Robots.txt
 # Updated: March 2026
 
-# Allow all search engines
 User-agent: *
 Allow: /
 
-# Disallow admin and private directories
+# Disallow private directories
 Disallow: /admin/
 Disallow: /.git/
 Disallow: /node_modules/
@@ -14,28 +13,7 @@ Disallow: /.vercel/
 Disallow: /.vscode/
 Disallow: /api/
 
-# Allow CSS and JS for proper rendering
-Allow: /*.css$
-Allow: /*.js$
-
-# Allow images for indexing
-Allow: /screens/
-Allow: /*.png$
-Allow: /*.jpg$
-Allow: /*.jpeg$
-Allow: /*.webp$
-Allow: /*.svg$
-
-# Sitemap locations
+# Sitemap
 Sitemap: https://www.uniskills.pro/sitemap.xml
 Sitemap: https://www.uniskills.pro/sitemap-pages.xml
 Sitemap: https://www.uniskills.pro/sitemap-posts.xml
-
-# Specific rules for Bing (supports Crawl-delay)
-User-agent: Bingbot
-Allow: /
-Crawl-delay: 1
-
-User-agent: Slurp
-Allow: /
-Crawl-delay: 1
