@@ -106,9 +106,28 @@ export default async function handler(req, res) {
             `;
         }).join('');
 
+        // Skeleton card HTML (3 cards matching the real card shape)
+        const skeletonCard = `
+        <div style="display:flex;flex-direction:column;background:rgba(15,20,50,0.6);border-radius:16px;border:1px solid rgba(255,255,255,0.06);overflow:hidden;">
+            <div style="width:100%;height:180px;background:linear-gradient(110deg,rgba(255,255,255,0.04) 30%,rgba(255,255,255,0.09) 50%,rgba(255,255,255,0.04) 70%);background-size:200% 100%;animation:shimmer 1.5s infinite;"></div>
+            <div style="padding:18px 20px 20px;">
+                <div style="height:14px;border-radius:8px;margin-bottom:10px;width:85%;background:linear-gradient(110deg,rgba(255,255,255,0.04) 30%,rgba(255,255,255,0.09) 50%,rgba(255,255,255,0.04) 70%);background-size:200% 100%;animation:shimmer 1.5s infinite;"></div>
+                <div style="height:12px;border-radius:8px;margin-bottom:8px;background:linear-gradient(110deg,rgba(255,255,255,0.04) 30%,rgba(255,255,255,0.09) 50%,rgba(255,255,255,0.04) 70%);background-size:200% 100%;animation:shimmer 1.5s infinite;"></div>
+                <div style="height:12px;border-radius:8px;margin-bottom:14px;width:70%;background:linear-gradient(110deg,rgba(255,255,255,0.04) 30%,rgba(255,255,255,0.09) 50%,rgba(255,255,255,0.04) 70%);background-size:200% 100%;animation:shimmer 1.5s infinite;"></div>
+                <div style="height:10px;border-radius:8px;width:50%;background:linear-gradient(110deg,rgba(255,255,255,0.04) 30%,rgba(255,255,255,0.09) 50%,rgba(255,255,255,0.04) 70%);background-size:200% 100%;animation:shimmer 1.5s infinite;"></div>
+            </div>
+        </div>`;
+
         recommendedHtml = `
         <h2 style="margin-top: 60px; margin-bottom: 20px;" class="gradient-text">مقالات مقترحة قد تعجبك</h2>
-        <div class="article-grid">
+
+        <!-- Shimmer Skeletons (visible on load) -->
+        <div id="rec-skeleton" class="article-grid">
+            ${skeletonCard}${skeletonCard}${skeletonCard}
+        </div>
+
+        <!-- Real cards (hidden until JS reveals them) -->
+        <div id="rec-real" class="article-grid" style="display:none; opacity:0; transition: opacity 0.5s ease;">
             ${recCards}
         </div>
         `;
@@ -184,6 +203,11 @@ export default async function handler(req, res) {
              @media (max-width: 768px) { .article-grid { grid-template-columns: 1fr; } }
              .article-card { display: block; background: var(--glass-bg); padding: 15px; border-radius: 12px; border: 1px solid var(--glass-border); text-decoration: none; color: white; transition: 0.3s; }
              .article-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+
+             @keyframes shimmer {
+                 0%   { background-position: 200% 0; }
+                 100% { background-position: -200% 0; }
+             }
              
              .view-pill { display: inline-flex; align-items: center; gap: 5px; background: rgba(0, 217, 255, 0.1); color: var(--primary); padding: 5px 15px; border-radius: 20px; font-weight: 600; margin-bottom: 15px; }
         </style>
@@ -288,6 +312,23 @@ export default async function handler(req, res) {
                     } catch(err) {}
                 }
             });
+
+            // Swap shimmer skeletons → real cards with fade
+            var skeleton = document.getElementById('rec-skeleton');
+            var real = document.getElementById('rec-real');
+            if (skeleton && real) {
+                setTimeout(function() {
+                    skeleton.style.transition = 'opacity 0.3s ease';
+                    skeleton.style.opacity = '0';
+                    setTimeout(function() {
+                        skeleton.style.display = 'none';
+                        real.style.display = 'grid';
+                        requestAnimationFrame(function() {
+                            real.style.opacity = '1';
+                        });
+                    }, 300);
+                }, 600);
+            }
 
             document.querySelectorAll('img').forEach(function(img) {
                 img.addEventListener('dragstart', function(e) { e.preventDefault(); });
