@@ -108,6 +108,8 @@ export default async function handler(req, res) {
     <html lang="ar" dir="rtl">
     <head>
         <meta charset="UTF-8">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7828861031794758"
+             crossorigin="anonymous"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
         
         <title>${article.title_ar || article.title_en}</title>
