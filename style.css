@@ -12,6 +12,18 @@
     -webkit-tap-highlight-color: transparent;
 }
 
+/* Prevent image copying and protection */
+img {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    pointer-events: none;
+}
+
+
 :root {
     /* Colors from app_theme.dart */
     --bg-color: #0A0E27;

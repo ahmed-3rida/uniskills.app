@@ -179,4 +179,15 @@ document.addEventListener('DOMContentLoaded', () => {
         initReveal();
     });
 
+    /* --- 8. Image Protection --- */
+    document.addEventListener('contextmenu', function (e) {
+        if (e.target.tagName === 'IMG') {
+            e.preventDefault();
+        }
+    }, false);
+
+    document.querySelectorAll('img').forEach(img => {
+        img.addEventListener('dragstart', (e) => e.preventDefault());
+    });
+
 });

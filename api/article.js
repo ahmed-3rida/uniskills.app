@@ -238,6 +238,14 @@ export default async function handler(req, res) {
                 </div>
             </div>
         </footer>
+        <script>
+            document.addEventListener('contextmenu', function (e) {
+                if (e.target.tagName === 'IMG') e.preventDefault();
+            }, false);
+            document.querySelectorAll('img').forEach(img => {
+                img.addEventListener('dragstart', (e) => e.preventDefault());
+            });
+        </script>
     </body>
     </html>
     `;
