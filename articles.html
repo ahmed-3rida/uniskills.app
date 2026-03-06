@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <title>المقالات والتصنيفات | UniSkills</title>
+    <meta name="description"
+        content="اقرأ أحدث المقالات والمواضيع المتعلقة بالتعلم، التكنولوجيا وتطوير المهارات الجامعية في منصة UniSkills.">
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#00d9ff">
+    <meta name="msapplication-TileColor" content="#00d9ff">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- مكتبة Supabase للعمل في الواجهة الأمامية -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        .articles-page {
+            max-width: 1200px;
+            margin: 120px auto 60px;
+            padding: 0 20px;
+        }
+
+        .categories {
+            margin-bottom: 30px;
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .category-chip {
+            padding: 10px 20px;
+            border-radius: 20px;
+            margin: 5px;
+            background: rgba(0, 217, 255, 0.1);
+            color: var(--primary);
+            cursor: pointer;
+            border: 1px solid var(--glass-border);
+            transition: 0.3s;
+            font-weight: 700;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.9rem;
+
+        }
+
+        .category-chip:hover,
+        .category-chip.active {
+            background: var(--primary);
+            color: #0A0E27;
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 217, 255, 0.3);
+            border-color: var(--primary);
+        }
+
+        .article-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .article-card {
+            display: flex;
+            flex-direction: column;
+            background: var(--glass-bg);
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            text-decoration: none;
+            color: white;
+            transition: 0.3s;
+            overflow: hidden;
+            box-shadow: var(--glass-shadow);
+            padding-bottom: 15px;
+        }
+
+        .article-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 217, 255, 0.2);
+        }
+
+        .article-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .article-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .article-content h3 {
+            color: var(--primary);
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .article-content p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            flex-grow: 1;
+            margin-bottom: 20px;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--accent-orange);
+            font-weight: 600;
+        }
+
+        /* Mobile menu fixes for this page */
+        .mobile-menu {
+            display: none;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            background: var(--bg-color-alt);
+            padding: 20px;
+            gap: 15px;
+            z-index: 99;
+            border-bottom: 1px solid var(--glass-border);
+        }
+    </style>
+</head>
+
+<body style="background-color: var(--bg-color); color: var(--text-main); font-family: 'Cairo', sans-serif;">
+    <div class="blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar scanned" id="navbar"
+        style="background: rgba(10, 14, 39, 0.95); backdrop-filter: blur(10px); padding: 15px 0;">
+        <div class="container nav-container"
+            style="display: flex; justify-content: space-between; align-items: center;">
+            <a href="/" class="logo"
+                style="display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.25rem; color: var(--primary); text-decoration: none;">
+                <img src="uniskills.png" alt="UniSkills" width="40" height="40">
+                <span>UniSkills</span>
+            </a>
+
+            <div class="nav-links desktop-only" style="display: flex; gap: 20px;">
+                <a href="/" style="color:var(--text-main); text-decoration:none;">الرئيسية</a>
+                <a href="/articles" style="color:var(--primary); font-weight:bold; text-decoration:none;">المقالات</a>
+                <a href="faq" style="color:var(--text-main); text-decoration:none;">الأسئلة الشائعة</a>
+            </div>
+
+            <div class="nav-actions">
+                <a href="https://play.google.com/store/apps/details?id=com.uniskills.app"
+                    class="btn btn-primary btn-cta btn-large desktop-only"
+                    style="padding: 10px 20px; border-radius: 8px; text-decoration: none; color: white; background: var(--primary);">حمل
+                    التطبيق</a>
+
+                <button class="mobile-menu-btn mobile-only" id="menuBtn"
+                    style="background: none; border: none; color: white;"
+                    onclick="document.getElementById('mobileMenu').classList.toggle('active')">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="/" class="mobile-link"
+                style="color:var(--text-main); text-decoration:none; display: block;">الرئيسية</a>
+            <a href="/articles" class="mobile-link"
+                style="color:var(--primary); font-weight:bold; text-decoration:none; display: block;">المقالات</a>
+            <a href="faq" class="mobile-link"
+                style="color:var(--text-main); text-decoration:none; display: block;">الأسئلة الشائعة</a>
+            <a href="https://play.google.com/store/apps/details?id=com.uniskills.app" class="mobile-link highlight"
+                style="color:var(--accent-pink); text-decoration:none; display: block;">حمل التطبيق الآن</a>
+        </div>
+    </nav>
+
+    <div class="articles-page container">
+        <h1 class="gradient-text" style="font-size: 3rem; margin-bottom: 10px; font-weight: 800;">المدونة والمقالات</h1>
+        <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 50px;">اكتشف أحدث المواضيع لتعزيز مهاراتك
+            الجامعية والمهنية مع UniSkills.</p>
+
+        <!-- مقالات الأكثر قراءة -->
+        <h2
+            style="margin-bottom: 20px; color: var(--secondary); font-size: 1.8rem; display: flex; align-items: center; gap: 10px;">
+            🔥 الأكثر قراءة
+        </h2>
+        <div class="article-grid" id="most-read-container" style="margin-bottom: 60px;">
+            <!-- مقالات الاكثر قراءة هنا -->
+            <p id="loading-most-read" style="color: var(--text-muted);">جاري تحميل المقالات الشائعة...</p>
+        </div>
+
+        <h2
+            style="margin-top: 40px; margin-bottom: 20px; font-size: 1.8rem; border-top: 1px solid var(--glass-border); padding-top: 40px;">
+            جميع المقالات</h2>
+        <!-- التصنيفات -->
+        <div class="categories" id="categories-container">
+            <button class="category-chip active" id="cat-all" onclick="loadArticles()">الكل</button>
+        </div>
+
+        <!-- المقالات -->
+        <div class="article-grid" id="articles-container">
+            <!-- سيتم تحميل المقالات هنا -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer"
+        style="background: var(--bg-card); padding: 50px 0 20px; border-top: 1px solid var(--glass-border); margin-top: 100px;">
+        <div class="container">
+            <div class="footer-top"
+                style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 40px; margin-bottom: 40px;">
+                <div class="footer-brand" style="max-width: 300px;">
+                    <div class="logo"
+                        style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px; font-size: 1.5rem; font-weight: bold; color: var(--primary);">
+                        <img src="uniskills.png" alt="UniSkills" width="40" height="40" loading="lazy">
+                        <span>UniSkills</span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">نحو بيئة تعليمية ذكية وتكنولوجيا متطورة في
+                        متناول أيدي جميع الطلاب والطالبات.</p>
+                </div>
+                <div class="footer-links" style="display: flex; flex-direction: column; gap: 10px;">
+                    <h3 style="margin-bottom: 10px; font-size: 1.2rem;">الروابط الهامة</h3>
+                    <a href="/" style="color: var(--text-muted); text-decoration: none; transition: 0.3s;">الرئيسية</a>
+                    <a href="/articles" style="color: var(--primary); text-decoration: none;">المقالات</a>
+                    <a href="faq" style="color: var(--text-muted); text-decoration: none; transition: 0.3s;">الأسئلة
+                        والدعم</a>
+                    <a href="terms" style="color: var(--text-muted); text-decoration: none; transition: 0.3s;">شروط
+                        الخدمة</a>
+                    <a href="privacy" style="color: var(--text-muted); text-decoration: none; transition: 0.3s;">سياسة
+                        الخصوصية</a>
+                </div>
+            </div>
+            <div class="footer-bottom"
+                style="text-align: center; color: var(--text-muted); font-size: 0.9rem; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05);">
+                <p>&copy; 2026 UniSkills. جميع الحقوق والملكيات محفوظة للمنصة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const supabaseUrl = 'https://wfmjnomanyfsrkujxmco.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndmbWpub21hbnlmc3JrdWp4bWNvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg3NTEyODksImV4cCI6MjA4NDMyNzI4OX0.fJUs3Ku-LSA0DtLXY1vueZytOz_KIhbuXxKpD1zGrGA';
+        const sbClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        async function loadMostRead() {
+            const container = document.getElementById('most-read-container');
+
+            const { data, error } = await sbClient
+                .from('articles')
+                .select('*')
+                .order('views_count', { ascending: false })
+                .limit(3);
+
+            if (error || !data || data.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-muted);">لا توجد مقالات لعرضها حالياً.</p>';
+                return;
+            }
+
+            container.innerHTML = '';
+            data.forEach(article => {
+                const a = document.createElement('a');
+                a.href = "/articles/" + article.slug;
+                a.className = "article-card";
+
+                const coverImage = article.cover_image || 'uniskills-logo.png';
+                const desc = article.short_description_ar || article.description_ar || '';
+
+                a.innerHTML = `
+                    <img src="${coverImage}" alt="${article.title_ar || article.title_en}" loading="lazy">
+                    <div class="article-content">
+                        <h3>${article.title_ar || article.title_en}</h3>
+                        <p>${desc.substring(0, 100)}...</p>
+                        <div class="article-meta">
+                            <span>👁 ${article.views_count || 0} مشاهدات</span>
+                            <span>اقرأ المزيد ←</span>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(a);
+            });
+        }
+
+        async function loadCategories() {
+            const { data, error } = await sbClient.from('article_categories').select('*');
+            if (data) {
+                const container = document.getElementById('categories-container');
+                data.forEach(cat => {
+                    const btn = document.createElement('button');
+                    btn.className = 'category-chip';
+                    btn.id = 'cat-' + cat.id;
+                    btn.innerText = cat.name_ar;
+                    btn.onclick = () => {
+                        document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active'));
+                        btn.classList.add('active');
+                        loadArticles(cat.id);
+                    };
+                    container.appendChild(btn);
+                });
+            }
+        }
+
+        async function loadArticles(categoryId = null) {
+            if (!categoryId) {
+                document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active'));
+                document.getElementById('cat-all').classList.add('active');
+            }
+
+            const container = document.getElementById('articles-container');
+            container.innerHTML = '<p style="color: var(--text-muted); width: 100%; grid-column: 1 / -1;">جاري التحميل...</p>';
+
+            let query = sbClient.from('articles').select('*').order('created_at', { ascending: false });
+            if (categoryId) query = query.eq('category_id', categoryId);
+
+            const { data, error } = await query;
+
+            if (error) { container.innerHTML = '<p style="color: red; grid-column: 1 / -1;">حدث خطأ في جلب المقالات.</p>'; return; }
+            if (data.length === 0) { container.innerHTML = '<p style="color: var(--text-muted); grid-column: 1 / -1;">لا توجد مقالات هنا.</p>'; return; }
+
+            container.innerHTML = '';
+            data.forEach(article => {
+                const a = document.createElement('a');
+                a.href = "/articles/" + article.slug;
+                a.className = "article-card";
+
+                const coverImage = article.cover_image || 'uniskills-logo.png';
+                const desc = article.short_description_ar || article.description_ar || '';
+
+                a.innerHTML = `
+                    <img src="${coverImage}" alt="${article.title_ar || article.title_en}" loading="lazy">
+                    <div class="article-content">
+                        <h3>${article.title_ar || article.title_en}</h3>
+                        <p>${desc.substring(0, 100)}...</p>
+                        <div class="article-meta">
+                            <span>👁 ${article.views_count || 0} مشاهدة</span>
+                            <span>التفاصيل ←</span>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(a);
+            });
+        }
+
+        // تشغيل الدوال عند تحميل الصفحة
+        window.addEventListener('load', () => {
+            loadMostRead();
+            loadCategories();
+            loadArticles();
+        });
+    </script>
+</body>
+
+</html>

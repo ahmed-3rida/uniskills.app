@@ -1,0 +1,184 @@
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = process.env.VITE_SUPABASE_URL || 'YOUR_SUPABASE_URL';
+const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || 'YOUR_SUPABASE_KEY';
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+export default async function handler(req, res) {
+    const slug = req.query.slug;
+
+    // Fetch article from the database based on the slug
+    const { data: article, error } = await supabase
+        .from('articles')
+        .select('*')
+        .eq('slug', slug)
+        .single();
+
+    if (error || !article) {
+        return res.status(404).send('<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><title>المقال غير موجود</title><link rel="stylesheet" href="/style.css"></head><body style="background-color: var(--bg-color); color: white; display:flex; justify-content:center; align-items:center; height:100vh;"><div><h1 class="gradient-text">المقال غير موجود</h1><a href="/articles" class="btn btn-primary" style="margin-top:20px;">العودة للمقالات</a></div></body></html>');
+    }
+
+    // Increment views safely using RPC
+    try {
+        await supabase.rpc('increment_article_views', { article_uuid: article.id });
+    } catch (e) {
+        console.error("View increment failed", e);
+    }
+
+    // Fetch recommended articles
+    const { data: recommended } = await supabase
+        .from('articles')
+        .select('*')
+        .neq('id', article.id)
+        .order('views_count', { ascending: false })
+        .limit(3);
+
+    let recommendedHtml = '';
+    if (recommended && recommended.length > 0) {
+        recommendedHtml = `
+        <h2 style="margin-top: 60px; margin-bottom: 20px;" class="gradient-text">مقالات مقترحة قد تعجبك</h2>
+        <div class="article-grid">
+            ${recommended.map(rec => `
+                <a href="/articles/${rec.slug}" class="article-card glass">
+                    <img src="${rec.cover_image || '/uniskills-logo.png'}" alt="${rec.title_ar || rec.title_en}" style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 15px;">
+                    <h3 style="color:var(--primary); font-size:1.1rem; margin-bottom: 10px;">${rec.title_ar || rec.title_en}</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9em; margin-bottom: 15px;">
+                        ${(rec.short_description_ar || "").substring(0, 80)}...
+                    </p>
+                    <div style="display:flex; justify-content:space-between; align-items:center; color: var(--accent-orange); font-size: 0.85em;">
+                        <span>👁 مشاهدات: ${rec.views_count || 0}</span>
+                        <span>اقرأ المزيد ←</span>
+                    </div>
+                </a>
+            `).join('')}
+        </div>
+        `;
+    }
+
+    // Serverly generated meta tags and basic layout matches new UI style
+    const html = `
+    <!DOCTYPE html>
+    <html lang="ar" dir="rtl">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+        
+        <title>${article.title_ar || article.title_en} - UniSkills Articles</title>
+        <meta name="description" content="${article.short_description_ar || article.description_ar || 'وصف المقال متاح على UniSkills.'}">
+        
+        <!-- Open Graph / Facebook / WhatsApp -->
+        <meta property="og:type" content="article">
+        <meta property="og:title" content="${article.title_ar}">
+        <meta property="og:description" content="${article.short_description_ar || article.description_ar}">
+        <meta property="og:image" content="${article.cover_image || 'https://www.uniskills.pro/uniskills-logo.png'}">
+        <meta property="og:url" content="https://www.uniskills.pro/articles/${article.slug}">
+        
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="${article.title_ar}">
+        <meta name="twitter:description" content="${article.short_description_ar || article.description_ar}">
+        <meta name="twitter:image" content="${article.cover_image || 'https://www.uniskills.pro/uniskills-logo.png'}">
+        
+        <!-- Theme Color -->
+        <meta name="theme-color" content="#00d9ff">
+        <meta name="msapplication-TileColor" content="#00d9ff">
+
+        <!-- Fonts Default Style -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+        
+        <link rel="stylesheet" href="/style.css">
+        <style>
+             body { background-color: var(--bg-color); color: var(--text-main); font-family: 'Cairo', sans-serif; }
+             .article-container { max-width: 800px; margin: 100px auto 40px; padding: 20px; }
+             .article-cover { width: 100%; border-radius: 12px; margin-bottom: 20px; max-height: 400px; object-fit: cover; box-shadow: var(--glass-shadow); }
+             .article-content img { max-width: 100%; height: auto; border-radius: 8px; margin: 15px 0; }
+             .article-content { line-height: 1.8; color: var(--text-main); font-size: 1.1rem; }
+             .article-content a { color: var(--primary); text-decoration: underline; }
+             .article-content h1, .article-content h2, .article-content h3 { color: var(--primary); margin: 30px 0 15px; }
+
+             .article-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+             .article-card { display: block; background: var(--glass-bg); padding: 15px; border-radius: 12px; border: 1px solid var(--glass-border); text-decoration: none; color: white; transition: 0.3s; }
+             .article-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+             
+             .view-pill { display: inline-flex; align-items: center; gap: 5px; background: rgba(0, 217, 255, 0.1); color: var(--primary); padding: 5px 15px; border-radius: 20px; font-weight: 600; margin-bottom: 15px; }
+        </style>
+    </head>
+    <body>
+        <div class="blobs">
+            <div class="blob blob-1"></div>
+            <div class="blob blob-2"></div>
+            <div class="blob blob-3"></div>
+        </div>
+
+        <!-- Navigation (Same as other pages) -->
+        <nav class="navbar scanned" id="navbar" style="background: rgba(10, 14, 39, 0.95); backdrop-filter: blur(10px);">
+            <div class="container nav-container">
+                <a href="/" class="logo">
+                    <img src="/uniskills.png" alt="UniSkills" width="40" height="40">
+                    <span>UniSkills</span>
+                </a>
+                <div class="nav-links desktop-only">
+                    <a href="/">الرئيسية</a>
+                    <a href="/articles" style="color:var(--primary);">المقالات</a>
+                    <a href="/faq">الأسئلة الشائعة</a>
+                </div>
+                <div class="nav-actions">
+                    <a href="https://play.google.com/store/apps/details?id=com.uniskills.app" class="btn btn-secondary desktop-only">حمل التطبيق</a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container article-container">
+            <!-- Article Image -->
+            ${article.cover_image
+            ? `<img src="${article.cover_image}" alt="${article.title_ar}" class="article-cover">`
+            : `<img src="/uniskills-logo.png" alt="${article.title_ar}" class="article-cover" style="object-fit: contain; background: rgba(0,0,0,0.2);">`}
+            
+            <div class="view-pill">👁 <span>${(article.views_count || 0) + 1} مشاهدة</span></div>
+            <h1 style="color: var(--primary); margin-bottom: 20px; font-size: clamp(2rem, 4vw, 3rem); font-weight: 800;">${article.title_ar}</h1>
+            
+            <div class="article-content glass" style="padding: 30px;">
+                ${article.content_ar || article.content}
+            </div>
+            
+            \${recommendedHtml}
+            
+            <div style="text-align: center; margin-top: 50px;">
+               <a href="/articles" class="btn btn-primary" style="padding: 12px 30px; border-radius: 30px;">← العودة إلى جميع المقالات</a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-top">
+                    <div class="footer-brand">
+                        <div class="logo">
+                            <img src="/uniskills.png" alt="UniSkills" width="40" height="40" loading="lazy">
+                            <span>UniSkills</span>
+                        </div>
+                        <p>نحو بيئة تعليمية ذكية وتكنولوجيا متطورة في متناول أيدي جميع الطلاب والطالبات.</p>
+                    </div>
+                    <div class="footer-links">
+                        <h3>الروابط الهامة</h3>
+                        <a href="/">الرئيسية</a>
+                        <a href="/articles">المقالات</a>
+                        <a href="/faq">الأسئلة والدعم</a>
+                        <a href="/terms">شروط الخدمة</a>
+                        <a href="/privacy">سياسة الخصوصية</a>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2026 UniSkills. جميع الحقوق والملكيات محفوظة للمنصة.</p>
+                </div>
+            </div>
+        </footer>
+    </body>
+    </html>
+    `;
+
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.status(200).send(html);
+}

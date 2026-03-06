@@ -432,6 +432,7 @@
                 <a href="#ai">الذكاء الاصطناعي</a>
                 <a href="#exams">الامتحانات</a>
                 <a href="#preview">التطبيق</a>
+                <a href="/articles">المقالات</a>
                 <a href="faq">الأسئلة الشائعة</a>
             </div>
 
@@ -450,6 +451,7 @@
             <a href="#ai" class="mobile-link">الذكاء الاصطناعي</a>
             <a href="#exams" class="mobile-link">الامتحانات</a>
             <a href="#preview" class="mobile-link">التطبيق</a>
+            <a href="/articles" class="mobile-link">المقالات</a>
             <a href="faq" class="mobile-link">الأسئلة الشائعة</a>
             <a href="#download" class="mobile-link highlight">حمل التطبيق الآن</a>
         </div>
@@ -506,6 +508,26 @@
                             <span>استجابة بدون أي تقطيع</span>
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Latest Articles Section (New) -->
+        <section class="section-padding" id="latest-articles" style="padding-top: 0;">
+            <div class="container text-center">
+                <div class="section-top reveal fade-up">
+                    <h2 class="section-title">آخر المقالات التعليمية</h2>
+                    <p class="section-subtitle">اطلع على أحدث المواضيع والنصائح الأكاديمية.</p>
+                </div>
+
+                <div class="article-grid" id="home-articles-container"
+                    style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; text-align: right; margin-bottom: 40px;">
+                    <!-- سيتم تحميل المقالات هنا -->
+                    <p style="color: var(--text-muted); grid-column: 1 / -1;">جاري تحميل أحدث المقالات...</p>
+                </div>
+
+                <div class="reveal fade-up">
+                    <a href="/articles" class="btn btn-secondary btn-large">عرض جميع المقالات</a>
                 </div>
             </div>
         </section>
@@ -918,6 +940,7 @@
                     <h3>الروابط الهامة</h3>
                     <a href="#hero">الرئيسية</a>
                     <a href="#ai">الذكاء الاصطناعي</a>
+                    <a href="/articles">المقالات</a>
                     <a href="faq">الأسئلة الدعم</a>
                     <a href="terms">شروط الخدمة</a>
                     <a href="privacy">سياسة الخصوصية</a>
@@ -930,7 +953,54 @@
     </footer>
 
     <!-- Scripts -->
-    <!-- Swiper JS will be lazy-loaded -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const supabaseUrl = 'https://wfmjnomanyfsrkujxmco.supabase.co';
+            const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndmbWpub21hbnlmc3JrdWp4bWNvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg3NTEyODksImV4cCI6MjA4NDMyNzI4OX0.fJUs3Ku-LSA0DtLXY1vueZytOz_KIhbuXxKpD1zGrGA';
+            const sbClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+            async function loadHomeArticles() {
+                const container = document.getElementById('home-articles-container');
+                const { data, error } = await sbClient
+                    .from('articles')
+                    .select('title_ar, title_en, slug, cover_image, short_description_ar, views_count')
+                    .order('created_at', { ascending: false })
+                    .limit(3);
+
+                if (error || !data || data.length === 0) {
+                    container.innerHTML = '<p style="color: var(--text-muted); grid-column: 1 / -1;">لا توجد مقالات مضافة حالياً.</p>';
+                    return;
+                }
+
+                container.innerHTML = '';
+                data.forEach(article => {
+                    const card = document.createElement('a');
+                    card.href = `/articles/${article.slug}`;
+                    card.className = 'glass';
+                    card.style.cssText = 'display: flex; flex-direction: column; border-radius: 12px; border: 1px solid var(--glass-border); text-decoration: none; color: white; transition: 0.3s; overflow: hidden; padding-bottom: 20px;';
+
+                    const cover = article.cover_image || 'uniskills-logo.png';
+                    const title = article.title_ar || article.title_en;
+                    const desc = article.short_description_ar || '';
+
+                    card.innerHTML = `
+                        <img src="${cover}" alt="${title}" style="width: 100%; height: 180px; object-fit: cover;">
+                        <div style="padding: 20px; flex-grow: 1;">
+                            <h3 style="color: var(--primary); font-size: 1.2rem; margin-bottom: 15px;">${title}</h3>
+                            <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 15px;">${desc.substring(0, 90)}...</p>
+                            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--accent-orange); font-weight: 600;">
+                                <span>👁 ${article.views_count || 0} مشاهدة</span>
+                                <span>اقرأ المزيد ←</span>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            }
+            loadHomeArticles();
+        });
+    </script>
     <script src="script.js?v=4.2.1" defer></script>
 </body>
 
