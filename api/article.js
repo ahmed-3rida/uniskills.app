@@ -189,10 +189,11 @@ export default async function handler(req, res) {
         </nav>
 
         <div class="container article-container">
-            <!-- Article Image -->
-            ${article.cover_image
-            ? `<img src="${article.cover_image}" alt="${article.title_ar}" class="article-cover">`
-            : `<img src="/uniskills-logo.png" alt="${article.title_ar}" class="article-cover" style="object-fit: contain; background: rgba(0,0,0,0.2);">`}
+            <!-- Article Image with Watermark & Protection -->
+            <div class="img-wrapper" style="position: relative; width: 100%; height: 450px; border-radius: 12px; overflow: hidden; margin-bottom: 20px; box-shadow: var(--glass-shadow);">
+                <img src="/uniskills.png" style="position: absolute; top: 15px; left: 15px; width: 40px; height: 40px; z-index: 10; opacity: 0.8; pointer-events: none; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));" alt="Watermark">
+                <div id="main-cover" data-src="${Buffer.from(article.cover_image || '/uniskills-logo.png').toString('base64')}" style="width: 100%; height: 100%; background-size: cover; background-position: center; transition: 0.5s;"></div>
+            </div>
             
             <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 15px;">
                 <div class="view-pill">👁 <span>${(article.views_count || 0) + 1} مشاهدة</span></div>
@@ -239,11 +240,22 @@ export default async function handler(req, res) {
             </div>
         </footer>
         <script>
-            document.addEventListener('contextmenu', function (e) {
+            // Image Protection
+            document.addEventListener('contextmenu', function(e) {
                 if (e.target.tagName === 'IMG') e.preventDefault();
             }, false);
-            document.querySelectorAll('img').forEach(img => {
-                img.addEventListener('dragstart', (e) => e.preventDefault());
+
+            const mc = document.getElementById('main-cover');
+            if (mc && mc.dataset.src) {
+                try {
+                    const src = atob(mc.dataset.src);
+                    mc.style.backgroundImage = "url('" + src + "')";
+                    mc.removeAttribute('data-src');
+                } catch(err) {}
+            }
+
+            document.querySelectorAll('img').forEach(function(img) {
+                img.addEventListener('dragstart', function(e) { e.preventDefault(); });
             });
         </script>
     </body>

@@ -1061,9 +1061,13 @@
                     const cover = article.cover_image || 'uniskills-logo.png';
                     const title = article.title_ar || article.title_en;
                     const desc = article.short_description_ar || '';
+                    const encodedUrl = btoa(cover);
 
                     card.innerHTML = `
-                        <img src="${cover}" alt="${title}" style="width: 100%; height: 190px; object-fit: cover;">
+                        <div style="position: relative; width: 100%; height: 190px; overflow: hidden;">
+                            <img src="uniskills.png" style="position: absolute; top: 12px; left: 12px; width: 32px; height: 32px; z-index: 5; opacity: 0.7; pointer-events: none; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));" alt="UniSkills">
+                            <div class="home-article-img" data-img="${encodedUrl}" style="width: 100%; height: 100%; background-size: cover; background-position: center; transition: 0.5s;"></div>
+                        </div>
                         <div style="padding: 18px 20px 20px; flex-grow: 1;">
                             <h3 style="color: #fff; font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; line-height: 1.5;">${title}</h3>
                             <p style="color: rgba(255,255,255,0.5); font-size: 0.88rem; line-height: 1.6; margin-bottom: 14px;">${desc.substring(0, 90)}...</p>
@@ -1073,6 +1077,15 @@
                             </div>
                         </div>
                     `;
+
+                    setTimeout(() => {
+                        const imgDiv = card.querySelector('.home-article-img');
+                        if (imgDiv) {
+                            imgDiv.style.backgroundImage = "url('" + atob(imgDiv.dataset.img) + "')";
+                            imgDiv.removeAttribute('data-img');
+                        }
+                    }, 50);
+
                     container.appendChild(card);
                 });
             }
