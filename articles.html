@@ -7,7 +7,7 @@
         crossorigin="anonymous"></script>
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-    <title>المقالات</title>
+    <title>المقالات - UniSkills | تعلم وتطور</title>
     <meta name="description"
         content="اقرأ أحدث المقالات والمواضيع المتعلقة بالتعلم، التكنولوجيا وتطوير المهارات الجامعية في منصة UniSkills.">
 
@@ -24,192 +24,393 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
         rel="stylesheet">
-
     <link rel="stylesheet" href="style.css">
-
-    <!-- مكتبة Supabase للعمل في الواجهة الأمامية -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
+        /* ─── Page Layout ─── */
         .articles-page {
             max-width: 1200px;
-            margin: 120px auto 60px;
-            padding: 0 20px;
+            margin: 0 auto;
+            padding: 140px 24px 80px;
         }
 
-        .categories {
-            margin-bottom: 30px;
+        /* ─── Hero Banner ─── */
+        .articles-hero {
+            text-align: center;
+            margin-bottom: 56px;
+            position: relative;
+        }
+
+        .articles-hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 217, 255, 0.08);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            color: var(--primary);
+            padding: 6px 18px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .articles-hero-badge .dot {
+            width: 6px;
+            height: 6px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--primary);
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 217, 255, 0.7);
+            }
+
+            50% {
+                box-shadow: 0 0 0 8px rgba(0, 217, 255, 0);
+            }
+        }
+
+        .articles-hero h1 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 800;
+            margin-bottom: 14px;
+            line-height: 1.2;
+        }
+
+        .articles-hero p {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 1.05rem;
+            max-width: 520px;
+            margin: 0 auto;
+        }
+
+        /* ─── Search Bar ─── */
+        .search-wrap {
+            max-width: 620px;
+            margin: 0 auto 52px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 16px 56px 16px 24px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(15, 20, 50, 0.7);
+            color: var(--text-main);
+            font-family: 'Cairo', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            backdrop-filter: blur(12px);
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.1), 0 0 20px rgba(0, 217, 255, 0.08);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 22px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.3);
+            pointer-events: none;
+            transition: color 0.3s;
+        }
+
+        .search-wrap:focus-within .search-icon {
+            color: var(--primary);
+        }
+
+        .search-clear {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            font-size: 1.1rem;
+            display: none;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+
+        .search-clear:hover {
+            color: var(--primary);
+        }
+
+        /* ─── Section Headers ─── */
+        .section-header {
             display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            padding-bottom: 10px;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .section-header h2 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .section-header .section-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.08), transparent);
+        }
+
+        .section-badge {
+            background: rgba(0, 217, 255, 0.08);
+            border: 1px solid rgba(0, 217, 255, 0.15);
+            color: var(--primary);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 50px;
+        }
+
+        /* ─── Category Chips ─── */
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 28px;
         }
 
         .category-chip {
-            padding: 10px 20px;
-            border-radius: 20px;
-            margin: 5px;
-            background: rgba(0, 217, 255, 0.1);
-            color: var(--primary);
+            padding: 8px 18px;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.04);
+            color: rgba(255, 255, 255, 0.6);
             cursor: pointer;
-            border: 1px solid var(--glass-border);
-            transition: 0.3s;
-            font-weight: 700;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.25s ease;
+            font-weight: 600;
             font-family: 'Cairo', sans-serif;
-            font-size: 0.9rem;
-
+            font-size: 0.85rem;
+            white-space: nowrap;
         }
 
-        .category-chip:hover,
+        .category-chip:hover {
+            background: rgba(0, 217, 255, 0.08);
+            color: var(--primary);
+            border-color: rgba(0, 217, 255, 0.2);
+        }
+
         .category-chip.active {
             background: var(--primary);
             color: #0A0E27;
-            transform: scale(1.05);
-            box-shadow: 0 4px 15px rgba(0, 217, 255, 0.3);
             border-color: var(--primary);
+            box-shadow: 0 4px 14px rgba(0, 217, 255, 0.3);
         }
 
+        /* ─── Article Grid ─── */
         .article-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
+            gap: 24px;
         }
 
+        /* ─── Article Card ─── */
         .article-card {
             display: flex;
             flex-direction: column;
-            background: rgba(15, 20, 50, 0.6);
-            border-radius: 16px;
+            background: rgba(12, 17, 45, 0.7);
+            border-radius: 18px;
             border: 1px solid rgba(255, 255, 255, 0.06);
             text-decoration: none;
             color: white;
-            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 0.35s ease,
+                box-shadow 0.35s ease;
             overflow: hidden;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
+            position: relative;
+        }
+
+        .article-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 18px;
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.04) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
         }
 
         .article-card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(0, 217, 255, 0.3);
-            box-shadow: 0 12px 40px rgba(0, 217, 255, 0.12);
+            transform: translateY(-8px);
+            border-color: rgba(0, 217, 255, 0.25);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(0, 217, 255, 0.08);
         }
 
-        .article-card .img-container {
+        .article-card:hover::after {
+            opacity: 1;
+        }
+
+        /* ─── Card Image ─── */
+        .card-img-wrap {
             position: relative;
             width: 100%;
-            height: 190px;
+            height: 200px;
             overflow: hidden;
+            background: rgba(0, 0, 0, 0.2);
         }
 
-        .article-card .article-img {
+        .card-img-bg {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .article-card:hover .article-img {
-            transform: scale(1.05);
+        .article-card:hover .card-img-bg {
+            transform: scale(1.06);
         }
 
-        .watermark {
+        .card-img-gradient {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 70%;
+            background: linear-gradient(to top, rgba(12, 17, 45, 0.9), transparent);
+            pointer-events: none;
+        }
+
+        .card-watermark {
             position: absolute;
             top: 12px;
             left: 12px;
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             z-index: 5;
-            opacity: 0.7;
+            opacity: 0.65;
             pointer-events: none;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
         }
 
-        .article-content {
-            padding: 18px 20px 20px;
-            flex-grow: 1;
+        .card-views-pill {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 50px;
             display: flex;
-            flex-direction: column;
-        }
-
-        .article-content h3 {
-            color: #fff;
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            line-height: 1.5;
-        }
-
-        .article-content p {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.88rem;
-            line-height: 1.6;
-            flex-grow: 1;
-            margin-bottom: 14px;
-        }
-
-        .article-meta {
-            display: flex;
-            justify-content: space-between;
             align-items: center;
-            font-size: 0.8rem;
-            color: rgba(0, 217, 255, 0.7);
-            font-weight: 500;
-            padding-top: 12px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            gap: 4px;
         }
 
-        .article-meta span:last-child {
-            color: rgba(255, 255, 255, 0.4);
-            transition: 0.3s;
-        }
-
-        .article-card:hover .article-meta span:last-child {
-            color: var(--primary);
-        }
-
-        /* Skeleton Loading */
-        .skeleton-card {
+        /* ─── Card Body ─── */
+        .card-body {
+            padding: 20px 22px 22px;
             display: flex;
             flex-direction: column;
-            background: rgba(15, 20, 50, 0.6);
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            flex: 1;
+        }
+
+        .card-keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-bottom: 10px;
+        }
+
+        .keyword-chip {
+            display: inline-block;
+            background: rgba(0, 217, 255, 0.07);
+            color: rgba(0, 217, 255, 0.8);
+            padding: 2px 9px;
+            border-radius: 50px;
+            font-size: 0.69rem;
+            font-weight: 700;
+            border: 1px solid rgba(0, 217, 255, 0.12);
+            letter-spacing: 0.3px;
+        }
+
+        .card-title {
+            color: #fff;
+            font-size: 1.05rem;
+            font-weight: 700;
+            line-height: 1.55;
+            margin-bottom: 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
             overflow: hidden;
         }
 
-        .skeleton-img {
-            width: 100%;
-            height: 190px;
-            background: linear-gradient(110deg, rgba(255, 255, 255, 0.04) 30%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.04) 70%);
+        .card-desc {
+            color: rgba(255, 255, 255, 0.42);
+            font-size: 0.84rem;
+            line-height: 1.65;
+            flex: 1;
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .card-read-more {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: gap 0.25s ease;
+        }
+
+        .article-card:hover .card-read-more {
+            gap: 9px;
+        }
+
+        /* ─── Skeleton ─── */
+        .skeleton-card {
+            display: flex;
+            flex-direction: column;
+            background: rgba(12, 17, 45, 0.7);
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+        }
+
+        .sk {
+            background: linear-gradient(110deg, rgba(255, 255, 255, 0.03) 30%, rgba(255, 255, 255, 0.07) 50%, rgba(255, 255, 255, 0.03) 70%);
             background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-        }
-
-        .skeleton-body {
-            padding: 18px 20px 20px;
-        }
-
-        .skeleton-line {
-            height: 14px;
-            border-radius: 8px;
-            background: linear-gradient(110deg, rgba(255, 255, 255, 0.04) 30%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.04) 70%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-            margin-bottom: 10px;
-        }
-
-        .skeleton-line.short {
-            width: 60%;
-        }
-
-        .skeleton-line.medium {
-            width: 85%;
-        }
-
-        .skeleton-line.tiny {
-            width: 40%;
-            height: 10px;
-            margin-top: 12px;
+            animation: shimmer 1.6s infinite;
         }
 
         @keyframes shimmer {
@@ -222,7 +423,90 @@
             }
         }
 
-        /* Mobile menu fixes for this page */
+        .sk-img {
+            width: 100%;
+            height: 200px;
+        }
+
+        .sk-body {
+            padding: 20px 22px 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .sk-line {
+            border-radius: 8px;
+        }
+
+        .sk-line.w100 {
+            width: 100%;
+            height: 13px;
+        }
+
+        .sk-line.w80 {
+            width: 80%;
+            height: 13px;
+        }
+
+        .sk-line.w60 {
+            width: 60%;
+            height: 11px;
+        }
+
+        .sk-line.w40 {
+            width: 40%;
+            height: 10px;
+            margin-top: 4px;
+        }
+
+        /* ─── Featured / Most Read (horizontal scroll on mobile) ─── */
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 56px;
+        }
+
+        /* ─── Divider ─── */
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.07), transparent);
+            margin: 48px 0 40px;
+        }
+
+        /* ─── Search results header ─── */
+        .search-results-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .search-results-header strong {
+            color: var(--primary);
+        }
+
+        /* ─── Empty state ─── */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .empty-state .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 12px;
+        }
+
+        .empty-state p {
+            font-size: 1rem;
+        }
+
+        /* ─── Mobile menu ─── */
         .mobile-menu {
             display: none;
         }
@@ -234,62 +518,52 @@
             top: 70px;
             left: 0;
             right: 0;
-            background: var(--bg-color-alt);
-            padding: 20px;
-            gap: 15px;
+            background: rgba(10, 14, 39, 0.98);
+            padding: 20px 24px;
+            gap: 16px;
             z-index: 99;
             border-bottom: 1px solid var(--glass-border);
+            backdrop-filter: blur(16px);
         }
 
-        /* Search bar */
-        .search-container {
-            margin-bottom: 40px;
-            position: relative;
+        /* ─── Load more button ─── */
+        .load-more-wrap {
+            text-align: center;
+            margin-top: 40px;
         }
 
-        .search-input {
-            width: 100%;
-            padding: 14px 50px 14px 20px;
+        .btn-load-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 30px;
             border-radius: 50px;
-            border: 1px solid var(--glass-border);
-            background: var(--glass-bg);
-            color: var(--text-main);
-            font-family: 'Cairo', sans-serif;
-            font-size: 1rem;
-            outline: none;
-            transition: 0.3s;
-            backdrop-filter: blur(10px);
-        }
-
-        .search-input::placeholder {
-            color: var(--text-muted);
-        }
-
-        .search-input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 20px rgba(0, 217, 255, 0.15);
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-            font-size: 1.2rem;
-            pointer-events: none;
-        }
-
-        /* Keyword chips */
-        .keyword-chip {
-            display: inline-block;
-            background: rgba(0, 217, 255, 0.08);
+            border: 1px solid rgba(0, 217, 255, 0.25);
+            background: rgba(0, 217, 255, 0.06);
             color: var(--primary);
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 0.72rem;
-            font-weight: 600;
-            margin: 2px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-load-more:hover {
+            background: rgba(0, 217, 255, 0.14);
+            border-color: var(--primary);
+            box-shadow: 0 4px 20px rgba(0, 217, 255, 0.15);
+        }
+
+        @media (max-width: 640px) {
+            .articles-page {
+                padding-top: 110px;
+            }
+
+            .article-grid,
+            .featured-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
         }
     </style>
 </head>
@@ -302,32 +576,35 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="navbar scanned" id="navbar"
-        style="background: rgba(10, 14, 39, 0.95); backdrop-filter: blur(10px); padding: 15px 0;">
-        <div class="container nav-container"
-            style="display: flex; justify-content: space-between; align-items: center;">
+    <nav class="navbar" id="navbar"
+        style="background: rgba(10, 14, 39, 0.9); backdrop-filter: blur(16px); padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.04);">
+        <div class="container nav-container">
             <a href="/" class="logo" aria-label="UniSkills - الصفحة الرئيسية">
-                <img src="uniskills.png" alt="شعار UniSkills - منصة التعلم الذكي" width="40" height="40"
-                    decoding="async">
+                <img src="uniskills.png" alt="UniSkills" width="38" height="38" decoding="async">
                 <span>UniSkills</span>
             </a>
 
-            <div class="nav-links desktop-only" style="display: flex; gap: 20px;">
-                <a href="/" style="color:var(--text-main); text-decoration:none;">الرئيسية</a>
-                <a href="/articles" style="color:var(--primary); font-weight:bold; text-decoration:none;">المقالات</a>
-                <a href="faq" style="color:var(--text-main); text-decoration:none;">الأسئلة الشائعة</a>
+            <div class="nav-links desktop-only" style="display: flex; gap: 28px;">
+                <a href="/"
+                    style="color:var(--text-muted); text-decoration:none; font-weight:500; transition:color 0.2s;"
+                    onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--text-muted)'">الرئيسية</a>
+                <a href="/articles" style="color:var(--primary); font-weight:700; text-decoration:none;">المقالات</a>
+                <a href="/faq"
+                    style="color:var(--text-muted); text-decoration:none; font-weight:500; transition:color 0.2s;"
+                    onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--text-muted)'">الأسئلة
+                    الشائعة</a>
             </div>
 
             <div class="nav-actions">
                 <a href="https://play.google.com/store/apps/details?id=com.uniskills.app"
-                    class="btn btn-primary btn-cta btn-large desktop-only"
-                    style="padding: 10px 20px; border-radius: 8px; text-decoration: none; color: white; background: var(--primary);">حمل
+                    class="btn btn-primary desktop-only"
+                    style="padding: 9px 20px; border-radius: 50px; text-decoration: none; font-size: 0.9rem;">حمل
                     التطبيق</a>
 
                 <button class="mobile-menu-btn mobile-only" id="menuBtn"
-                    style="background: none; border: none; color: white;"
+                    style="background: none; border: none; color: white; cursor: pointer;"
                     onclick="document.getElementById('mobileMenu').classList.toggle('active')">
-                    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                    <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor">
                         <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
                     </svg>
                 </button>
@@ -336,299 +613,403 @@
 
         <!-- Mobile Menu -->
         <div class="mobile-menu" id="mobileMenu">
-            <a href="/" class="mobile-link"
-                style="color:var(--text-main); text-decoration:none; display: block;">الرئيسية</a>
+            <a href="/" class="mobile-link" style="color:var(--text-muted); text-decoration:none;">الرئيسية</a>
             <a href="/articles" class="mobile-link"
-                style="color:var(--primary); font-weight:bold; text-decoration:none; display: block;">المقالات</a>
-            <a href="faq" class="mobile-link"
-                style="color:var(--text-main); text-decoration:none; display: block;">الأسئلة الشائعة</a>
-            <a href="https://play.google.com/store/apps/details?id=com.uniskills.app" class="mobile-link highlight"
-                style="color:var(--accent-pink); text-decoration:none; display: block;">حمل التطبيق الآن</a>
+                style="color:var(--primary); font-weight:700; text-decoration:none;">المقالات</a>
+            <a href="/faq" class="mobile-link" style="color:var(--text-muted); text-decoration:none;">الأسئلة
+                الشائعة</a>
+            <a href="https://play.google.com/store/apps/details?id=com.uniskills.app" class="mobile-link"
+                style="color:var(--accent-pink); text-decoration:none; font-weight:700;">حمل التطبيق الآن ↗</a>
         </div>
     </nav>
 
-    <div class="articles-page container">
-        <h1 class="gradient-text" style="font-size: 3rem; margin-bottom: 10px; font-weight: 800;">المدونة والمقالات</h1>
-        <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 30px;">اكتشف أحدث المواضيع لتعزيز مهاراتك
-            الجامعية والمهنية مع UniSkills.</p>
+    <div class="articles-page">
 
-        <!-- بحث -->
-        <div class="search-container">
-            <input type="text" class="search-input" id="search-input" placeholder="🔍 ابحث عن مقال..."
-                oninput="handleSearch(this.value)">
+        <!-- Hero Banner -->
+        <div class="articles-hero">
+            <div class="articles-hero-badge">
+                <span class="dot"></span>
+                مجانًا · جديد أسبوعيًا
+            </div>
+            <h1>
+                <span class="gradient-text">المدونة</span> والمقالات
+            </h1>
+            <p>اكتشف أحدث المواضيع لتعزيز مهاراتك الجامعية والمهنية مع UniSkills.</p>
         </div>
 
-        <!-- نتائج البحث -->
-        <div class="article-grid" id="search-results-container" style="display: none; margin-bottom: 40px;"></div>
+        <!-- Search Bar -->
+        <div class="search-wrap">
+            <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.35-4.35" />
+            </svg>
+            <input type="text" class="search-input" id="search-input" placeholder="ابحث في المقالات..."
+                oninput="handleSearch(this.value)" autocomplete="off">
+            <button class="search-clear" id="search-clear" onclick="clearSearch()">✕</button>
+        </div>
 
-        <!-- مقالات الأكثر قراءة -->
+        <!-- Search Results -->
+        <div id="search-results-area" style="display:none;">
+            <div class="search-results-header" id="search-results-header"></div>
+            <div class="article-grid" id="search-results-container"></div>
+        </div>
+
+        <!-- Main Content -->
         <div id="main-content">
-            <h2
-                style="margin-bottom: 20px; color: var(--secondary); font-size: 1.8rem; display: flex; align-items: center; gap: 10px;">
-                🔥 الأكثر قراءة
-            </h2>
-            <div class="article-grid" id="most-read-container" style="margin-bottom: 60px;">
-                <!-- Skeleton loaders -->
+
+            <!-- Most Read Section -->
+            <div class="section-header">
+                <h2>🔥 الأكثر قراءة</h2>
+                <div class="section-line"></div>
+                <span class="section-badge">Top 3</span>
+            </div>
+
+            <div class="featured-grid" id="most-read-container">
+                <!-- Skeletons -->
                 <div class="skeleton-card">
-                    <div class="skeleton-img"></div>
-                    <div class="skeleton-body">
-                        <div class="skeleton-line medium"></div>
-                        <div class="skeleton-line"></div>
-                        <div class="skeleton-line short"></div>
-                        <div class="skeleton-line tiny"></div>
+                    <div class="sk sk-img"></div>
+                    <div class="sk-body">
+                        <div class="sk sk-line w80"></div>
+                        <div class="sk sk-line w100"></div>
+                        <div class="sk sk-line w60"></div>
+                        <div class="sk sk-line w40"></div>
                     </div>
                 </div>
                 <div class="skeleton-card">
-                    <div class="skeleton-img"></div>
-                    <div class="skeleton-body">
-                        <div class="skeleton-line medium"></div>
-                        <div class="skeleton-line"></div>
-                        <div class="skeleton-line short"></div>
-                        <div class="skeleton-line tiny"></div>
+                    <div class="sk sk-img"></div>
+                    <div class="sk-body">
+                        <div class="sk sk-line w80"></div>
+                        <div class="sk sk-line w100"></div>
+                        <div class="sk sk-line w60"></div>
+                        <div class="sk sk-line w40"></div>
                     </div>
                 </div>
                 <div class="skeleton-card">
-                    <div class="skeleton-img"></div>
-                    <div class="skeleton-body">
-                        <div class="skeleton-line medium"></div>
-                        <div class="skeleton-line"></div>
-                        <div class="skeleton-line short"></div>
-                        <div class="skeleton-line tiny"></div>
+                    <div class="sk sk-img"></div>
+                    <div class="sk-body">
+                        <div class="sk sk-line w80"></div>
+                        <div class="sk sk-line w100"></div>
+                        <div class="sk sk-line w60"></div>
+                        <div class="sk sk-line w40"></div>
                     </div>
                 </div>
             </div>
 
-            <h2
-                style="margin-top: 40px; margin-bottom: 20px; font-size: 1.8rem; border-top: 1px solid var(--glass-border); padding-top: 40px;">
-                جميع المقالات</h2>
-            <!-- التصنيفات -->
+            <div class="section-divider"></div>
+
+            <!-- All Articles -->
+            <div class="section-header" style="margin-bottom: 16px;">
+                <h2>جميع المقالات</h2>
+                <div class="section-line"></div>
+                <span id="articles-count" class="section-badge" style="display:none;"></span>
+            </div>
+
+            <!-- Categories -->
             <div class="categories" id="categories-container">
-                <button class="category-chip active" id="cat-all" onclick="loadArticles()">الكل</button>
+                <button class="category-chip active" id="cat-all" onclick="filterByCategory(null)">الكل</button>
             </div>
 
-            <!-- المقالات -->
+            <!-- Article Grid -->
             <div class="article-grid" id="articles-container">
-                <!-- سيتم تحميل المقالات هنا -->
+                <!-- Skeletons -->
+                <div class="skeleton-card">
+                    <div class="sk sk-img"></div>
+                    <div class="sk-body">
+                        <div class="sk sk-line w80"></div>
+                        <div class="sk sk-line w100"></div>
+                        <div class="sk sk-line w60"></div>
+                        <div class="sk sk-line w40"></div>
+                    </div>
+                </div>
+                <div class="skeleton-card">
+                    <div class="sk sk-img"></div>
+                    <div class="sk-body">
+                        <div class="sk sk-line w80"></div>
+                        <div class="sk sk-line w100"></div>
+                        <div class="sk sk-line w60"></div>
+                        <div class="sk sk-line w40"></div>
+                    </div>
+                </div>
+                <div class="skeleton-card">
+                    <div class="sk sk-img"></div>
+                    <div class="sk-body">
+                        <div class="sk sk-line w80"></div>
+                        <div class="sk sk-line w100"></div>
+                        <div class="sk sk-line w60"></div>
+                        <div class="sk sk-line w40"></div>
+                    </div>
+                </div>
+                <div class="skeleton-card">
+                    <div class="sk sk-img"></div>
+                    <div class="sk-body">
+                        <div class="sk sk-line w80"></div>
+                        <div class="sk sk-line w100"></div>
+                        <div class="sk sk-line w60"></div>
+                        <div class="sk sk-line w40"></div>
+                    </div>
+                </div>
+                <div class="skeleton-card">
+                    <div class="sk sk-img"></div>
+                    <div class="sk-body">
+                        <div class="sk sk-line w80"></div>
+                        <div class="sk sk-line w100"></div>
+                        <div class="sk sk-line w60"></div>
+                        <div class="sk sk-line w40"></div>
+                    </div>
+                </div>
+                <div class="skeleton-card">
+                    <div class="sk sk-img"></div>
+                    <div class="sk-body">
+                        <div class="sk sk-line w80"></div>
+                        <div class="sk sk-line w100"></div>
+                        <div class="sk sk-line w60"></div>
+                        <div class="sk sk-line w40"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Footer -->
-    <footer class="footer"
-        style="background: var(--bg-card); padding: 50px 0 20px; border-top: 1px solid var(--glass-border); margin-top: 100px;">
+    <footer
+        style="background: rgba(10, 14, 39, 0.9); padding: 50px 0 24px; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 80px;">
         <div class="container">
-            <div class="footer-top"
+            <div
                 style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 40px; margin-bottom: 40px;">
-                <div class="footer-brand" style="max-width: 300px;">
-                    <div class="logo"
-                        style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px; font-size: 1.5rem; font-weight: bold; color: var(--primary);">
-                        <img src="uniskills.png" alt="UniSkills" width="40" height="40" loading="lazy">
-                        <span>UniSkills</span>
+                <div style="max-width: 280px;">
+                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+                        <img src="uniskills.png" alt="UniSkills" width="36" height="36" loading="lazy">
+                        <span style="font-size:1.2rem; font-weight:800; color:var(--primary);">UniSkills</span>
                     </div>
-                    <p style="color: var(--text-muted); font-size: 0.95rem;">نحو بيئة تعليمية ذكية وتكنولوجيا متطورة في
-                        متناول أيدي جميع الطلاب والطالبات.</p>
+                    <p style="color:var(--text-muted); font-size:0.9rem; line-height:1.7;">نحو بيئة تعليمية ذكية
+                        وتكنولوجيا متطورة في متناول أيدي جميع الطلاب والطالبات.</p>
                 </div>
-                <div class="footer-links" style="display: flex; flex-direction: column; gap: 10px;">
-                    <h3 style="margin-bottom: 10px; font-size: 1.2rem;">الروابط الهامة</h3>
-                    <a href="/" style="color: var(--text-muted); text-decoration: none; transition: 0.3s;">الرئيسية</a>
-                    <a href="/articles" style="color: var(--primary); text-decoration: none;">المقالات</a>
-                    <a href="faq" style="color: var(--text-muted); text-decoration: none; transition: 0.3s;">الأسئلة
-                        والدعم</a>
-                    <a href="terms" style="color: var(--text-muted); text-decoration: none; transition: 0.3s;">شروط
-                        الخدمة</a>
-                    <a href="privacy" style="color: var(--text-muted); text-decoration: none; transition: 0.3s;">سياسة
-                        الخصوصية</a>
+                <div style="display:flex; flex-direction:column; gap:10px;">
+                    <h3 style="margin-bottom:6px; font-size:1rem; font-weight:700; color:#fff;">الروابط الهامة</h3>
+                    <a href="/"
+                        style="color:var(--text-muted); text-decoration:none; font-size:0.9rem; transition:color 0.2s;"
+                        onmouseover="this.style.color='var(--primary)'"
+                        onmouseout="this.style.color='var(--text-muted)'">الرئيسية</a>
+                    <a href="/articles"
+                        style="color:var(--primary); text-decoration:none; font-size:0.9rem;">المقالات</a>
+                    <a href="/faq"
+                        style="color:var(--text-muted); text-decoration:none; font-size:0.9rem; transition:color 0.2s;"
+                        onmouseover="this.style.color='var(--primary)'"
+                        onmouseout="this.style.color='var(--text-muted)'">الأسئلة والدعم</a>
+                    <a href="/terms"
+                        style="color:var(--text-muted); text-decoration:none; font-size:0.9rem; transition:color 0.2s;"
+                        onmouseover="this.style.color='var(--primary)'"
+                        onmouseout="this.style.color='var(--text-muted)'">شروط الخدمة</a>
+                    <a href="/privacy"
+                        style="color:var(--text-muted); text-decoration:none; font-size:0.9rem; transition:color 0.2s;"
+                        onmouseover="this.style.color='var(--primary)'"
+                        onmouseout="this.style.color='var(--text-muted)'">سياسة الخصوصية</a>
                 </div>
             </div>
-            <div class="footer-bottom"
-                style="text-align: center; color: var(--text-muted); font-size: 0.9rem; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05);">
-                <p>&copy; 2026 UniSkills. جميع الحقوق والملكيات محفوظة للمنصة.</p>
+            <div
+                style="text-align:center; color:rgba(255,255,255,0.2); font-size:0.82rem; padding-top:20px; border-top:1px solid rgba(255,255,255,0.05);">
+                <p>© 2026 UniSkills. جميع الحقوق والملكيات محفوظة للمنصة.</p>
             </div>
         </div>
     </footer>
 
     <script>
         let sbClient;
+        window.allArticles = [];
 
         async function initSupabase() {
             try {
-                // Fetch config from Vercel Serverless Function
-                const response = await fetch('/api/config');
-                const config = await response.json();
-
-                if (!config.supabaseUrl || !config.supabaseKey) {
-                    throw new Error("Missing credentials");
-                }
-
-                sbClient = window.supabase.createClient(config.supabaseUrl, config.supabaseKey);
-
-                // Load data after initialization
-                loadMostRead();
-                loadCategories();
-                loadArticles();
-            } catch (error) {
-                console.error("Supabase Init Error:", error);
+                const res = await fetch('/api/config');
+                const cfg = await res.json();
+                if (!cfg.supabaseUrl || !cfg.supabaseKey) throw new Error('Missing credentials');
+                sbClient = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseKey);
+                await Promise.all([loadMostRead(), loadCategories(), loadArticles()]);
+            } catch (e) {
+                console.error('Supabase Init Error:', e);
                 document.getElementById('articles-container').innerHTML =
-                    '<p style="color: red; grid-column: 1 / -1;">حدث خطأ في الاتصال بالخادم. تأكد من إعداد المفاتيح في Vercel.</p>';
+                    '<div class="empty-state"><div class="empty-icon">⚠️</div><p>حدث خطأ في الاتصال. تأكد من إعداد المفاتيح.</p></div>';
             }
         }
 
-        async function loadMostRead() {
-            const container = document.getElementById('most-read-container');
-
-            const { data, error } = await sbClient
-                .from('articles')
-                .select('*')
-                .order('views_count', { ascending: false })
-                .limit(3);
-
-            if (error || !data || data.length === 0) {
-                container.innerHTML = '<p style="color: var(--text-muted);">لا توجد مقالات لعرضها حالياً.</p>';
-                return;
-            }
-
-            container.innerHTML = '';
-            data.forEach(article => {
-                container.appendChild(createArticleCard(article));
-            });
-        }
-
+        // ─── Card Builder ───
         function getKeywordsHtml(article) {
             if (!article.keywords || article.keywords.length === 0) return '';
-            const kwList = Array.isArray(article.keywords) ? article.keywords : article.keywords.split(',');
-            return kwList.slice(0, 3).map(kw => `<span class="keyword-chip">${kw.trim()}</span>`).join('');
+            const kws = Array.isArray(article.keywords) ? article.keywords : article.keywords.split(',');
+            return kws.slice(0, 3).map(k => `<span class="keyword-chip">${k.trim()}</span>`).join('');
         }
 
         function createArticleCard(article) {
             const a = document.createElement('a');
-            a.href = "/articles/" + article.slug;
-            a.className = "article-card";
+            a.href = '/articles/' + article.slug;
+            a.className = 'article-card';
 
-            const coverImage = article.cover_image || 'uniskills-logo.png';
+            const cover = article.cover_image || 'uniskills-logo.png';
+            const enc = btoa(cover);
+            const title = article.title_ar || article.title_en || 'بدون عنوان';
             const desc = article.short_description_ar || article.description_ar || '';
+            const views = article.views_count || 0;
             const kwHtml = getKeywordsHtml(article);
 
-            // Obfuscation: passing URL in a way that's not immediately a 'src'
-            const encodedUrl = btoa(coverImage);
-
             a.innerHTML = `
-                <div class="img-container">
-                    <img src="uniskills.png" class="watermark" alt="UniSkills">
-                    <div class="article-img" data-img="${encodedUrl}" style="background-size: cover; background-position: center;"></div>
+                <div class="card-img-wrap">
+                    <div class="card-img-bg" data-img="${enc}"></div>
+                    <div class="card-img-gradient"></div>
+                    <img src="uniskills.png" class="card-watermark" alt="UniSkills">
+                    <div class="card-views-pill">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+                        ${views.toLocaleString()} مشاهدة
+                    </div>
                 </div>
-                <div class="article-content">
-                    <h3>${article.title_ar || article.title_en}</h3>
-                    <p>${desc.substring(0, 100)}...</p>
-                    <div style="margin-bottom: 12px;">${kwHtml}</div>
-                    <div class="article-meta">
-                        <span style="color: rgba(0,217,255,0.7);">👁 ${article.views_count || 0} مشاهدة</span>
-                        <span>اقرأ المزيد ←</span>
+                <div class="card-body">
+                    ${kwHtml ? `<div class="card-keywords">${kwHtml}</div>` : ''}
+                    <div class="card-title">${title}</div>
+                    <div class="card-desc">${desc}</div>
+                    <div class="card-footer">
+                        <div class="card-read-more">
+                            اقرأ المقال
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </div>
                     </div>
                 </div>
             `;
 
-            // Rehydrate images after small delay to avoid easy DOM detection
+            // Rehydrate image URL (obfuscated)
             setTimeout(() => {
-                const imgDiv = a.querySelector('.article-img');
-                if (imgDiv) {
-                    imgDiv.style.backgroundImage = `url('${atob(imgDiv.dataset.img)}')`;
-                    imgDiv.removeAttribute('data-img');
+                const bg = a.querySelector('.card-img-bg');
+                if (bg && bg.dataset.img) {
+                    try {
+                        bg.style.backgroundImage = "url('" + atob(bg.dataset.img) + "')";
+                        bg.removeAttribute('data-img');
+                    } catch (e) { }
                 }
             }, 50);
 
             return a;
         }
 
-        async function loadCategories() {
-            const { data, error } = await sbClient.from('article_categories').select('*');
-            if (data) {
-                const container = document.getElementById('categories-container');
-                data.forEach(cat => {
-                    const btn = document.createElement('button');
-                    btn.className = 'category-chip';
-                    btn.id = 'cat-' + cat.id;
-                    btn.innerText = cat.name_ar;
-                    btn.onclick = () => {
-                        document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active'));
-                        btn.classList.add('active');
-                        loadArticles(cat.id);
-                    };
-                    container.appendChild(btn);
-                });
-            }
-        }
-
-        async function loadArticles(categoryId = null) {
-            if (!categoryId) {
-                document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active'));
-                document.getElementById('cat-all').classList.add('active');
-            }
-
-            const container = document.getElementById('articles-container');
-            const skeletonHtml = Array(6).fill('<div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line medium"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div><div class="skeleton-line tiny"></div></div></div>').join('');
-            container.innerHTML = skeletonHtml;
-
-            let query = sbClient.from('articles').select('*').order('created_at', { ascending: false });
-            if (categoryId) query = query.eq('category_id', categoryId);
-
-            const { data, error } = await query;
-
-            if (error) { container.innerHTML = '<p style="color: red; grid-column: 1 / -1;">حدث خطأ في جلب المقالات.</p>'; return; }
-            if (data.length === 0) { container.innerHTML = '<p style="color: var(--text-muted); grid-column: 1 / -1;">لا توجد مقالات هنا.</p>'; return; }
-
-            // Store all articles for searching
-            window.allArticles = data;
+        // ─── Load Most Read ───
+        async function loadMostRead() {
+            const container = document.getElementById('most-read-container');
+            const { data, error } = await sbClient.from('articles').select('*').order('views_count', { ascending: false }).limit(3);
 
             container.innerHTML = '';
-            data.forEach(article => {
-                container.appendChild(createArticleCard(article));
+            if (error || !data || data.length === 0) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-icon">📭</div><p>لا توجد مقالات للعرض حالياً.</p></div>';
+                return;
+            }
+            data.forEach(a => container.appendChild(createArticleCard(a)));
+        }
+
+        // ─── Load Categories ───
+        async function loadCategories() {
+            const { data } = await sbClient.from('article_categories').select('*');
+            if (!data || data.length === 0) return;
+            const container = document.getElementById('categories-container');
+            data.forEach(cat => {
+                const btn = document.createElement('button');
+                btn.className = 'category-chip';
+                btn.id = 'cat-' + cat.id;
+                btn.textContent = cat.name_ar;
+                btn.onclick = () => filterByCategory(cat.id);
+                container.appendChild(btn);
             });
         }
 
-        // Search handling
-        let searchTimeout;
-        function handleSearch(query) {
-            clearTimeout(searchTimeout);
-            const searchContainer = document.getElementById('search-results-container');
-            const mainContent = document.getElementById('main-content');
+        // ─── Load Articles ───
+        async function loadArticles(categoryId = null) {
+            const container = document.getElementById('articles-container');
+            // Show skeletons
+            container.innerHTML = Array(6).fill('<div class="skeleton-card"><div class="sk sk-img"></div><div class="sk-body"><div class="sk sk-line w80"></div><div class="sk sk-line w100"></div><div class="sk sk-line w60"></div><div class="sk sk-line w40"></div></div></div>').join('');
 
-            if (!query || query.trim().length < 2) {
-                searchContainer.style.display = 'none';
-                mainContent.style.display = 'block';
+            let query = sbClient.from('articles').select('*').order('created_at', { ascending: false });
+            if (categoryId) query = query.eq('category_id', categoryId);
+            const { data, error } = await query;
+
+            container.innerHTML = '';
+            if (error) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-icon">⚠️</div><p>حدث خطأ في جلب المقالات.</p></div>';
+                return;
+            }
+            if (!data || data.length === 0) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-icon">📭</div><p>لا توجد مقالات في هذا التصنيف.</p></div>';
                 return;
             }
 
-            searchTimeout = setTimeout(async () => {
-                const q = query.trim().toLowerCase();
+            window.allArticles = data;
 
-                // Search locally first if we have articles loaded
-                if (window.allArticles) {
-                    const results = window.allArticles.filter(a => {
-                        const title = (a.title_ar || a.title_en || '').toLowerCase();
-                        const desc = (a.short_description_ar || a.description_ar || '').toLowerCase();
-                        const kw = Array.isArray(a.keywords) ? a.keywords.join(' ').toLowerCase() : (a.keywords || '').toLowerCase();
-                        return title.includes(q) || desc.includes(q) || kw.includes(q);
-                    });
+            // Update count badge
+            const badge = document.getElementById('articles-count');
+            badge.textContent = data.length + ' مقال';
+            badge.style.display = '';
 
-                    mainContent.style.display = 'none';
-                    searchContainer.style.display = 'grid';
-
-                    if (results.length === 0) {
-                        searchContainer.innerHTML = '<p style="color: var(--text-muted); grid-column: 1 / -1;">لا توجد نتائج لـ: "' + query + '"</p>';
-                    } else {
-                        searchContainer.innerHTML = '';
-                        results.forEach(article => {
-                            searchContainer.appendChild(createArticleCard(article));
-                        });
-                    }
-                }
-            }, 300);
+            data.forEach(a => container.appendChild(createArticleCard(a)));
         }
 
-        // تشغيل الدوال عند تحميل الصفحة
-        window.addEventListener('load', () => {
-            initSupabase();
-        });
+        function filterByCategory(categoryId) {
+            document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active'));
+            const target = categoryId ? document.getElementById('cat-' + categoryId) : document.getElementById('cat-all');
+            if (target) target.classList.add('active');
+            loadArticles(categoryId);
+        }
+
+        // ─── Search ───
+        let searchTimeout;
+        const searchInput = document.getElementById('search-input');
+        const searchClear = document.getElementById('search-clear');
+
+        function handleSearch(query) {
+            clearTimeout(searchTimeout);
+            searchClear.style.display = query ? 'block' : 'none';
+
+            const area = document.getElementById('search-results-area');
+            const main = document.getElementById('main-content');
+            const header = document.getElementById('search-results-header');
+            const grid = document.getElementById('search-results-container');
+
+            if (!query || query.trim().length < 2) {
+                area.style.display = 'none';
+                main.style.display = 'block';
+                return;
+            }
+
+            area.style.display = 'block';
+            main.style.display = 'none';
+
+            searchTimeout = setTimeout(() => {
+                const q = query.trim().toLowerCase();
+                const results = (window.allArticles || []).filter(a => {
+                    const t = (a.title_ar || a.title_en || '').toLowerCase();
+                    const d = (a.short_description_ar || a.description_ar || '').toLowerCase();
+                    const kw = Array.isArray(a.keywords) ? a.keywords.join(' ').toLowerCase() : (a.keywords || '').toLowerCase();
+                    return t.includes(q) || d.includes(q) || kw.includes(q);
+                });
+
+                header.innerHTML = results.length
+                    ? `نتائج البحث عن <strong>"${query}"</strong> — ${results.length} نتيجة`
+                    : '';
+
+                if (results.length === 0) {
+                    grid.innerHTML = '<div class="empty-state"><div class="empty-icon">🔍</div><p>لا توجد نتائج لـ <strong style="color:#fff;">"' + query + '"</strong>. جرب كلمات أخرى.</p></div>';
+                } else {
+                    grid.innerHTML = '';
+                    results.forEach(a => grid.appendChild(createArticleCard(a)));
+                }
+            }, 280);
+        }
+
+        function clearSearch() {
+            searchInput.value = '';
+            searchClear.style.display = 'none';
+            handleSearch('');
+        }
+
+        // Image protection
+        document.addEventListener('contextmenu', function (e) {
+            if (e.target.tagName === 'IMG') e.preventDefault();
+        }, false);
+
+        window.addEventListener('load', () => initSupabase());
     </script>
 </body>
 
