@@ -4,6 +4,35 @@ const supabaseUrl = process.env.VITE_SUPABASE_URL || 'YOUR_SUPABASE_URL';
 const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || 'YOUR_SUPABASE_KEY';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+// Simple markdown-like formatting for article content
+function formatContent(text) {
+    if (!text) return '';
+
+    let formatted = text
+        // Bold: **text** → <strong>
+        .replace(/\*\*(.+?)\*\*/g, '<strong style="font-size: 1.15em; color: var(--primary); display: inline-block; margin: 5px 0;">$1</strong>')
+        // Italic: *text* → <em>
+        .replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>')
+        // Headers: ### text → <h3>, ## text → <h2>
+        .replace(/^### (.+)$/gm, '<h3 style="color: var(--primary); margin: 25px 0 10px; font-size: 1.3rem;">$1</h3>')
+        .replace(/^## (.+)$/gm, '<h2 style="color: var(--primary); margin: 30px 0 15px; font-size: 1.5rem;">$1</h2>')
+        .replace(/^# (.+)$/gm, '<h1 style="color: var(--primary); margin: 35px 0 15px; font-size: 1.8rem;">$1</h1>')
+        // Bullet lists: - text or • text
+        .replace(/^[-•] (.+)$/gm, '<li style="margin: 5px 0; padding-right: 10px;">$1</li>')
+        // Numbered lists: 1. text
+        .replace(/^\d+\. (.+)$/gm, '<li style="margin: 5px 0; padding-right: 10px;">$1</li>')
+        // Links: [text](url)
+        .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank" style="color: var(--primary); text-decoration: underline;">$1</a>')
+        // New lines → <br> (preserve paragraph spacing)
+        .replace(/\n\n/g, '</p><p style="margin: 15px 0; line-height: 1.9;">')
+        .replace(/\n/g, '<br>');
+
+    // Wrap consecutive <li> items in <ul>
+    formatted = formatted.replace(/(<li[^>]*>.*?<\/li>\s*)+/g, '<ul style="list-style: disc; padding-right: 25px; margin: 15px 0;">$&</ul>');
+
+    return '<p style="margin: 15px 0; line-height: 1.9;">' + formatted + '</p>';
+}
+
 export default async function handler(req, res) {
     const slug = req.query.slug;
 
@@ -33,26 +62,42 @@ export default async function handler(req, res) {
         .order('views_count', { ascending: false })
         .limit(3);
 
+    // Build recommended HTML
     let recommendedHtml = '';
     if (recommended && recommended.length > 0) {
+        const recCards = recommended.map(rec => `
+            <a href="/articles/${rec.slug}" class="article-card glass">
+                <img src="${rec.cover_image || '/uniskills-logo.png'}" alt="${rec.title_ar || rec.title_en}" style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 15px;">
+                <h3 style="color:var(--primary); font-size:1.1rem; margin-bottom: 10px;">${rec.title_ar || rec.title_en}</h3>
+                <p style="color: var(--text-muted); font-size: 0.9em; margin-bottom: 15px;">
+                    ${(rec.short_description_ar || "").substring(0, 80)}...
+                </p>
+                <div style="display:flex; justify-content:space-between; align-items:center; color: var(--accent-orange); font-size: 0.85em;">
+                    <span>👁 مشاهدات: ${rec.views_count || 0}</span>
+                    <span>اقرأ المزيد ←</span>
+                </div>
+            </a>
+        `).join('');
+
         recommendedHtml = `
         <h2 style="margin-top: 60px; margin-bottom: 20px;" class="gradient-text">مقالات مقترحة قد تعجبك</h2>
         <div class="article-grid">
-            ${recommended.map(rec => `
-                <a href="/articles/${rec.slug}" class="article-card glass">
-                    <img src="${rec.cover_image || '/uniskills-logo.png'}" alt="${rec.title_ar || rec.title_en}" style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 15px;">
-                    <h3 style="color:var(--primary); font-size:1.1rem; margin-bottom: 10px;">${rec.title_ar || rec.title_en}</h3>
-                    <p style="color: var(--text-muted); font-size: 0.9em; margin-bottom: 15px;">
-                        ${(rec.short_description_ar || "").substring(0, 80)}...
-                    </p>
-                    <div style="display:flex; justify-content:space-between; align-items:center; color: var(--accent-orange); font-size: 0.85em;">
-                        <span>👁 مشاهدات: ${rec.views_count || 0}</span>
-                        <span>اقرأ المزيد ←</span>
-                    </div>
-                </a>
-            `).join('')}
+            ${recCards}
         </div>
         `;
+    }
+
+    // Format the article content with markdown-like rendering
+    const formattedContent = formatContent(article.content_ar || article.content);
+
+    // Build keywords HTML
+    let keywordsHtml = '';
+    if (article.keywords && article.keywords.length > 0) {
+        const kwList = Array.isArray(article.keywords) ? article.keywords : article.keywords.split(',');
+        keywordsHtml = `
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
+            ${kwList.map(kw => `<span style="background: rgba(0,217,255,0.1); color: var(--primary); padding: 4px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">${kw.trim()}</span>`).join('')}
+        </div>`;
     }
 
     // Serverly generated meta tags and basic layout matches new UI style
@@ -98,9 +143,13 @@ export default async function handler(req, res) {
              .article-container { max-width: 800px; margin: 100px auto 40px; padding: 20px; }
              .article-cover { width: 100%; border-radius: 12px; margin-bottom: 20px; max-height: 400px; object-fit: cover; box-shadow: var(--glass-shadow); }
              .article-content img { max-width: 100%; height: auto; border-radius: 8px; margin: 15px 0; }
-             .article-content { line-height: 1.8; color: var(--text-main); font-size: 1.1rem; }
+             .article-content { line-height: 1.9; color: var(--text-main); font-size: 1.1rem; }
+             .article-content p { margin: 15px 0; }
              .article-content a { color: var(--primary); text-decoration: underline; }
              .article-content h1, .article-content h2, .article-content h3 { color: var(--primary); margin: 30px 0 15px; }
+             .article-content strong { font-size: 1.15em; color: var(--primary); display: inline-block; margin: 5px 0; }
+             .article-content ul { list-style: disc; padding-right: 25px; margin: 15px 0; }
+             .article-content li { margin: 8px 0; }
 
              .article-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
              .article-card { display: block; background: var(--glass-bg); padding: 15px; border-radius: 12px; border: 1px solid var(--glass-border); text-decoration: none; color: white; transition: 0.3s; }
@@ -140,14 +189,19 @@ export default async function handler(req, res) {
             ? `<img src="${article.cover_image}" alt="${article.title_ar}" class="article-cover">`
             : `<img src="/uniskills-logo.png" alt="${article.title_ar}" class="article-cover" style="object-fit: contain; background: rgba(0,0,0,0.2);">`}
             
-            <div class="view-pill">👁 <span>${(article.views_count || 0) + 1} مشاهدة</span></div>
+            <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 15px;">
+                <div class="view-pill">👁 <span>${(article.views_count || 0) + 1} مشاهدة</span></div>
+            </div>
+            
+            ${keywordsHtml}
+            
             <h1 style="color: var(--primary); margin-bottom: 20px; font-size: clamp(2rem, 4vw, 3rem); font-weight: 800;">${article.title_ar}</h1>
             
             <div class="article-content glass" style="padding: 30px;">
-                ${article.content_ar || article.content}
+                ${formattedContent}
             </div>
             
-            \${recommendedHtml}
+            ${recommendedHtml}
             
             <div style="text-align: center; margin-top: 50px;">
                <a href="/articles" class="btn btn-primary" style="padding: 12px 30px; border-radius: 30px;">← العودة إلى جميع المقالات</a>

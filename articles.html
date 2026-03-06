@@ -148,6 +148,57 @@
             z-index: 99;
             border-bottom: 1px solid var(--glass-border);
         }
+
+        /* Search bar */
+        .search-container {
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px 50px 14px 20px;
+            border-radius: 50px;
+            border: 1px solid var(--glass-border);
+            background: var(--glass-bg);
+            color: var(--text-main);
+            font-family: 'Cairo', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .search-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.15);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            pointer-events: none;
+        }
+
+        /* Keyword chips */
+        .keyword-chip {
+            display: inline-block;
+            background: rgba(0, 217, 255, 0.08);
+            color: var(--primary);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            margin: 2px;
+        }
     </style>
 </head>
 
@@ -206,30 +257,41 @@
 
     <div class="articles-page container">
         <h1 class="gradient-text" style="font-size: 3rem; margin-bottom: 10px; font-weight: 800;">المدونة والمقالات</h1>
-        <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 50px;">اكتشف أحدث المواضيع لتعزيز مهاراتك
+        <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 30px;">اكتشف أحدث المواضيع لتعزيز مهاراتك
             الجامعية والمهنية مع UniSkills.</p>
 
+        <!-- بحث -->
+        <div class="search-container">
+            <input type="text" class="search-input" id="search-input" placeholder="🔍 ابحث عن مقال..."
+                oninput="handleSearch(this.value)">
+        </div>
+
+        <!-- نتائج البحث -->
+        <div class="article-grid" id="search-results-container" style="display: none; margin-bottom: 40px;"></div>
+
         <!-- مقالات الأكثر قراءة -->
-        <h2
-            style="margin-bottom: 20px; color: var(--secondary); font-size: 1.8rem; display: flex; align-items: center; gap: 10px;">
-            🔥 الأكثر قراءة
-        </h2>
-        <div class="article-grid" id="most-read-container" style="margin-bottom: 60px;">
-            <!-- مقالات الاكثر قراءة هنا -->
-            <p id="loading-most-read" style="color: var(--text-muted);">جاري تحميل المقالات الشائعة...</p>
-        </div>
+        <div id="main-content">
+            <h2
+                style="margin-bottom: 20px; color: var(--secondary); font-size: 1.8rem; display: flex; align-items: center; gap: 10px;">
+                🔥 الأكثر قراءة
+            </h2>
+            <div class="article-grid" id="most-read-container" style="margin-bottom: 60px;">
+                <!-- مقالات الاكثر قراءة هنا -->
+                <p id="loading-most-read" style="color: var(--text-muted);">جاري تحميل المقالات الشائعة...</p>
+            </div>
 
-        <h2
-            style="margin-top: 40px; margin-bottom: 20px; font-size: 1.8rem; border-top: 1px solid var(--glass-border); padding-top: 40px;">
-            جميع المقالات</h2>
-        <!-- التصنيفات -->
-        <div class="categories" id="categories-container">
-            <button class="category-chip active" id="cat-all" onclick="loadArticles()">الكل</button>
-        </div>
+            <h2
+                style="margin-top: 40px; margin-bottom: 20px; font-size: 1.8rem; border-top: 1px solid var(--glass-border); padding-top: 40px;">
+                جميع المقالات</h2>
+            <!-- التصنيفات -->
+            <div class="categories" id="categories-container">
+                <button class="category-chip active" id="cat-all" onclick="loadArticles()">الكل</button>
+            </div>
 
-        <!-- المقالات -->
-        <div class="article-grid" id="articles-container">
-            <!-- سيتم تحميل المقالات هنا -->
+            <!-- المقالات -->
+            <div class="article-grid" id="articles-container">
+                <!-- سيتم تحميل المقالات هنا -->
+            </div>
         </div>
     </div>
 
@@ -309,26 +371,38 @@
 
             container.innerHTML = '';
             data.forEach(article => {
-                const a = document.createElement('a');
-                a.href = "/articles/" + article.slug;
-                a.className = "article-card";
-
-                const coverImage = article.cover_image || 'uniskills-logo.png';
-                const desc = article.short_description_ar || article.description_ar || '';
-
-                a.innerHTML = `
-                    <img src="${coverImage}" alt="${article.title_ar || article.title_en}" loading="lazy">
-                    <div class="article-content">
-                        <h3>${article.title_ar || article.title_en}</h3>
-                        <p>${desc.substring(0, 100)}...</p>
-                        <div class="article-meta">
-                            <span>👁 ${article.views_count || 0} مشاهدات</span>
-                            <span>اقرأ المزيد ←</span>
-                        </div>
-                    </div>
-                `;
-                container.appendChild(a);
+                container.appendChild(createArticleCard(article));
             });
+        }
+
+        function getKeywordsHtml(article) {
+            if (!article.keywords || article.keywords.length === 0) return '';
+            const kwList = Array.isArray(article.keywords) ? article.keywords : article.keywords.split(',');
+            return kwList.slice(0, 3).map(kw => `<span class="keyword-chip">${kw.trim()}</span>`).join('');
+        }
+
+        function createArticleCard(article) {
+            const a = document.createElement('a');
+            a.href = "/articles/" + article.slug;
+            a.className = "article-card";
+
+            const coverImage = article.cover_image || 'uniskills-logo.png';
+            const desc = article.short_description_ar || article.description_ar || '';
+            const kwHtml = getKeywordsHtml(article);
+
+            a.innerHTML = `
+                <img src="${coverImage}" alt="${article.title_ar || article.title_en}" loading="lazy">
+                <div class="article-content">
+                    <h3>${article.title_ar || article.title_en}</h3>
+                    <p>${desc.substring(0, 100)}...</p>
+                    <div style="margin-bottom: 12px;">${kwHtml}</div>
+                    <div class="article-meta">
+                        <span>👁 ${article.views_count || 0} مشاهدة</span>
+                        <span>اقرأ المزيد ←</span>
+                    </div>
+                </div>
+            `;
+            return a;
         }
 
         async function loadCategories() {
@@ -367,28 +441,53 @@
             if (error) { container.innerHTML = '<p style="color: red; grid-column: 1 / -1;">حدث خطأ في جلب المقالات.</p>'; return; }
             if (data.length === 0) { container.innerHTML = '<p style="color: var(--text-muted); grid-column: 1 / -1;">لا توجد مقالات هنا.</p>'; return; }
 
+            // Store all articles for searching
+            window.allArticles = data;
+
             container.innerHTML = '';
             data.forEach(article => {
-                const a = document.createElement('a');
-                a.href = "/articles/" + article.slug;
-                a.className = "article-card";
-
-                const coverImage = article.cover_image || 'uniskills-logo.png';
-                const desc = article.short_description_ar || article.description_ar || '';
-
-                a.innerHTML = `
-                    <img src="${coverImage}" alt="${article.title_ar || article.title_en}" loading="lazy">
-                    <div class="article-content">
-                        <h3>${article.title_ar || article.title_en}</h3>
-                        <p>${desc.substring(0, 100)}...</p>
-                        <div class="article-meta">
-                            <span>👁 ${article.views_count || 0} مشاهدة</span>
-                            <span>التفاصيل ←</span>
-                        </div>
-                    </div>
-                `;
-                container.appendChild(a);
+                container.appendChild(createArticleCard(article));
             });
+        }
+
+        // Search handling
+        let searchTimeout;
+        function handleSearch(query) {
+            clearTimeout(searchTimeout);
+            const searchContainer = document.getElementById('search-results-container');
+            const mainContent = document.getElementById('main-content');
+
+            if (!query || query.trim().length < 2) {
+                searchContainer.style.display = 'none';
+                mainContent.style.display = 'block';
+                return;
+            }
+
+            searchTimeout = setTimeout(async () => {
+                const q = query.trim().toLowerCase();
+
+                // Search locally first if we have articles loaded
+                if (window.allArticles) {
+                    const results = window.allArticles.filter(a => {
+                        const title = (a.title_ar || a.title_en || '').toLowerCase();
+                        const desc = (a.short_description_ar || a.description_ar || '').toLowerCase();
+                        const kw = Array.isArray(a.keywords) ? a.keywords.join(' ').toLowerCase() : (a.keywords || '').toLowerCase();
+                        return title.includes(q) || desc.includes(q) || kw.includes(q);
+                    });
+
+                    mainContent.style.display = 'none';
+                    searchContainer.style.display = 'grid';
+
+                    if (results.length === 0) {
+                        searchContainer.innerHTML = '<p style="color: var(--text-muted); grid-column: 1 / -1;">لا توجد نتائج لـ: "' + query + '"</p>';
+                    } else {
+                        searchContainer.innerHTML = '';
+                        results.forEach(article => {
+                            searchContainer.appendChild(createArticleCard(article));
+                        });
+                    }
+                }
+            }, 300);
         }
 
         // تشغيل الدوال عند تحميل الصفحة
