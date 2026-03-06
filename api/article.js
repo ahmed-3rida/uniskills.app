@@ -21,8 +21,11 @@ function formatContent(text) {
         .replace(/^[-•] (.+)$/gm, '<li style="margin: 2px 0; padding-right: 10px;">$1</li>')
         // Numbered lists: 1. text
         .replace(/^\d+\. (.+)$/gm, '<li style="margin: 2px 0; padding-right: 10px;">$1</li>')
-        // Links: [text](url)
-        .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank" style="color: var(--primary); text-decoration: underline;">$1</a>')
+        // Links: [text](url) → redirect page
+        .replace(/\[(.+?)\]\((.+?)\)/g, function (_, text, rawUrl) {
+            const encoded = Buffer.from(rawUrl).toString('base64');
+            return '<a href="/redirect?url=' + encoded + '" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: underline; pointer-events: auto;">🔗 ' + text + '</a>';
+        })
         // New lines → <br> (preserve paragraph spacing)
         .replace(/\n\n/g, '</p><p style="margin: 10px 0; line-height: 1.7;">')
         .replace(/\n/g, '<br>');

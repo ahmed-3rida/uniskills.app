@@ -54,6 +54,10 @@
   ],
   "rewrites": [
     {
+      "source": "/redirect",
+      "destination": "/redirect.html"
+    },
+    {
       "source": "/articles",
       "destination": "/articles.html"
     },
