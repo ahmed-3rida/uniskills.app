@@ -158,7 +158,7 @@ export default async function handler(req, res) {
              .article-content img { max-width: 100%; height: auto; border-radius: 8px; margin: 15px 0; }
              .article-content { line-height: 1.7; color: var(--text-main); font-size: 1.1rem; }
              .article-content p { margin: 10px 0; }
-             .article-content a { color: var(--primary); text-decoration: underline; }
+             .article-content a { color: var(--primary); text-decoration: underline; pointer-events: auto !important; cursor: pointer !important; position: relative; z-index: 10; }
              .article-content h1, .article-content h2, .article-content h3 { color: var(--primary); margin: 25px 0 10px; }
              .article-content strong { font-size: 1.15em; color: var(--primary); }
              .article-content ul { list-style: disc; padding-right: 25px; margin: 8px 0; line-height: 1.5; }

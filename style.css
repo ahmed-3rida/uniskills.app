@@ -23,6 +23,12 @@ img {
     pointer-events: none;
 }
 
+/* Always keep links clickable */
+a {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
+
 
 :root {
     /* Colors from app_theme.dart */
