@@ -222,20 +222,9 @@
         <h2
             style="margin-top: 40px; margin-bottom: 20px; font-size: 1.8rem; border-top: 1px solid var(--glass-border); padding-top: 40px;">
             جميع المقالات</h2>
-        <!-- البحث والتصنيفات -->
-        <div
-            style="margin-bottom: 30px; display: flex; flex-wrap: wrap; gap: 20px; align-items: center; justify-content: space-between;">
-            <div class="search-box" style="flex: 1; min-width: 300px; position: relative;">
-                <input type="text" id="article-search" placeholder="ابحث عن مقال معين..."
-                    style="width: 100%; padding: 12px 45px 12px 20px; border-radius: 30px; background: var(--glass-bg); border: 1px solid var(--glass-border); color: white; outline: none; font-size: 1rem;"
-                    onkeyup="handleSearch(event)">
-                <span
-                    style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: var(--primary);">🔍</span>
-            </div>
-
-            <div class="categories" id="categories-container" style="display: flex; flex-wrap: wrap; gap: 10px;">
-                <button class="category-chip active" id="cat-all" onclick="loadArticles()">الكل</button>
-            </div>
+        <!-- التصنيفات -->
+        <div class="categories" id="categories-container">
+            <button class="category-chip active" id="cat-all" onclick="loadArticles()">الكل</button>
         </div>
 
         <!-- المقالات -->
@@ -333,10 +322,7 @@
                         <h3>${article.title_ar || article.title_en}</h3>
                         <p>${desc.substring(0, 100)}...</p>
                         <div class="article-meta">
-                            <span style="display: flex; flex-direction: column; gap: 5px;">
-                                <span>👁 ${article.views_count || 0} مشاهدات</span>
-                                ${article.keywords ? `<span style="font-size: 0.75rem; color: var(--accent-orange);">#${article.keywords.split(',')[0]}</span>` : ''}
-                            </span>
+                            <span>👁 ${article.views_count || 0} مشاهدات</span>
                             <span>اقرأ المزيد ←</span>
                         </div>
                     </div>
@@ -364,17 +350,8 @@
             }
         }
 
-        let currentCategoryId = null;
-
-        function handleSearch(event) {
-            if (event.key === 'Enter' || event.target.value === '') {
-                loadArticles(currentCategoryId, event.target.value);
-            }
-        }
-
-        async function loadArticles(categoryId = null, search = '') {
-            currentCategoryId = categoryId;
-            if (!categoryId && !search) {
+        async function loadArticles(categoryId = null) {
+            if (!categoryId) {
                 document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active'));
                 document.getElementById('cat-all').classList.add('active');
             }
@@ -383,9 +360,7 @@
             container.innerHTML = '<p style="color: var(--text-muted); width: 100%; grid-column: 1 / -1;">جاري التحميل...</p>';
 
             let query = sbClient.from('articles').select('*').order('created_at', { ascending: false });
-
             if (categoryId) query = query.eq('category_id', categoryId);
-            if (search) query = query.ilike('title_ar', `%${search}%`);
 
             const { data, error } = await query;
 
@@ -407,10 +382,7 @@
                         <h3>${article.title_ar || article.title_en}</h3>
                         <p>${desc.substring(0, 100)}...</p>
                         <div class="article-meta">
-                            <span style="display: flex; flex-direction: column; gap: 5px;">
-                                <span>👁 ${article.views_count || 0} مشاهدة</span>
-                                ${article.keywords ? `<span style="font-size: 0.75rem; color: var(--accent-orange);">#${article.keywords.split(',')[0]}</span>` : ''}
-                            </span>
+                            <span>👁 ${article.views_count || 0} مشاهدة</span>
                             <span>التفاصيل ←</span>
                         </div>
                     </div>
