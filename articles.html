@@ -901,22 +901,6 @@
             const views = article.views_count || 0;
             const kwHtml = getKeywordsHtml(article);
 
-            // Author info
-            const authorName = article.profiles?.name || '';
-            const authorAvatar = article.profiles?.user_avatar || '';
-            let authorHtml = '';
-            if (authorName) {
-                const avatarEl = authorAvatar
-                    ? `<img src="${authorAvatar}" class="card-author-avatar" alt="${authorName}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><span class="card-author-avatar-placeholder" style="display:none;">${authorName.charAt(0)}</span>`
-                    : `<span class="card-author-avatar-placeholder">${authorName.charAt(0)}</span>`;
-                authorHtml = `
-                    <div class="card-author">
-                        ${avatarEl}
-                        <span class="card-author-label">بقلم</span>
-                        <span class="card-author-name">${authorName}</span>
-                    </div>`;
-            }
-
             a.innerHTML = `
                 <div class="card-img-wrap">
                     <div class="card-img-bg" data-img="${enc}"></div>
@@ -931,7 +915,6 @@
                     ${kwHtml ? `<div class="card-keywords">${kwHtml}</div>` : ''}
                     <div class="card-title">${title}</div>
                     <div class="card-desc">${desc}</div>
-                    ${authorHtml}
                     <div class="card-footer">
                         <div class="card-read-more">
                             اقرأ المقال

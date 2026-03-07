@@ -55,10 +55,10 @@ function formatContent(text) {
 export default async function handler(req, res) {
     const slug = req.query.slug;
 
-    // Fetch article from the database based on the slug
+    // Fetch article with author profile from the database
     const { data: article, error } = await supabase
         .from('articles')
-        .select('*')
+        .select('*, profiles(name, user_avatar, specialization)')
         .eq('slug', slug)
         .single();
 
@@ -135,6 +135,25 @@ export default async function handler(req, res) {
         keywordsHtml = `
         <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
             ${kwList.map(kw => `<span style="background: rgba(0,217,255,0.1); color: var(--primary); padding: 4px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">${kw.trim()}</span>`).join('')}
+        </div>`;
+    }
+
+    // Build author HTML
+    let authorHtml = '';
+    if (article.profiles?.name) {
+        const authorName = article.profiles.name;
+        const authorAvatar = article.profiles.user_avatar || '';
+        const authorSpec = article.profiles.specialization || '';
+        const avatarEl = authorAvatar
+            ? `<img src="${authorAvatar}" class="art-author-avatar" alt="${authorName}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling&&(this.nextElementSibling.style.display='flex')" /><span class="art-author-placeholder" style="display:none;">${authorName.charAt(0)}</span>`
+            : `<span class="art-author-placeholder">${authorName.charAt(0)}</span>`;
+        authorHtml = `
+        <div class="art-author-bar">
+            <div class="art-author-avatar-wrap">${avatarEl}</div>
+            <div>
+                <div class="art-author-name">${authorName}</div>
+                ${authorSpec ? `<div class="art-author-spec">${authorSpec}</div>` : '<div class="art-author-spec">كاتب مقالات</div>'}
+            </div>
         </div>`;
     }
 
@@ -424,6 +443,59 @@ export default async function handler(req, res) {
             .sk-line { border-radius:6px; }
             .w100{width:100%;height:11px} .w75{width:75%;height:11px} .w50{width:50%;height:9px}
 
+            /* ─── Author Bar ─── */
+            .art-author-bar {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 14px 18px;
+                background: rgba(0, 217, 255, 0.04);
+                border: 1px solid rgba(0, 217, 255, 0.12);
+                border-radius: 14px;
+                margin-bottom: 24px;
+            }
+
+            .art-author-avatar-wrap {
+                position: relative;
+                flex-shrink: 0;
+            }
+
+            .art-author-avatar {
+                width: 42px;
+                height: 42px;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 2px solid rgba(0, 217, 255, 0.3);
+                display: block;
+            }
+
+            .art-author-placeholder {
+                width: 42px;
+                height: 42px;
+                border-radius: 50%;
+                background: rgba(0, 217, 255, 0.1);
+                border: 2px solid rgba(0, 217, 255, 0.3);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.1rem;
+                font-weight: 800;
+                color: var(--primary);
+            }
+
+            .art-author-name {
+                font-size: 0.92rem;
+                font-weight: 700;
+                color: rgba(255, 255, 255, 0.85);
+            }
+
+            .art-author-spec {
+                font-size: 0.75rem;
+                color: rgba(0, 217, 255, 0.65);
+                font-weight: 500;
+                margin-top: 2px;
+            }
+
             /* ─── Back Button ─── */
             .back-btn {
                 display: inline-flex;
@@ -496,6 +568,9 @@ export default async function handler(req, res) {
             <!-- Title -->
             <h1 class="art-title">${article.title_ar || article.title_en}</h1>
             ${article.short_description_ar ? `<p class="art-subtitle">${article.short_description_ar}</p>` : ''}
+
+            <!-- Author Bar -->
+            ${authorHtml}
 
             <!-- Share Bar -->
             <div class="share-bar">
