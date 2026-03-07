@@ -554,6 +554,55 @@
             box-shadow: 0 4px 20px rgba(0, 217, 255, 0.15);
         }
 
+        /* ─── Author row ─── */
+        .card-author {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .card-author-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1.5px solid rgba(0, 217, 255, 0.25);
+            background: rgba(0, 217, 255, 0.08);
+            flex-shrink: 0;
+        }
+
+        .card-author-avatar-placeholder {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(0, 217, 255, 0.12);
+            border: 1.5px solid rgba(0, 217, 255, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .card-author-name {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.55);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-author-label {
+            font-size: 0.7rem;
+            color: rgba(0, 217, 255, 0.6);
+            font-weight: 500;
+            margin-right: 2px;
+        }
+
         @media (max-width: 640px) {
             .articles-page {
                 padding-top: 110px;
@@ -852,6 +901,22 @@
             const views = article.views_count || 0;
             const kwHtml = getKeywordsHtml(article);
 
+            // Author info
+            const authorName = article.profiles?.name || '';
+            const authorAvatar = article.profiles?.user_avatar || '';
+            let authorHtml = '';
+            if (authorName) {
+                const avatarEl = authorAvatar
+                    ? `<img src="${authorAvatar}" class="card-author-avatar" alt="${authorName}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><span class="card-author-avatar-placeholder" style="display:none;">${authorName.charAt(0)}</span>`
+                    : `<span class="card-author-avatar-placeholder">${authorName.charAt(0)}</span>`;
+                authorHtml = `
+                    <div class="card-author">
+                        ${avatarEl}
+                        <span class="card-author-label">بقلم</span>
+                        <span class="card-author-name">${authorName}</span>
+                    </div>`;
+            }
+
             a.innerHTML = `
                 <div class="card-img-wrap">
                     <div class="card-img-bg" data-img="${enc}"></div>
@@ -866,6 +931,7 @@
                     ${kwHtml ? `<div class="card-keywords">${kwHtml}</div>` : ''}
                     <div class="card-title">${title}</div>
                     <div class="card-desc">${desc}</div>
+                    ${authorHtml}
                     <div class="card-footer">
                         <div class="card-read-more">
                             اقرأ المقال
@@ -892,7 +958,11 @@
         // ─── Load Most Read ───
         async function loadMostRead() {
             const container = document.getElementById('most-read-container');
-            const { data, error } = await sbClient.from('articles').select('*').order('views_count', { ascending: false }).limit(3);
+            const { data, error } = await sbClient
+                .from('articles')
+                .select('*, profiles(name, user_avatar)')
+                .order('views_count', { ascending: false })
+                .limit(3);
 
             container.innerHTML = '';
             if (error || !data || data.length === 0) {
@@ -923,7 +993,10 @@
             // Show skeletons
             container.innerHTML = Array(6).fill('<div class="skeleton-card"><div class="sk sk-img"></div><div class="sk-body"><div class="sk sk-line w80"></div><div class="sk sk-line w100"></div><div class="sk sk-line w60"></div><div class="sk sk-line w40"></div></div></div>').join('');
 
-            let query = sbClient.from('articles').select('*').order('created_at', { ascending: false });
+            let query = sbClient
+                .from('articles')
+                .select('*, profiles(name, user_avatar)')
+                .order('created_at', { ascending: false });
             if (categoryId) query = query.eq('category_id', categoryId);
             const { data, error } = await query;
 
