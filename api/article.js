@@ -4,6 +4,44 @@ const supabaseUrl = process.env.VITE_SUPABASE_URL || 'YOUR_SUPABASE_URL';
 const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || 'YOUR_SUPABASE_KEY';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+/**
+ * Converts any Google Drive URL variant to a direct-display image URL.
+ * Non-Drive URLs are returned unchanged.
+ *
+ * Supported inputs:
+ *  - https://drive.usercontent.google.com/download?id=FILE_ID&...
+ *  - https://drive.google.com/file/d/FILE_ID/view
+ *  - https://drive.google.com/uc?id=FILE_ID
+ *  - already-correct lh3 URLs
+ */
+function fixImageUrl(url) {
+    if (!url) return url;
+
+    // Already a direct lh3 URL – nothing to do
+    if (url.startsWith('https://lh3.googleusercontent.com/d/')) return url;
+
+    let fileId = null;
+
+    // Pattern 1: drive.usercontent.google.com/download?id=FILE_ID
+    const driveDlMatch = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+    if (driveDlMatch && url.includes('google.com')) {
+        fileId = driveDlMatch[1];
+    }
+
+    // Pattern 2: drive.google.com/file/d/FILE_ID/...
+    if (!fileId) {
+        const driveFileMatch = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+        if (driveFileMatch) fileId = driveFileMatch[1];
+    }
+
+    if (fileId) {
+        return `https://lh3.googleusercontent.com/d/${fileId}`;
+    }
+
+    return url;
+}
+
+
 // Simple markdown-like formatting for article content
 function formatContent(text) {
     if (!text) return '';
@@ -142,7 +180,7 @@ export default async function handler(req, res) {
     let authorHtml = '';
     if (article.profiles?.name) {
         const authorName = article.profiles.name;
-        const authorAvatar = article.profiles.user_avatar || '';
+        const authorAvatar = fixImageUrl(article.profiles.user_avatar || '');
         const authorSpec = article.profiles.specialization || '';
         const avatarEl = authorAvatar
             ? `<img src="${authorAvatar}" class="art-author-avatar" alt="${authorName}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling&&(this.nextElementSibling.style.display='flex')" /><span class="art-author-placeholder" style="display:none;">${authorName.charAt(0)}</span>`
